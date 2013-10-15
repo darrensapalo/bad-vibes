@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class MainMenuScreen implements Screen, InputProcessor {
+public class AboutScreen implements Screen, InputProcessor {
 
 	private SpriteBatch batch = new SpriteBatch();
 	private OrthographicCamera camera;
@@ -34,7 +34,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 	private float stateTime;
 	private Color grayColor;
 
-	public MainMenuScreen() {
+	public AboutScreen() {
 
 		// non-power of two images
 		Texture.setEnforcePotImages(false);

@@ -6,7 +6,7 @@ public class BadVibes extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new MainMenuScreen());
+		setScreen(new SplashScreen());
 	}
 
 }
