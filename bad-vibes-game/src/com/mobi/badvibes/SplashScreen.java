@@ -1,5 +1,10 @@
 package com.mobi.badvibes;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -17,8 +22,7 @@ public class SplashScreen implements Screen, InputProcessor {
 	private float splashOpacity;
 	
 	private float counter;
-	
-	
+	private static TweenManager tweenManager;
 	
 	
 	// For debugging purposes
@@ -35,18 +39,40 @@ public class SplashScreen implements Screen, InputProcessor {
 		
 		splashPos = new Point(x, y);
 		batch = new SpriteBatch();
+		
+		
+		// Tween
+		setTweenManager(new TweenManager()); 
+		Tween.setCombinedAttributesLimit(1);
+		
+		Tween.registerAccessor(SplashScreen.class, new SplashScreenAccessor());
+		
+	    
+	    
+	    Timeline.createSequence()
+	    .push(Tween.to(this, SplashScreenAccessor.OPACITY, 0.7f)         
+	    	    .target(1.0f)         
+	    	    .ease(TweenEquations.easeInCubic)) // First, set all objects to their initial positions
+	    .push(Tween.to(this, SplashScreenAccessor.OPACITY, 1.1f)         
+	    	    .target(0.0f)         
+	    	    .ease(TweenEquations.easeInCubic)).start(tweenManager);
+	}
+
+	private void setTweenManager(TweenManager tweenManager) {
+		this.tweenManager = tweenManager;
+		
 	}
 
 	@Override
 	public void render(float delta) {
 		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		batch.setProjectionMatrix(camera.projection);
 		batch.setTransformMatrix(camera.view);
 		
-		updateSplash(delta);
+		tweenManager.update(delta);
 		
 		batch.begin();	
 			batch.setColor(1.0f, 1.0f, 1.0f, splashOpacity);
@@ -55,19 +81,17 @@ public class SplashScreen implements Screen, InputProcessor {
 
 	}
 	
+	public float getSplashOpacity() {
+		return splashOpacity;
+	}
+
+	public void setSplashOpacity(float splashOpacity) {
+		this.splashOpacity = splashOpacity;
+	}
+
 	private void updateSplash(float delta) {
-		counter += delta;
-		if (counter < 2){
-			if (splashOpacity < 1f){
-				splashOpacity *= 1.1f;
-				if (splashOpacity >= 1f)
-					splashOpacity = 1f;
-			}
-		}else if (counter >= 5){
-			splashOpacity *= 0.85f;
-			if (splashOpacity < 0.05f)
-				splashOpacity = 0;
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
