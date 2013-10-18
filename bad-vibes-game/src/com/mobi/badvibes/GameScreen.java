@@ -12,7 +12,6 @@ public class GameScreen implements Screen, InputProcessor {
 	private WorldController controller;
 	private WorldRenderer renderer;
 	private int width, height;
-	
 
 	@Override
 	public void render(float delta) {
