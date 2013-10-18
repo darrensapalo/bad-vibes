@@ -60,7 +60,6 @@ public class SplashScreen implements Screen, InputProcessor {
 
 	private void setTweenManager(TweenManager tweenManager) {
 		this.tweenManager = tweenManager;
-		
 	}
 
 	@Override
