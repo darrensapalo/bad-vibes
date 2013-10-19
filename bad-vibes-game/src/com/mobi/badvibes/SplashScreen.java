@@ -35,14 +35,12 @@ public class SplashScreen implements Screen, InputProcessor
 
         splash = new Texture(Gdx.files.internal("data/dlsu.png"));
 
-        int x = Gdx.graphics.getWidth() / 2 - splash.getWidth() / 4;
-        int y = Gdx.graphics.getHeight() / 2 - splash.getHeight() / 4;
-
         splashOpacity = 0.02f;
 
-        splashPos = new Point(x, y);
         batch = new SpriteBatch();
 
+        updatePosition();
+        
         // Tween
         setTweenManager(new TweenManager());
         Tween.setCombinedAttributesLimit(1);
@@ -99,6 +97,14 @@ public class SplashScreen implements Screen, InputProcessor
         this.splashOpacity = splashOpacity;
     }
 
+    private void updatePosition()
+    {
+        int x = Gdx.graphics.getWidth() / 2 - splash.getWidth() / 4;
+        int y = Gdx.graphics.getHeight() / 2 - splash.getHeight() / 4;
+
+        splashPos = new Point(x, y);
+    }
+    
     @Override
     public void resize(int width, int height)
     {
@@ -109,6 +115,8 @@ public class SplashScreen implements Screen, InputProcessor
         camera.position.set(0, 0, 0);
         camera.setToOrtho(true);
         camera.update();
+        
+        updatePosition();
     }
 
     @Override

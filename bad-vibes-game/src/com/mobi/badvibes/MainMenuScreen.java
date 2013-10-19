@@ -32,7 +32,7 @@ public class MainMenuScreen implements Screen, InputProcessor
     private TextureRegion[] walkFrames;
     private Animation walkAnimation;
     private TextureRegion currentFrame;
-    private Point position;
+    private Point guyPosition;
     private boolean toTheLeft;
     private float stateTime;
     private float screenOpacity;
@@ -44,25 +44,16 @@ public class MainMenuScreen implements Screen, InputProcessor
         // non-power of two images
         Texture.setEnforcePotImages(false);
 
-        titleFont = new BitmapFont(Gdx.files.internal("data/InconsolataTitle.fnt"), Gdx.files.internal("data/InconsolataTitle.png"), true);
+        batch = new SpriteBatch();
+
+        // create fonts
+        titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);        
         titleFont.setColor(0f, 0f, 0f, 1f);
 
-        // programmed x location
-        float textWidth = titleFont.getBounds("Bad Vibes").width;
-        int x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        int y = 200;
-
-        titlePos = new Point(x, y);
-
-        defaultFont = new BitmapFont(Gdx.files.internal("data/Inconsolata.fnt"), Gdx.files.internal("data/Inconsolata.png"), true);
+        defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
 
-        // programmed x location
-        textWidth = defaultFont.getBounds("TAP SCREEN TO START").width;
-
-        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        y = 260;
-
+        // setup frame animation for the dude
         int FRAME_COLS = 3;
         int FRAME_ROWS = 1;
 
@@ -82,22 +73,20 @@ public class MainMenuScreen implements Screen, InputProcessor
         }
 
         walkAnimation = new Animation(0.1f, walkFrames);
-        position = new Point(10, Gdx.graphics.getHeight() - 200);
-
         grayColor = Color.BLACK.mul(0.60f);
 
-        subtitlePos = new Point(x, y);
-
-        batch = new SpriteBatch();
-
-        // setup animation
         screenOpacity = 0.02f;
 
+        updatePosition();
+        
+        // setup screen transition
         tweenManager = new TweenManager();
 
         Tween.registerAccessor(MainMenuScreen.class, new MainMenuScreenAccessor());
 
-        Timeline.createSequence().push(Tween.to(this, MainMenuScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(tweenManager);
+        Timeline.createSequence()
+        .push(Tween.to(this, MainMenuScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
+        .start(tweenManager);
     }
 
     public float getScreenOpacity()
@@ -123,15 +112,15 @@ public class MainMenuScreen implements Screen, InputProcessor
 
         if (toTheLeft)
         {
-            position.x -= 5;
+            guyPosition.x -= 5;
 
-            if (position.x <= 0)
+            if (guyPosition.x <= 0)
                 toTheLeft = false;
         } else
         {
-            position.x += 5;
+            guyPosition.x += 5;
 
-            if (position.x >= Gdx.graphics.getWidth() - 150)
+            if (guyPosition.x >= Gdx.graphics.getWidth() - 200)
                 toTheLeft = true;
         }
 
@@ -139,19 +128,17 @@ public class MainMenuScreen implements Screen, InputProcessor
         currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 
         batch.begin();
-        {
+        {            
             Color preColor = batch.getColor();
 
-            batch.setColor(1, 1, 1, screenOpacity);
-
-            titleFont.setColor(1, 1, 1, screenOpacity);
+            titleFont.setColor(0, 0, 0, screenOpacity);
             titleFont.draw(batch, "Bad Vibes", titlePos.x, titlePos.y);
 
-            defaultFont.setColor(1, 1, 1, screenOpacity);
+            defaultFont.setColor(0, 0, 0, screenOpacity);
             defaultFont.draw(batch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
-
+            
             batch.setColor(grayColor.r, grayColor.g, grayColor.b, screenOpacity);
-            batch.draw(currentFrame, position.x, position.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
+            batch.draw(currentFrame, guyPosition.x, guyPosition.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
 
             batch.setColor(preColor);
         }
@@ -171,6 +158,34 @@ public class MainMenuScreen implements Screen, InputProcessor
      * debugRenderer.end(); }
      */
 
+    private void updatePosition()
+    {
+        float textWidth = 0;
+        int x = 0;
+        int y = 0;
+        
+        textWidth = titleFont.getBounds("Bad Vibes").width;
+        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
+        y = 200;
+
+        titlePos = new Point(x, y);
+
+        textWidth = defaultFont.getBounds("TAP SCREEN TO START").width;
+        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
+        y = 260;
+
+        subtitlePos = new Point(x, y);
+
+        if (guyPosition == null)
+        {
+            guyPosition = new Point(10, Gdx.graphics.getHeight() - 200);   
+        }
+        else
+        {
+            guyPosition.y = Gdx.graphics.getHeight() - 200;
+        }
+    }
+    
     @Override
     public void resize(int width, int height)
     {
@@ -181,6 +196,8 @@ public class MainMenuScreen implements Screen, InputProcessor
         camera.position.set(0, 0, 0);
         camera.setToOrtho(true);
         camera.update();
+        
+        updatePosition();
     }
 
     @Override

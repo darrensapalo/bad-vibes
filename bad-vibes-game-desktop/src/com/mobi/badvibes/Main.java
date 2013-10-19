@@ -8,10 +8,11 @@ public class Main {
 
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		
-		cfg.title 	= "bad-vibes-game";
-		cfg.useGL20 = true;
-		cfg.width 	= 800;
-		cfg.height 	= 480;
+		cfg.title     = "bad-vibes-game";
+		cfg.useGL20   = true;
+		cfg.width     = 800;
+		cfg.height    = 480;
+		cfg.resizable = false;
 		
 		new LwjglApplication(new BadVibes(), cfg);
 	}
