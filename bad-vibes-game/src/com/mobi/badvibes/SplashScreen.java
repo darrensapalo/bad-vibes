@@ -5,51 +5,35 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mobi.badvibes.nimators.SplashScreenAccessor;
+import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 
-public class SplashScreen implements Screen, InputProcessor
+public class SplashScreen extends BadVibesScreen
 {
-
-    private SpriteBatch batch = new SpriteBatch();
-    private OrthographicCamera camera;
-    private Texture splash;
+	private Texture splash;
     private Point splashPos;
-    private float splashOpacity;
 
-    private TweenManager tweenManager;
-
-    // For debugging purposes
-    public SplashScreen()
-    {
+	@Override
+	protected void Initialize() {
+		// TODO Auto-generated method stub
+	
         // non-power of two images
         Texture.setEnforcePotImages(false);
 
         splash = new Texture(Gdx.files.internal("data/dlsu.png"));
 
-        splashOpacity = 0.02f;
-
-        batch = new SpriteBatch();
-
         updatePosition();
         
         // Tween
-        setTweenManager(new TweenManager());
         Tween.setCombinedAttributesLimit(1);
-
-        Tween.registerAccessor(SplashScreen.class, new SplashScreenAccessor());
+        Tween.registerAccessor(SplashScreen.class, new BadVibesScreenAccessor());
 
         Timeline.createSequence()
-            .push(Tween.to(this, SplashScreenAccessor.OPACITY, 0.5f).target(1.0f).ease(TweenEquations.easeInCubic))
-            .push(Tween.to(this, SplashScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic).delay(2))
+            .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1.0f).ease(TweenEquations.easeInCubic))
+            .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic).delay(0.5f))
             .setCallbackTriggers(TweenCallback.END)
             .setCallback(new TweenCallback()
             {
@@ -65,36 +49,20 @@ public class SplashScreen implements Screen, InputProcessor
             .start(tweenManager);
     }
 
-    private void setTweenManager(TweenManager tweenManager)
-    {
-        this.tweenManager = tweenManager;
-    }
-
     @Override
     public void render(float delta)
     {
+    	super.render(delta);
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(camera.projection);
-        batch.setTransformMatrix(camera.view);
+        spriteBatch.setProjectionMatrix(camera.projection);
+        spriteBatch.setTransformMatrix(camera.view);
 
-        tweenManager.update(delta);
-
-        batch.begin();
-        batch.setColor(1.0f, 1.0f, 1.0f, splashOpacity);
-        batch.draw(splash, splashPos.x, splashPos.y, splash.getWidth() / 2, splash.getHeight() / 2, 0, 0, splash.getWidth(), splash.getHeight(), false, true);
-        batch.end();
-    }
-
-    public float getSplashOpacity()
-    {
-        return splashOpacity;
-    }
-
-    public void setSplashOpacity(float splashOpacity)
-    {
-        this.splashOpacity = splashOpacity;
+        spriteBatch.begin();
+        spriteBatch.setColor(1.0f, 1.0f, 1.0f, screenOpacity);
+        spriteBatch.draw(splash, splashPos.x, splashPos.y, splash.getWidth() / 2, splash.getHeight() / 2, 0, 0, splash.getWidth(), splash.getHeight(), false, true);
+        spriteBatch.end();
     }
 
     private void updatePosition()
@@ -105,19 +73,6 @@ public class SplashScreen implements Screen, InputProcessor
         splashPos = new Point(x, y);
     }
     
-    @Override
-    public void resize(int width, int height)
-    {
-        int w = Gdx.graphics.getWidth();
-        int h = -Gdx.graphics.getHeight();
-
-        camera = new OrthographicCamera(w, h);
-        camera.position.set(0, 0, 0);
-        camera.setToOrtho(true);
-        camera.update();
-        
-        updatePosition();
-    }
 
     @Override
     public void show()
@@ -146,7 +101,7 @@ public class SplashScreen implements Screen, InputProcessor
     @Override
     public void dispose()
     {
-        batch.dispose();
+        spriteBatch.dispose();
     }
 
     @Override
@@ -196,4 +151,5 @@ public class SplashScreen implements Screen, InputProcessor
     {
         return false;
     }
+
 }

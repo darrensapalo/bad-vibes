@@ -1,28 +1,22 @@
 package com.mobi.badvibes;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
-import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mobi.badvibes.nimators.MainMenuScreenAccessor;
+import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 
-public class MainMenuScreen implements Screen, InputProcessor
+public class MainMenuScreen extends BadVibesScreen
 {
-    private SpriteBatch batch = new SpriteBatch();
-    private OrthographicCamera camera;
-
     // For debugging purposes
     private BitmapFont titleFont;
     private BitmapFont defaultFont;
@@ -35,16 +29,12 @@ public class MainMenuScreen implements Screen, InputProcessor
     private Point guyPosition;
     private boolean toTheLeft;
     private float stateTime;
-    private float screenOpacity;
     private Color grayColor;
-    private TweenManager tweenManager;
 
-    public MainMenuScreen()
-    {
-        // non-power of two images
+	@Override
+	protected void Initialize() {
+		// non-power of two images
         Texture.setEnforcePotImages(false);
-
-        batch = new SpriteBatch();
 
         // create fonts
         titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);        
@@ -78,17 +68,13 @@ public class MainMenuScreen implements Screen, InputProcessor
         screenOpacity = 0.02f;
 
         updatePosition();
-        
-        // setup screen transition
-        tweenManager = new TweenManager();
 
-        Tween.registerAccessor(MainMenuScreen.class, new MainMenuScreenAccessor());
+        Tween.registerAccessor(MainMenuScreen.class, new BadVibesScreenAccessor());
 
         Timeline.createSequence()
-        .push(Tween.to(this, MainMenuScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
+        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(tweenManager);
-    }
-
+	}
     public float getScreenOpacity()
     {
         return screenOpacity;
@@ -102,13 +88,13 @@ public class MainMenuScreen implements Screen, InputProcessor
     @Override
     public void render(float delta)
     {
-        tweenManager.update(delta);
+    	super.render(delta);
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(camera.projection);
-        batch.setTransformMatrix(camera.view);
+        spriteBatch.setProjectionMatrix(camera.projection);
+        spriteBatch.setTransformMatrix(camera.view);
 
         if (toTheLeft)
         {
@@ -127,22 +113,22 @@ public class MainMenuScreen implements Screen, InputProcessor
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 
-        batch.begin();
+        spriteBatch.begin();
         {            
-            Color preColor = batch.getColor();
+            Color preColor = spriteBatch.getColor();
 
             titleFont.setColor(0, 0, 0, screenOpacity);
-            titleFont.draw(batch, "Bad Vibes", titlePos.x, titlePos.y);
+            titleFont.draw(spriteBatch, "Bad Vibes", titlePos.x, titlePos.y);
 
             defaultFont.setColor(0, 0, 0, screenOpacity);
-            defaultFont.draw(batch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
+            defaultFont.draw(spriteBatch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
             
-            batch.setColor(grayColor.r, grayColor.g, grayColor.b, screenOpacity);
-            batch.draw(currentFrame, guyPosition.x, guyPosition.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
+            spriteBatch.setColor(grayColor.r, grayColor.g, grayColor.b, screenOpacity);
+            spriteBatch.draw(currentFrame, guyPosition.x, guyPosition.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
 
-            batch.setColor(preColor);
+            spriteBatch.setColor(preColor);
         }
-        batch.end();
+        spriteBatch.end();
     }
 
     /*
@@ -187,29 +173,15 @@ public class MainMenuScreen implements Screen, InputProcessor
     }
     
     @Override
-    public void resize(int width, int height)
-    {
-        int w = Gdx.graphics.getWidth();
-        int h = Gdx.graphics.getHeight();
-
-        camera = new OrthographicCamera(w, -h);
-        camera.position.set(0, 0, 0);
-        camera.setToOrtho(true);
-        camera.update();
-        
-        updatePosition();
-    }
-
-    @Override
     public void show()
     {
-
+    	Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void hide()
     {
-
+    	Gdx.input.setInputProcessor(null);
     }
 
     @Override
@@ -227,7 +199,7 @@ public class MainMenuScreen implements Screen, InputProcessor
     @Override
     public void dispose()
     {
-        batch.dispose();
+        spriteBatch.dispose();
     }
 
     @Override
@@ -254,7 +226,22 @@ public class MainMenuScreen implements Screen, InputProcessor
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-
+        Timeline.createSequence()
+        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic))
+        .setCallbackTriggers(TweenCallback.END)
+        .setCallback(new TweenCallback()
+        {
+            @Override
+            public void onEvent(int type, BaseTween<?> source)
+            {
+                if (type == TweenCallback.END)
+                {
+                	BadVibes.getInstance().setScreen(new GameScreen());
+                }
+            }
+        })
+        .start(tweenManager);
+    	
         return false;
     }
 
@@ -285,4 +272,5 @@ public class MainMenuScreen implements Screen, InputProcessor
 
         return false;
     }
+
 }

@@ -1,8 +1,6 @@
 package com.mobi.badvibes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,10 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class AboutScreen implements Screen, InputProcessor {
-
-	private SpriteBatch batch = new SpriteBatch();
-	private OrthographicCamera camera;
+public class AboutScreen extends BadVibesScreen {
 
 	// For debugging purposes
 	private ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -34,7 +29,9 @@ public class AboutScreen implements Screen, InputProcessor {
 	private float stateTime;
 	private Color grayColor;
 
-	public AboutScreen() {
+
+	@Override
+	protected void Initialize() {
 
 		// non-power of two images
 		Texture.setEnforcePotImages(false);
@@ -74,17 +71,12 @@ public class AboutScreen implements Screen, InputProcessor {
         
         grayColor = Color.BLACK.mul(0.60f);
         
-		subtitlePos = new Point(x, y);
-		
-		batch = new SpriteBatch();
-		
-		
-		// we don't set the camera here. We just do asset initialization here.
+		subtitlePos = new Point(x, y);		
 	}
-
 	@Override
 	public void render(float delta) {
-		
+    	super.render(delta);
+
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -92,8 +84,8 @@ public class AboutScreen implements Screen, InputProcessor {
 		// projection matrix which dictates where the pixels will be rasterized in the screen
 		// view matrix which dictates where an object is in the world
 		// and a world matrix which is pretty similar to view matrix (thus i'm not setting it, thus having a value of Matrix.Identity)
-		batch.setProjectionMatrix(camera.projection);
-		batch.setTransformMatrix(camera.view);
+		spriteBatch.setProjectionMatrix(camera.projection);
+		spriteBatch.setTransformMatrix(camera.view);
 
 		if (toTheLeft){
 			position.x -= 5;
@@ -108,16 +100,16 @@ public class AboutScreen implements Screen, InputProcessor {
 		
 		stateTime += Gdx.graphics.getDeltaTime();
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-		batch.begin();	
-			Color preColor = batch.getColor();
-			titleFont.draw(batch, "Bad Vibes", titlePos.x, titlePos.y);
-			defaultFont.draw(batch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
+		spriteBatch.begin();	
+			Color preColor = spriteBatch.getColor();
+			titleFont.draw(spriteBatch, "Bad Vibes", titlePos.x, titlePos.y);
+			defaultFont.draw(spriteBatch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
 			
 			
-			batch.setColor(grayColor);
-			batch.draw(currentFrame, position.x, position.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
-			batch.setColor(preColor);
-		batch.end();
+			spriteBatch.setColor(grayColor);
+			spriteBatch.draw(currentFrame, position.x, position.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
+			spriteBatch.setColor(preColor);
+		spriteBatch.end();
 
 		if (false)
 			debugRender();
@@ -136,18 +128,6 @@ public class AboutScreen implements Screen, InputProcessor {
 		debugRenderer.rect(10, 10, 50, 50);
 
 		debugRenderer.end();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-
-		int w = Gdx.graphics.getWidth();
-		int h = -Gdx.graphics.getHeight();
-
-		camera = new OrthographicCamera(w, h);
-		camera.position.set(0, 0, 0);
-		camera.setToOrtho(true);
-		camera.update();
 	}
 
 	@Override
@@ -172,7 +152,7 @@ public class AboutScreen implements Screen, InputProcessor {
 
 	@Override
 	public void dispose() {
-		batch.dispose();
+		spriteBatch.dispose();
 
 	}
 
@@ -223,5 +203,6 @@ public class AboutScreen implements Screen, InputProcessor {
 
 		return false;
 	}
+
 
 }

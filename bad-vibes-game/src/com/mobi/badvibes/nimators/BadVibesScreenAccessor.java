@@ -1,15 +1,15 @@
 package com.mobi.badvibes.nimators;
 
-import com.mobi.badvibes.MainMenuScreen;
+import com.mobi.badvibes.BadVibesScreen;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
-public class MainMenuScreenAccessor implements TweenAccessor<MainMenuScreen>
+public class BadVibesScreenAccessor implements TweenAccessor<BadVibesScreen>
 {
     public static final int OPACITY = 1;
     
     @Override
-    public int getValues(MainMenuScreen target, int tweenType, float[] returnValues)
+    public int getValues(BadVibesScreen target, int tweenType, float[] returnValues)
     {
         switch (tweenType)
         {
@@ -22,7 +22,7 @@ public class MainMenuScreenAccessor implements TweenAccessor<MainMenuScreen>
     }
 
     @Override
-    public void setValues(MainMenuScreen target, int tweenType, float[] newValues)
+    public void setValues(BadVibesScreen target, int tweenType, float[] newValues)
     {
         switch (tweenType)
         {

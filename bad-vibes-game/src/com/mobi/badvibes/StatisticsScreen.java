@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class StatisticsScreen implements Screen, InputProcessor {
+public class StatisticsScreen extends BadVibesScreen {
 
 	private SpriteBatch batch = new SpriteBatch();
 	private OrthographicCamera camera;
@@ -34,8 +34,9 @@ public class StatisticsScreen implements Screen, InputProcessor {
 	private float stateTime;
 	private Color grayColor;
 
-	public StatisticsScreen() {
-
+	@Override
+	protected void Initialize() {
+		
 		// non-power of two images
 		Texture.setEnforcePotImages(false);
 		titleFont = new BitmapFont(Gdx.files.internal("data/InconsolataTitle.fnt"), Gdx.files.internal("data/InconsolataTitle.png"), true);
@@ -84,7 +85,8 @@ public class StatisticsScreen implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
-		
+    	super.render(delta);
+
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -136,18 +138,6 @@ public class StatisticsScreen implements Screen, InputProcessor {
 		debugRenderer.rect(10, 10, 50, 50);
 
 		debugRenderer.end();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-
-		int w = Gdx.graphics.getWidth();
-		int h = -Gdx.graphics.getHeight();
-
-		camera = new OrthographicCamera(w, h);
-		camera.position.set(0, 0, 0);
-		camera.setToOrtho(true);
-		camera.update();
 	}
 
 	@Override
@@ -223,5 +213,6 @@ public class StatisticsScreen implements Screen, InputProcessor {
 
 		return false;
 	}
+
 
 }
