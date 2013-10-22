@@ -1,5 +1,8 @@
 package com.mobi.badvibes.model.people;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mobi.badvibes.view.PersonView;
+
 public abstract class Person {
 	
 	/**
@@ -36,11 +39,19 @@ public abstract class Person {
 	 */
 	protected boolean isActive = false;
 	
+	
+	protected PersonView image;
+	
 	/**
 	 * This method is called to allow the person to update
 	 * as necessary depending on what kind of person it is.
 	 * @param delta - how much time has changed since last update
 	 */
+	public void render(SpriteBatch spriteBatch, float delta){
+		image.render(spriteBatch, delta);
+		update(delta);
+	}
+	
 	public abstract void update(float delta);
 	
 	public float getWeight() {
@@ -52,6 +63,4 @@ public abstract class Person {
 	public float getHappiness() {
 		return happiness;
 	}
-	
-	
 }

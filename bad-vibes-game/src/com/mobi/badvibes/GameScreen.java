@@ -1,15 +1,14 @@
 package com.mobi.badvibes;
 
-
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mobi.badvibes.controller.WorldController;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
@@ -20,8 +19,8 @@ public class GameScreen extends BadVibesScreen {
 	private WorldController controller;
 	private WorldRenderer renderer;
 	
-	private int width, height;
 	
+	private int width, height;
 	private Texture sprites;
 	
 	@Override
@@ -31,11 +30,11 @@ public class GameScreen extends BadVibesScreen {
 		width = (int)(1280 * 0.65f);
 		height = (int)(578 * 0.65f);
 		
-		screenOpacity = 0.1f;
+		screenOpacity = 1.0f;
 		
 		Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
         Timeline.createSequence()
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.2f).target(1).ease(TweenEquations.easeInCubic))
+        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0).ease(TweenEquations.easeInCubic))
         .start(tweenManager);
 	}
 	
@@ -43,17 +42,17 @@ public class GameScreen extends BadVibesScreen {
 	public void render(float delta) {
         super.render(delta);
 		
-		Gdx.gl.glClearColor((float)52/255, (float)49/255, (float)47/255, screenOpacity);
+		Gdx.gl.glClearColor((float)52/255, (float)49/255, (float)47/255, 1.0f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
 		
 		spriteBatch.setProjectionMatrix(camera.projection);
         spriteBatch.setTransformMatrix(camera.view);
+        
 		spriteBatch.begin();
-			spriteBatch.setColor(1.0f, 1.0f, 1.0f, screenOpacity);
 			spriteBatch.draw(sprites, 0, 40, 1280, 187, 0, 0, 1280, 187, true, true);
 			spriteBatch.draw(sprites, 0, 180, width, height, 0, 187, 1280, 578, true, true);
 		spriteBatch.end();
-		
 		
 	}
 	
