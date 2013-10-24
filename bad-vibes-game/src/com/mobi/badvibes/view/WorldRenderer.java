@@ -1,14 +1,17 @@
 package com.mobi.badvibes.view;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mobi.badvibes.model.world.World;
+
 public class WorldRenderer {
 
-	public void render() {
-		// TODO Auto-generated method stub
-		
+	private World world;
+
+	public WorldRenderer(World world) {
+		this.world = world;
 	}
 
-	public void setSize(int width, int height) {
-		// TODO Auto-generated method stub
+	public void render(SpriteBatch spriteBatch, float delta) {
 		
 	}
 

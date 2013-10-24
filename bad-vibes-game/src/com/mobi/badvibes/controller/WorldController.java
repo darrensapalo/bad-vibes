@@ -1,10 +1,21 @@
 package com.mobi.badvibes.controller;
 
+import com.mobi.badvibes.model.world.World;
+
 public class WorldController {
 
-	public void update(float delta) {
-		// TODO Auto-generated method stub
+	protected World world;
+	
+	public WorldController(){
 		
+	}
+	
+	public void update(float delta) {
+		
+	}
+
+	public World getWorld() {
+		return world;
 	}
 
 }

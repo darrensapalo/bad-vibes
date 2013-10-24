@@ -21,35 +21,97 @@ public class PersonView {
 		PICKED_UP
 	}
 	
-	private static final int FRAME_COLS = 1;
-	private static final int FRAME_ROWS = 1;
+	public enum Character {
+		NORMAN_THE_NORMAL,
+	}
 	
-	private static final int WIDTH = 100;
-	private static final int HEIGHT = 130;
+	private static final int FRAME_COLS = 3;
+	private static final int FRAME_ROWS = 3;
+	
+	private static final int WIDTH = 52;
+	private static final int HEIGHT = 82;
 	
 	
-	protected static ArrayList<PersonView> personDatabase;
+	protected static ArrayList<PersonEntry> DarrenTheDapaen;
+	protected static ArrayList<PersonEntry> NormanTheNormal;
+	
 	/*
 	 * Attributes
 	 */
 	protected Animation animationIdle;
 	protected Animation animationWalking;
 	protected Animation animationPickedUp;
+	
+	protected Animation currentAnimation;
+	
 	protected Point Position;
 	protected State currentState;
 	protected int stateTime;
 	
-	public ArrayList<PersonView> initializeList(){
-		personDatabase = new ArrayList<PersonView>();
-		PersonView first = Load("data/game/character.jpg");
-		personDatabase.add(first);
+	public static void initializeList(){
 		
-		return personDatabase;
+		DarrenTheDapaen = new ArrayList<PersonEntry>();
+		
+		for (int i = 0; i< 15; i++) {
+			PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
+			DarrenTheDapaen.add(newPerson);
+		}
+		
+		NormanTheNormal = new ArrayList<PersonEntry>();
+
+		for (int i = 0; i< 15; i++) {
+			PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
+			NormanTheNormal.add(newPerson);
+		}
 	}
 	
+	public static PersonView getPerson(Character character) {
+		
+		switch (character) {
+		
+		case NORMAN_THE_NORMAL:
+						
+			for (int i = 0; i < NormanTheNormal.size(); i++) {
+				
+				PersonEntry view = NormanTheNormal.get(i);
+				
+				if (view.taken == false) {
+					
+					return view.view;
+				}
+			}
+			
+			PersonEntry newView = new PersonEntry(Load("data/game/wireframe-people.png"));
+			NormanTheNormal.add(newView);
+			
+			return newView.view;
+			
+		default:
+			return null;
+		}
+	}
 	
+	public static void releasePerson(Character character, PersonView view) {
+
+		switch (character) {
+		
+		case NORMAN_THE_NORMAL:
+						
+			for (int i = 0; i < NormanTheNormal.size(); i++) {
+				
+				PersonEntry entry = NormanTheNormal.get(i); 
+				
+				if (view == entry.view) {
+					
+					entry.taken = false;
+				}
+			}
+			
+			break;
+		}
+	}
 	
-	protected PersonView Load(String path){
+	protected static PersonView Load(String path){
 		return new PersonView(0.5f, path);
 	}
 	
@@ -62,13 +124,10 @@ public class PersonView {
 	private PersonView(float frameDuration, String path){
 		Texture texture = new Texture(Gdx.files.internal(path));
 		TextureRegion[][] region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-		TextureRegion[] animationFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
 		
-		for (int y = 0; y < region.length; y++)
-			for (int x = 0; x < region[y].length; x++)
-				animationFrames[x] = region[y][x];
-			
-		animationIdle = new Animation(frameDuration, animationFrames);
+		animationIdle = new Animation(frameDuration, region[0]);
+		animationWalking = new Animation(frameDuration, region[1]);
+		animationPickedUp = new Animation(frameDuration, region[2]);
 	}
 	
 	// Getters and setters
@@ -87,12 +146,24 @@ public class PersonView {
 	
 	public void render(SpriteBatch spriteBatch, float delta){
 		stateTime += delta;
-		TextureRegion region = animationIdle.getKeyFrame(stateTime, true);
+		
+		currentAnimation = getCurrentAnimation();
+		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
 		spriteBatch.begin();
 		spriteBatch.draw(region, Position.x, Position.y, 0, 0, WIDTH, HEIGHT, 1.0f, 1.0f, 0f);
 		spriteBatch.end();
-		
+	}
+
+
+
+	private Animation getCurrentAnimation() {
+		switch(currentState){
+			case PICKED_UP: return animationPickedUp;
+			case WALKING: return animationWalking;
+			default:
+			case IDLE: return animationIdle;
+		}
 	}
 
 
@@ -106,6 +177,15 @@ public class PersonView {
 	public void setCurrentState(State currentState) {
 		this.currentState = currentState;
 		//TODO Change animation to be used
+	}
+
+
+
+	public static PersonView getView(Character normanTheNormal) {
+		switch(normanTheNormal){
+			case NORMAN_THE_NORMAL: 
+		}
+		return null;
 	}
 
 }

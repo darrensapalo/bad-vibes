@@ -1,20 +1,17 @@
 package com.mobi.badvibes.model.people;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.mobi.badvibes.model.people.logic.ExploreLogic;
+import com.mobi.badvibes.model.people.logic.PersonLogic;
+import com.mobi.badvibes.view.PersonView;
 
 public class NormanTheNormal extends Person{
 	
-	Animation animation;
-	
-	public NormanTheNormal(){
-		// Default values as set in Person class
-		// weight = 4;
-		// tolerance = 0;
-		// happiness = 0;
+	public NormanTheNormal() {
+		// TODO add logic and view
+		super(new ExploreLogic(), PersonView.getView(PersonView.Character.NORMAN_THE_NORMAL));
 	}
-	
+
 	public void update(float delta) {
-		// TODO Auto-generated method stub
 		
 	}
 
