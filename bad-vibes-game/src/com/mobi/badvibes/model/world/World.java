@@ -3,6 +3,7 @@ package com.mobi.badvibes.model.world;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 
 /**
@@ -40,8 +41,11 @@ public abstract class World {
 	public static final float GRID_CELL_HEIGHT = 72.72f;
 	public static final float GRID_CELL_WIDTH = 72.72f;
 	
-	public static float GRID_X_OFFSET = 0;
-	public static float GRID_Y_OFFSET = 130;
+	public static float GRID_X_OFFSET = GRID_CELL_WIDTH / 2f;
+	public static float GRID_Y_OFFSET = GRID_CELL_HEIGHT / 2f;
+	
+	public static float X_OFFSET = 0;
+	public static float PLATFORM_Y_OFFSET = 130;
 	
 	public static float RAIL_Y_OFFSET = 25;
 	
@@ -61,21 +65,34 @@ public abstract class World {
 	public World(){
 		
 		// Initialize placements
-		peoplePlacements = new Person[GRID_WIDTH][GRID_HEIGHT];
+		peoplePlacements = new Person[GRID_HEIGHT][GRID_WIDTH];
 		for (int y = 0; y < GRID_HEIGHT; y++)
 			for (int x = 0; x < GRID_WIDTH; x++)
 				peoplePlacements[y][x] = null;
 		
 		// Initialize people
-		peopleList = new Array<Person>();
+		peopleList = initialize();
 	}
 	
-	public static Vector2 getPosition(int gridx, int gridy){
+	public static Point getPosition(int gridx, int gridy){
+		Vector2 vectorPosition = getVectorPosition(gridx, gridy);
+		return new Point((int)vectorPosition.x, (int)vectorPosition.y);
+	}
+	
+	protected static Vector2 getVectorPosition(int gridx, int gridy){
 		float x = gridx * GRID_WIDTH;
-		float y = gridy * GRID_HEIGHT;
+		float y = gridy * GRID_HEIGHT + PLATFORM_Y_OFFSET;
 		
 		x += GRID_X_OFFSET;
 		y += GRID_Y_OFFSET;
 		return new Vector2(x,y);
+	}
+
+	public Array<Person> getPeopleList() {
+		return peopleList;
+	}
+
+	public void setPeopleList(Array<Person> peopleList) {
+		this.peopleList = peopleList;
 	}
 }

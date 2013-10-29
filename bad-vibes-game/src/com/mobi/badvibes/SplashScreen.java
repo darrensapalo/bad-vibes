@@ -9,6 +9,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.view.PersonView;
 
 public class SplashScreen extends BadVibesScreen
 {
@@ -18,8 +19,9 @@ public class SplashScreen extends BadVibesScreen
     @Override
     protected void initialize()
     {
-        // TODO Auto-generated method stub
-
+    	// Initializes cache of person views
+    	PersonView.Initialize();
+    	
         // non-power of two images
         Texture.setEnforcePotImages(false);
 

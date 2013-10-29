@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.model.world.World;
 
 public class PersonView {
 	
@@ -48,7 +49,7 @@ public class PersonView {
 	protected State currentState;
 	protected int stateTime;
 	
-	public static void initializeList(){
+	public static void Initialize(){
 		
 		DarrenTheDapaen = new ArrayList<PersonEntry>();
 		
@@ -65,7 +66,7 @@ public class PersonView {
 		}
 	}
 	
-	public static PersonView getPerson(Character character) {
+	public static PersonView getView(Character character) {
 		
 		switch (character) {
 		
@@ -76,12 +77,13 @@ public class PersonView {
 				PersonEntry view = NormanTheNormal.get(i);
 				
 				if (view.taken == false) {
-					
+					view.taken = true;
 					return view.view;
 				}
 			}
 			
 			PersonEntry newView = new PersonEntry(Load("data/game/wireframe-people.png"));
+			newView.taken = true;
 			NormanTheNormal.add(newView);
 			
 			return newView.view;
@@ -101,12 +103,10 @@ public class PersonView {
 				
 				PersonEntry entry = NormanTheNormal.get(i); 
 				
-				if (view == entry.view) {
-					
+				if (view == entry.view) {					
 					entry.taken = false;
 				}
 			}
-			
 			break;
 		}
 	}
@@ -128,6 +128,10 @@ public class PersonView {
 		animationIdle = new Animation(frameDuration, region[0]);
 		animationWalking = new Animation(frameDuration, region[1]);
 		animationPickedUp = new Animation(frameDuration, region[2]);
+		
+		currentState = State.IDLE;
+		
+		setPosition( World.getPosition(4, 4) );
 	}
 	
 	// Getters and setters
@@ -137,6 +141,7 @@ public class PersonView {
 	}
 
 	public void setPosition(Point position) {
+		position.x -= WIDTH / 2;
 		Position = position;
 	}
 
@@ -150,11 +155,12 @@ public class PersonView {
 		currentAnimation = getCurrentAnimation();
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
+		
+		
 		spriteBatch.begin();
-		spriteBatch.draw(region, Position.x, Position.y, 0, 0, WIDTH, HEIGHT, 1.0f, 1.0f, 0f);
+		spriteBatch.draw(region, Position.x, Position.y, 0, 0, WIDTH, HEIGHT, 1.0f, 1.0f, 180f);
 		spriteBatch.end();
 	}
-
 
 
 	private Animation getCurrentAnimation() {
@@ -177,15 +183,6 @@ public class PersonView {
 	public void setCurrentState(State currentState) {
 		this.currentState = currentState;
 		//TODO Change animation to be used
-	}
-
-
-
-	public static PersonView getView(Character normanTheNormal) {
-		switch(normanTheNormal){
-			case NORMAN_THE_NORMAL: 
-		}
-		return null;
 	}
 
 }

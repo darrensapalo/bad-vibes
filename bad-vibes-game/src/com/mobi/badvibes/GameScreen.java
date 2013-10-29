@@ -57,7 +57,7 @@ public class GameScreen extends BadVibesScreen
         float platformWidth = width;
 		float heightOfPlatform = 578;
 		float platformHeight = width / 1280.0f * heightOfPlatform;
-		platformPosition = new Rectangle(0, World.GRID_Y_OFFSET, platformWidth, platformHeight);
+		platformPosition = new Rectangle(0, World.PLATFORM_Y_OFFSET, platformWidth, platformHeight);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class GameScreen extends BadVibesScreen
 		
 		for (int y = 0; y < World.GRID_HEIGHT; y++)
 			for (int x = 0; x < World.GRID_WIDTH; x++)
-			shapeRenderer.rect(World.GRID_X_OFFSET + x * World.GRID_CELL_WIDTH, World.GRID_Y_OFFSET + y * World.GRID_CELL_HEIGHT, World.GRID_CELL_WIDTH, World.GRID_CELL_HEIGHT);
+			shapeRenderer.rect(World.X_OFFSET + x * World.GRID_CELL_WIDTH, World.PLATFORM_Y_OFFSET + y * World.GRID_CELL_HEIGHT, World.GRID_CELL_WIDTH, World.GRID_CELL_HEIGHT);
 		shapeRenderer.end();
 	}
 
