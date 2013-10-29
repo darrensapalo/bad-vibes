@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.WorldController;
+import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -23,6 +25,8 @@ public class GameScreen extends BadVibesScreen
     private Texture         sprites;
     
     private ShapeRenderer 	shapeRenderer;
+	private Rectangle railPosition;
+	private Rectangle platformPosition;
     
     @Override
     protected void initialize()
@@ -30,8 +34,9 @@ public class GameScreen extends BadVibesScreen
         // TODO Auto-generated method stub
         sprites     = ContentManager.loadImage("data/game/sprites.png");
         // TODO, get full src rect but determine destination rectangle
-        width       = (int) (1280 * 0.65f);
-        height      = (int) (578 * 0.65f);
+        
+        width       = Gdx.graphics.getWidth();
+        height      = Gdx.graphics.getHeight();
         
         shapeRenderer = new ShapeRenderer();
 
@@ -43,6 +48,16 @@ public class GameScreen extends BadVibesScreen
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(tweenManager);
+        
+
+        float railWidth = width;
+		float heightOfRail = 187;
+		float railHeight = width / 1280.0f * heightOfRail;
+		railPosition = new Rectangle(0, World.RAIL_Y_OFFSET, railWidth, railHeight);
+        float platformWidth = width;
+		float heightOfPlatform = 578;
+		float platformHeight = width / 1280.0f * heightOfPlatform;
+		platformPosition = new Rectangle(0, World.GRID_Y_OFFSET, platformWidth, platformHeight);
     }
 
     @Override
@@ -64,15 +79,32 @@ public class GameScreen extends BadVibesScreen
         
         
         spriteBatch.begin();
-	        spriteBatch.draw(sprites, 0, 40, 1280, 187, 0, 0, 1280, 187, true, true);
-	        spriteBatch.draw(sprites, 0, 180, width, height, 0, 187, 1280, 578, true, true);
+	        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 1280, 187, true, true);
+	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 187, 1280, 578, true, true);
+	        /*
+	        1280x187 - rails
+	        1280x578 - platform
+	        */
         spriteBatch.end();
         
+        drawTiles(shapeRenderer);
         renderer.render(spriteBatch, delta);
+        
         
     }
     
-    @Override
+    private void drawTiles(ShapeRenderer shapeRenderer) {
+    	
+    	shapeRenderer.begin(ShapeType.Rectangle);
+		shapeRenderer.setColor(Color.RED);
+		
+		for (int y = 0; y < World.GRID_HEIGHT; y++)
+			for (int x = 0; x < World.GRID_WIDTH; x++)
+			shapeRenderer.rect(World.GRID_X_OFFSET + x * World.GRID_CELL_WIDTH, World.GRID_Y_OFFSET + y * World.GRID_CELL_HEIGHT, World.GRID_CELL_WIDTH, World.GRID_CELL_HEIGHT);
+		shapeRenderer.end();
+	}
+
+	@Override
     public void hide()
     {
         Gdx.input.setInputProcessor(null);

@@ -1,5 +1,6 @@
 package com.mobi.badvibes.model.world;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.model.people.Person;
@@ -33,12 +34,16 @@ public abstract class World {
 	 */
 	protected Array<Person> peopleList;
 	
-	public static final int GRID_WIDTH = 10;
-	public static final int GRID_HEIGHT = 10;
-	public static final int GRID_CELL_SIZE = 32;
+	public static final int GRID_WIDTH = 11;
+	public static final int GRID_HEIGHT = 4;
+
+	public static final float GRID_CELL_HEIGHT = 72.72f;
+	public static final float GRID_CELL_WIDTH = 72.72f;
 	
-	private static float GRID_X_OFFSET = 5;
-	private static float GRID_Y_OFFSET = 40;
+	public static float GRID_X_OFFSET = 0;
+	public static float GRID_Y_OFFSET = 130;
+	
+	public static float RAIL_Y_OFFSET = 25;
 	
 	/**
 	 * This grid contains the platform grid that have the 
