@@ -51,12 +51,12 @@ public class GameScreen extends BadVibesScreen
         
 
         float railWidth = width;
-		float heightOfRail = 187;
-		float railHeight = width / 1280.0f * heightOfRail;
+		float heightOfRail = 120;
+		float railHeight = width / 800f * heightOfRail;
 		railPosition = new Rectangle(0, World.RAIL_Y_OFFSET, railWidth, railHeight);
         float platformWidth = width;
-		float heightOfPlatform = 578;
-		float platformHeight = width / 1280.0f * heightOfPlatform;
+		float heightOfPlatform = 400;
+		float platformHeight = width / 800f * heightOfPlatform;
 		platformPosition = new Rectangle(0, World.PLATFORM_Y_OFFSET, platformWidth, platformHeight);
     }
 
@@ -79,8 +79,8 @@ public class GameScreen extends BadVibesScreen
         
         
         spriteBatch.begin();
-	        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 1280, 187, true, true);
-	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 187, 1280, 578, true, true);
+	        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 800, 120, true, true);
+	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
 	        /*
 	        1280x187 - rails
 	        1280x578 - platform

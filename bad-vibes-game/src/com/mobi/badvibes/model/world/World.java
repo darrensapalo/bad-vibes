@@ -36,10 +36,10 @@ public abstract class World {
 	protected Array<Person> peopleList;
 	
 	public static final int GRID_WIDTH = 11;
-	public static final int GRID_HEIGHT = 4;
+	public static final int GRID_HEIGHT = 5;
 
-	public static final float GRID_CELL_HEIGHT = 72.72f;
-	public static final float GRID_CELL_WIDTH = 72.72f;
+	public static final float GRID_CELL_HEIGHT = 80f;
+	public static final float GRID_CELL_WIDTH = 80f;
 	
 	public static float GRID_X_OFFSET = GRID_CELL_WIDTH / 2f;
 	public static float GRID_Y_OFFSET = GRID_CELL_HEIGHT / 2f;
