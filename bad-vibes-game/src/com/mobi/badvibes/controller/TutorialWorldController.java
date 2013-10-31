@@ -1,0 +1,107 @@
+package com.mobi.badvibes.controller;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
+import com.mobi.badvibes.controller.gameplay.GameplayStrategy;
+import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.util.ContentManager;
+import com.mobi.badvibes.view.WorldRenderer;
+
+public class TutorialWorldController extends WorldController {
+
+	private Texture   sprites;
+	private Rectangle railPosition;
+	private Rectangle platformPosition;
+
+	public TutorialWorldController(World world, GameplayStrategy gameplay) {
+		super(world, gameplay);
+	}	
+	
+	protected void Initialize() {
+		renderer = new WorldRenderer(world);
+        sprites     = ContentManager.loadImage("data/game/sprites.png");
+        
+        float railWidth = width;
+		float heightOfRail = 120;
+		float railHeight = width / 800f * heightOfRail;
+		railPosition = new Rectangle(0, World.RAIL_Y_OFFSET, railWidth, railHeight);
+		
+        float platformWidth = width;
+		float heightOfPlatform = 400;
+		float platformHeight = width / 800f * heightOfPlatform;
+		platformPosition = new Rectangle(0, World.PLATFORM_Y_OFFSET, platformWidth, platformHeight);
+		
+	}
+	
+	public void update(float delta) {
+		
+	}
+
+
+	public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta) {
+		shapeRenderer.begin(ShapeType.FilledRectangle);
+        shapeRenderer.setColor(54/255f, 52/255f, 50/255f, 1.0f);
+        
+        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+        
+        
+        spriteBatch.begin();
+	        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 800, 120, true, true);
+	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
+        spriteBatch.end();
+        
+        drawTiles(shapeRenderer);
+        
+        renderer.render(spriteBatch, delta);
+	}
+	
+    private void drawTiles(ShapeRenderer shapeRenderer) {
+    	
+    	shapeRenderer.begin(ShapeType.Rectangle);
+		shapeRenderer.setColor(Color.RED);
+		
+		for (int y = 0; y < World.GRID_HEIGHT; y++)
+			for (int x = 0; x < World.GRID_WIDTH; x++)
+			shapeRenderer.rect(World.X_OFFSET + x * World.GRID_CELL_WIDTH, World.PLATFORM_Y_OFFSET + y * World.GRID_CELL_HEIGHT, World.GRID_CELL_WIDTH, World.GRID_CELL_HEIGHT);
+		shapeRenderer.end();
+	}
+    
+
+	public World getWorld() {
+		return world;
+	}
+
+
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onResume() {
+		
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return gameplay.touchDown(screenX, screenY, pointer, button);
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return gameplay.touchUp(screenX, screenY, pointer, button);
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return gameplay.touchDragged(screenX, screenY, pointer);
+	}
+
+}
