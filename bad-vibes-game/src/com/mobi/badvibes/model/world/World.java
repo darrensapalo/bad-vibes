@@ -40,8 +40,11 @@ public abstract class World {
 	public static final float GRID_CELL_HEIGHT = 80f;
 	public static final float GRID_CELL_WIDTH = 80f;
 	
-	public static float GRID_X_OFFSET = GRID_CELL_WIDTH / 2f;
+	public static final float PERSON_WIDTH = 52f;
+	public static final float PERSON_HEIGHT = 82.67f;
+	
 	public static float GRID_Y_OFFSET = GRID_CELL_HEIGHT / 2f;
+	public static float GRID_X_OFFSET = GRID_CELL_WIDTH / 2f;
 	
 	public static float X_OFFSET = 0;
 	public static float PLATFORM_Y_OFFSET = 130;
@@ -79,11 +82,17 @@ public abstract class World {
 	}
 	
 	protected static Vector2 getVectorPosition(int gridx, int gridy){
-		float x = gridx * GRID_WIDTH;
-		float y = gridy * GRID_HEIGHT + PLATFORM_Y_OFFSET;
+		float x = gridx * GRID_CELL_WIDTH;
+		float y = gridy * GRID_CELL_HEIGHT + PLATFORM_Y_OFFSET;
 		
 		x += GRID_X_OFFSET;
 		y += GRID_Y_OFFSET;
+		
+		x += PERSON_WIDTH / 2;
+		y += PERSON_HEIGHT / 2;
+		
+		y -= PERSON_HEIGHT / 4;
+		
 		return new Vector2(x,y);
 	}
 

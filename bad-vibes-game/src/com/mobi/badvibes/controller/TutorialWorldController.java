@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.mobi.badvibes.controller.gameplay.GameplayStrategy;
+import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -18,12 +18,13 @@ public class TutorialWorldController extends WorldController {
 	private Rectangle railPosition;
 	private Rectangle platformPosition;
 
-	public TutorialWorldController(World world, GameplayStrategy gameplay) {
-		super(world, gameplay);
+	public TutorialWorldController(World world) {
+		super(world);
 	}	
 	
 	protected void Initialize() {
 		renderer = new WorldRenderer(world);
+		gameplay = new DragGameplay(world);
         sprites     = ContentManager.loadImage("data/game/sprites.png");
         
         float railWidth = width;

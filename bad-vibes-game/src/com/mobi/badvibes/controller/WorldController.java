@@ -17,9 +17,8 @@ public abstract class WorldController {
     protected int             width;
     protected int				height;
 	
-	public WorldController(World world, GameplayStrategy gameplay){
+	public WorldController(World world){
 		this.world = world;
-		this.gameplay = gameplay;
 		
 		width       = Gdx.graphics.getWidth();
         height		= Gdx.graphics.getHeight();

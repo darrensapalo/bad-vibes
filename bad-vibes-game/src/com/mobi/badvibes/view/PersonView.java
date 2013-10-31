@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
 
@@ -46,6 +47,7 @@ public class PersonView {
 	protected Animation currentAnimation;
 	
 	protected Point Position;
+	protected Rectangle Bounds;
 	protected State currentState;
 	protected int stateTime;
 	
@@ -131,7 +133,7 @@ public class PersonView {
 		
 		currentState = State.IDLE;
 		
-		setPosition( World.getPosition(4, 4) );
+		setPosition( World.getPosition(0, 0) );
 	}
 	
 	// Getters and setters
@@ -141,7 +143,6 @@ public class PersonView {
 	}
 
 	public void setPosition(Point position) {
-		position.x -= WIDTH / 2;
 		Position = position;
 	}
 
@@ -154,8 +155,6 @@ public class PersonView {
 		
 		currentAnimation = getCurrentAnimation();
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
-		
-		
 		
 		spriteBatch.begin();
 		spriteBatch.draw(region, Position.x, Position.y, 0, 0, WIDTH, HEIGHT, 1.0f, 1.0f, 180f);
@@ -183,6 +182,10 @@ public class PersonView {
 	public void setCurrentState(State currentState) {
 		this.currentState = currentState;
 		//TODO Change animation to be used
+	}
+
+	public Rectangle getBounds() {
+		return Bounds;
 	}
 
 }

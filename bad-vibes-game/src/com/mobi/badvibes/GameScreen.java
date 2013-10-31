@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mobi.badvibes.controller.TutorialWorldController;
 import com.mobi.badvibes.controller.WorldController;
-import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 
@@ -23,7 +22,7 @@ public class GameScreen extends BadVibesScreen
     protected void initialize()
     {
     	/* Instantiation */
-    	controller = new TutorialWorldController(new TutorialWorld(), new DragGameplay());
+    	controller = new TutorialWorldController(new TutorialWorld());
     	shapeRenderer = new ShapeRenderer();
         
     	/* Tweens */
