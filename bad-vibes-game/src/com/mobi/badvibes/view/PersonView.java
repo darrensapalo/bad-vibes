@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
 
@@ -46,7 +47,7 @@ public class PersonView {
 	
 	protected Animation currentAnimation;
 	
-	protected Point Position;
+	protected Vector2 Position;
 	protected Rectangle Bounds;
 	protected State currentState;
 	protected float stateTime;
@@ -138,11 +139,11 @@ public class PersonView {
 	
 	// Getters and setters
 
-	public Point getPosition() {
+	public Vector2 getPosition() {
 		return Position;
 	}
-
-	public void setPosition(Point position) {
+	
+	public void setPosition(Vector2 position){
 		Position = position;
 		Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y  - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
 	}

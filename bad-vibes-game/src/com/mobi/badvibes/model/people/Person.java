@@ -57,8 +57,7 @@ public abstract class Person {
 	 * @param logic
 	 * @param view
 	 */
-	public Person(PersonLogic logic, PersonView view){
-		this.logic = logic;
+	public Person(PersonView view){
 		this.view = view;
 	}
 	
@@ -68,7 +67,9 @@ public abstract class Person {
 	 * @param delta - how much time has changed since last update
 	 */
 	public void render(SpriteBatch spriteBatch, float delta){
-		logic.think(delta);
+		if (logic != null)
+			logic.think(delta);
+		
 		this.update(delta);
 		view.render(spriteBatch, delta);
 	}

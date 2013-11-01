@@ -12,7 +12,7 @@ import com.mobi.badvibes.view.PersonView.State;
 public class DragGameplay extends GameplayStrategy {
 
 	public Array<Person> personsReference;
-	public Point startPoint, endPoint, offset;
+	public Vector2 startPoint, endPoint, offset;
 	public Person selectedPerson;
 	public DragGameplay(World world) {
 		super(world);
@@ -22,7 +22,6 @@ public class DragGameplay extends GameplayStrategy {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		System.out.println("down");
 		Point p = new Point(screenX, screenY);
 		for(Person person : personsReference){
 			PersonView view = person.getView();
@@ -30,9 +29,9 @@ public class DragGameplay extends GameplayStrategy {
 				selectedPerson = person;
 				startPoint = view.getPosition();
 				view.setCurrentState(State.PICKED_UP);
-				int x = p.x - startPoint.x;
-				int y = p.y - startPoint.y;
-				offset = new Point(x, y);
+				float x = p.x - startPoint.x;
+				float y = p.y - startPoint.y;
+				offset = new Vector2(x, y);
 				return true;
 			}
 		}
@@ -41,12 +40,11 @@ public class DragGameplay extends GameplayStrategy {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		System.out.println("up");
 		if (selectedPerson != null){
 			selectedPerson.getView().setCurrentState(State.IDLE);
 			selectedPerson = null;
 			startPoint = null;
-			endPoint = new Point(screenX, screenY);
+			endPoint = new Vector2(screenX, screenY);
 			return true;
 		}
 		return false;
@@ -54,10 +52,9 @@ public class DragGameplay extends GameplayStrategy {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		System.out.println("drag");
 		if (selectedPerson != null){
 			PersonView view = selectedPerson.getView();
-			view.setPosition(new Point(screenX - offset.x, screenY - offset.y));
+			view.setPosition(new Vector2(screenX - offset.x, screenY - offset.y));
 			return true;
 		}
 		return false;

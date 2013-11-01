@@ -14,7 +14,7 @@ import com.mobi.badvibes.view.GameDimension;
  *
  */
 public abstract class World {
-	
+	public static World Instance;
 	/**
 	 * There are two stages of each train station, the 
 	 * pre-game wherein the player prepares for boarding
@@ -35,7 +35,7 @@ public abstract class World {
 	 */
 	protected Array<Person> peopleList;
 	
-	public static final int GRID_WIDTH = 11;
+	public static final int GRID_WIDTH = 10;
 	public static final int GRID_HEIGHT = 5;
 
 
@@ -54,6 +54,7 @@ public abstract class World {
 	public abstract Array<Person> initialize();
 	
 	public World(){
+		Instance = this;
 		
 		// Initialize placements
 		peoplePlacements = new Person[GRID_HEIGHT][GRID_WIDTH];
@@ -65,9 +66,8 @@ public abstract class World {
 		peopleList = initialize();
 	}
 	
-	public static Point getPosition(int gridx, int gridy){
-		Vector2 vectorPosition = getVectorPosition(gridx, gridy);
-		return new Point((int)vectorPosition.x, (int)vectorPosition.y);
+	public static Vector2 getPosition(int gridx, int gridy){
+		return getVectorPosition(gridx, gridy);
 	}
 	
 	protected static Vector2 getVectorPosition(int gridx, int gridy){
