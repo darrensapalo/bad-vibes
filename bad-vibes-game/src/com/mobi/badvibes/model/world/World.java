@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.view.GameDimension;
 
 /**
  * Alternatively, you can call this the train station.
@@ -37,19 +38,7 @@ public abstract class World {
 	public static final int GRID_WIDTH = 11;
 	public static final int GRID_HEIGHT = 5;
 
-	public static final float GRID_CELL_HEIGHT = 80f;
-	public static final float GRID_CELL_WIDTH = 80f;
-	
-	public static final float PERSON_WIDTH = 52f;
-	public static final float PERSON_HEIGHT = 82.67f;
-	
-	public static float GRID_Y_OFFSET = GRID_CELL_HEIGHT / 2f;
-	public static float GRID_X_OFFSET = GRID_CELL_WIDTH / 2f;
-	
-	public static float X_OFFSET = 0;
-	public static float PLATFORM_Y_OFFSET = 130;
-	
-	public static float RAIL_Y_OFFSET = 25;
+
 	
 	/**
 	 * This grid contains the platform grid that have the 
@@ -82,16 +71,21 @@ public abstract class World {
 	}
 	
 	protected static Vector2 getVectorPosition(int gridx, int gridy){
-		float x = gridx * GRID_CELL_WIDTH;
-		float y = gridy * GRID_CELL_HEIGHT + PLATFORM_Y_OFFSET;
+		if (gridx < 0 || gridx > GRID_WIDTH)
+			gridx = 0;
+		if (gridy < 0 || gridy > GRID_HEIGHT)
+			gridy = 0;
 		
-		x += GRID_X_OFFSET;
-		y += GRID_Y_OFFSET;
+		float x = gridx * GameDimension.Cell.x;
+		float y = gridy * GameDimension.Cell.y + GameDimension.PlatformOffset;
 		
-		x += PERSON_WIDTH / 2;
-		y += PERSON_HEIGHT / 2;
+		x += GameDimension.Cell.x / 2;
+		y += GameDimension.Cell.y / 2;
 		
-		y -= PERSON_HEIGHT / 4;
+		x += GameDimension.Person.x / 2;
+		y += GameDimension.Person.y / 2;
+		
+		y -= GameDimension.Person.y / 4;
 		
 		return new Vector2(x,y);
 	}

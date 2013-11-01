@@ -1,6 +1,8 @@
 package com.mobi.badvibes;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.mobi.badvibes.view.GameDimension;
 
 public class BadVibes extends Game
 {
@@ -23,9 +25,10 @@ public class BadVibes extends Game
     @Override
     public void create()
     {
-        splashScreen = new SplashScreen();
+    	GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    	
+    	splashScreen = new SplashScreen();
         mainMenuScreen = new MainMenuScreen();
-        
         gameScreen = new GameScreen();
         
         setScreen(splashScreen);

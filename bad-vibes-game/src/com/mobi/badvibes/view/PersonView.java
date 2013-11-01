@@ -30,8 +30,8 @@ public class PersonView {
 	private static final int FRAME_COLS = 3;
 	private static final int FRAME_ROWS = 3;
 	
-	private static final int WIDTH = 52;
-	private static final int HEIGHT = 82;
+	public static final float WIDTH = 52;
+	public static final float HEIGHT = 82;
 	
 	
 	protected static ArrayList<PersonEntry> DarrenTheDapaen;
@@ -49,7 +49,7 @@ public class PersonView {
 	protected Point Position;
 	protected Rectangle Bounds;
 	protected State currentState;
-	protected int stateTime;
+	protected float stateTime;
 	
 	public static void Initialize(){
 		
@@ -114,7 +114,7 @@ public class PersonView {
 	}
 	
 	protected static PersonView Load(String path){
-		return new PersonView(0.5f, path);
+		return new PersonView(0.15f, path);
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class PersonView {
 		animationWalking = new Animation(frameDuration, region[1]);
 		animationPickedUp = new Animation(frameDuration, region[2]);
 		
-		currentState = State.IDLE;
+		currentState = State.WALKING;
 		
 		setPosition( World.getPosition(0, 0) );
 	}
@@ -144,6 +144,7 @@ public class PersonView {
 
 	public void setPosition(Point position) {
 		Position = position;
+		Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y  - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
 	}
 
 	public Animation getAnimation() {
@@ -157,7 +158,7 @@ public class PersonView {
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
 		spriteBatch.begin();
-		spriteBatch.draw(region, Position.x, Position.y, 0, 0, WIDTH, HEIGHT, 1.0f, 1.0f, 180f);
+		spriteBatch.draw(region, Position.x, Position.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 180f);
 		spriteBatch.end();
 	}
 

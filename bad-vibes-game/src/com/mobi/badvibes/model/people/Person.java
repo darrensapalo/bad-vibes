@@ -84,4 +84,8 @@ public abstract class Person {
 	public float getHappiness() {
 		return happiness;
 	}
+
+	public PersonView getView() {
+		return view;
+	}
 }

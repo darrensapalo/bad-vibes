@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.ContentManager;
+import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.WorldRenderer;
 
 public class TutorialWorldController extends WorldController {
@@ -30,12 +31,12 @@ public class TutorialWorldController extends WorldController {
         float railWidth = width;
 		float heightOfRail = 120;
 		float railHeight = width / 800f * heightOfRail;
-		railPosition = new Rectangle(0, World.RAIL_Y_OFFSET, railWidth, railHeight);
+		railPosition = new Rectangle(0, GameDimension.RailOffset, railWidth, railHeight);
 		
         float platformWidth = width;
 		float heightOfPlatform = 400;
 		float platformHeight = width / 800f * heightOfPlatform;
-		platformPosition = new Rectangle(0, World.PLATFORM_Y_OFFSET, platformWidth, platformHeight);
+		platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
 		
 	}
 	
@@ -59,7 +60,7 @@ public class TutorialWorldController extends WorldController {
         
         drawTiles(shapeRenderer);
         
-        renderer.render(spriteBatch, delta);
+        renderer.render(spriteBatch, shapeRenderer, delta);
 	}
 	
     private void drawTiles(ShapeRenderer shapeRenderer) {
@@ -69,7 +70,7 @@ public class TutorialWorldController extends WorldController {
 		
 		for (int y = 0; y < World.GRID_HEIGHT; y++)
 			for (int x = 0; x < World.GRID_WIDTH; x++)
-			shapeRenderer.rect(World.X_OFFSET + x * World.GRID_CELL_WIDTH, World.PLATFORM_Y_OFFSET + y * World.GRID_CELL_HEIGHT, World.GRID_CELL_WIDTH, World.GRID_CELL_HEIGHT);
+			shapeRenderer.rect(GameDimension.X_OFFSET + x * GameDimension.Cell.x, GameDimension.PlatformOffset + y * GameDimension.Cell.y, GameDimension.Cell.x, GameDimension.Cell.y);
 		shapeRenderer.end();
 	}
     
