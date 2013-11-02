@@ -33,8 +33,6 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
 
         frameBuffer     = new FrameBuffer(Format.RGB888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
         textureRegion   = new TextureRegion(frameBuffer.getColorBufferTexture(), frameBuffer.getWidth(), frameBuffer.getHeight());
-
-        initialize();
     }
 
     public float getScreenOpacity()

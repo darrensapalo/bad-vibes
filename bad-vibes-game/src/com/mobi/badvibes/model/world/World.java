@@ -1,5 +1,8 @@
 package com.mobi.badvibes.model.world;
 
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
@@ -89,6 +92,13 @@ public abstract class World {
 		y -= GameDimension.Person.y / 4;
 		
 		return new Vector2(x,y);
+	}
+	
+	public static Vector2 getRandomPlatformPosition(){
+		Random r = new Random();
+		int x = (int)(GameDimension.Person.x / 2) + r.nextInt(Gdx.graphics.getWidth() - (int)(GameDimension.Person.x / 2));
+		int y = (int)(GameDimension.PlatformOffset + (GameDimension.PlatformOffset / 2)) + r.nextInt((int)(Gdx.graphics.getHeight() - GameDimension.PlatformOffset));
+		return new Vector2(x, y);
 	}
 
 	public Array<Person> getPeopleList() {

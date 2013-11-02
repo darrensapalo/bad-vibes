@@ -12,8 +12,7 @@ public class NormanTheNormal extends Person{
 		// TODO add logic and view
 		super(PersonView.getView(PersonView.Character.NORMAN_THE_NORMAL));
 
-		Random r = new Random();
-		view.setPosition(World.getPosition(r.nextInt(World.GRID_WIDTH), r.nextInt(World.GRID_HEIGHT)));
+		view.setPosition(World.getRandomPlatformPosition());
 		logic = new ExploreLogic(this);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
@@ -20,7 +21,7 @@ public class ExploreLogic extends PersonLogic {
 	public ExploreLogic(Person person) {
 		super(person);
 		view = person.getView();
-		delayBeforeWalking = 0.5f;
+		delayBeforeWalking = 2f + new Random().nextFloat() * 2f;
 	}
 
 	public void think(float delta){
@@ -57,11 +58,8 @@ public class ExploreLogic extends PersonLogic {
 	private Vector2 determineDestination() {
 		Vector2 destination;
 		Random r = new Random();
-		delayBeforeWalking = 0.5f + r.nextFloat() * 2f;
-		int x = (int)(GameDimension.Person.x / 2) + r.nextInt(Gdx.graphics.getWidth() - (int)(GameDimension.Person.x / 2));
-		int y = (int)GameDimension.PlatformOffset + r.nextInt((int)(Gdx.graphics.getHeight() - GameDimension.PlatformOffset));
-		
-		destination = new Vector2(x, y);
+		delayBeforeWalking = 0.5f + r.nextFloat() * 6f;
+		destination = World.getRandomPlatformPosition();
 		Vector2 distance = destination.cpy().sub(view.getPosition());
 		float rate = 250f;
 		velocity = distance.div(rate);
