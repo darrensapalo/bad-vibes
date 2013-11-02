@@ -30,7 +30,7 @@ public class SplashScreen extends BadVibesScreen
         updatePosition();
 
         // Tween
-        Tween.setCombinedAttributesLimit(1);
+        Tween.setCombinedAttributesLimit(3);
         Tween.registerAccessor(SplashScreen.class, new BadVibesScreenAccessor());
 
         Timeline.createSequence()
@@ -47,7 +47,7 @@ public class SplashScreen extends BadVibesScreen
                 }
             }
         })
-        .start(tweenManager);
+        .start(BadVibes.tweenManager);
     }
 
     @Override

@@ -33,12 +33,14 @@ public class ExploreLogic extends PersonLogic {
 	private void walking(float delta){
 		if (destination != null){
 			Vector2 distance = destination.cpy().sub(view.getPosition());
-			if (distance.len() < 3){
+			if (distance.len() < velocity.len()){
 				view.setPosition(destination);
 				view.setCurrentState(State.IDLE);
 				destination = null;
 			}
 			view.setPosition(view.getPosition().add(velocity));
+		}else{
+			view.setCurrentState(State.IDLE);
 		}
 	}
 	
@@ -64,13 +66,11 @@ public class ExploreLogic extends PersonLogic {
 		float rate = 250f;
 		velocity = distance.div(rate);
 		if (velocity.len() < 0.35f || velocity.len() > 1.35f){
-			System.out.println("Velocity bounded!");
 			if (velocity.len() < 0.35f)
 				velocity.nor().mul(0.35f);
 			else if (velocity.len() > 1.35f)
 				velocity.nor().mul(1.35f);
 		}
-		System.out.println("Speed selected: " + velocity.len());
 		return destination;
 	}
 }

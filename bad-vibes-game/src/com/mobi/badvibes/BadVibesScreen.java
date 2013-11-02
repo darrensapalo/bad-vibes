@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 
 public abstract class BadVibesScreen implements Screen, InputProcessor
 {
-    protected TweenManager       tweenManager  = new TweenManager();
+    
     protected SpriteBatch        spriteBatch   = new SpriteBatch();
     protected OrthographicCamera camera        = null;
 
@@ -35,11 +35,6 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
         textureRegion   = new TextureRegion(frameBuffer.getColorBufferTexture(), frameBuffer.getWidth(), frameBuffer.getHeight());
 
         initialize();
-    }
-
-    public TweenManager getTweenManager()
-    {
-        return tweenManager;
     }
 
     public float getScreenOpacity()
@@ -71,10 +66,9 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
     @Override
     public void render(float delta)
     {
-        tweenManager.update(delta);
-
         frameBuffer.begin();
-
+        BadVibes.tweenManager.update(delta);
+        
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 

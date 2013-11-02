@@ -15,9 +15,6 @@ public class WorldRenderer {
 	public static final float GRID_CELL_HEIGHT = 80f;
 	public static final float GRID_CELL_WIDTH = 80f;
 	
-	public static final float PERSON_WIDTH = 52f;
-	public static final float PERSON_HEIGHT = 82.67f;
-
 	public static final float RAIL_WIDTH = 800;
 	public static final float RAIL_HEIGHT = 120;
 	
@@ -41,10 +38,12 @@ public class WorldRenderer {
 		for(Person p : peopleList){
 			p.render(spriteBatch, delta);
 
+			/*
 			Rectangle bounds = p.getView().getBounds();
 			shapeRenderer.begin(ShapeType.Rectangle);
 				shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
 			shapeRenderer.end();
+			*/
 		}
 		
 	}

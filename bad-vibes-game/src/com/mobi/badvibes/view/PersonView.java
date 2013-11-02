@@ -32,7 +32,7 @@ public class PersonView {
 	private static final int FRAME_ROWS = 3;
 	
 	public static final float WIDTH = 52;
-	public static final float HEIGHT = 82;
+	public static final float HEIGHT = 83;
 	
 	
 	protected static ArrayList<PersonEntry> DarrenTheDapaen;
@@ -51,6 +51,7 @@ public class PersonView {
 	protected Rectangle Bounds;
 	protected State currentState;
 	protected float stateTime;
+	protected float opacity;
 	
 	public static void Initialize(){
 		
@@ -130,10 +131,10 @@ public class PersonView {
 		
 		animationIdle = new Animation(frameDuration, region[0]);
 		animationWalking = new Animation(frameDuration, region[1]);
-		animationPickedUp = new Animation(frameDuration, region[2]);
+		animationPickedUp = new Animation(frameDuration, region[2][0]);
 		
 		currentState = State.WALKING;
-		
+		opacity = 1f;
 		setPosition( World.getPosition(0, 0) );
 	}
 	
@@ -143,7 +144,7 @@ public class PersonView {
 		return Position;
 	}
 	
-	public void setPosition(Vector2 position){
+	synchronized public void setPosition(Vector2 position){
 		Position = position;
 		Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y  - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
 	}
@@ -188,6 +189,15 @@ public class PersonView {
 
 	public Rectangle getBounds() {
 		return Bounds;
+	}
+
+	public float getOpacity() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setOpacity(float opacity) {
+		this.opacity = opacity;
 	}
 
 }

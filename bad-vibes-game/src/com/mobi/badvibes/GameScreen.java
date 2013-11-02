@@ -10,6 +10,8 @@ import com.mobi.badvibes.controller.TutorialWorldController;
 import com.mobi.badvibes.controller.WorldController;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.nimators.PersonAccessor;
+import com.mobi.badvibes.view.PersonView;
 
 public class GameScreen extends BadVibesScreen
 {
@@ -27,10 +29,11 @@ public class GameScreen extends BadVibesScreen
         
     	/* Tweens */
     	Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
-        
+        Tween.registerAccessor(PersonView.class, new PersonAccessor());
+    	
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
-        .start(tweenManager);
+        .start(BadVibes.tweenManager);
         
     }
 

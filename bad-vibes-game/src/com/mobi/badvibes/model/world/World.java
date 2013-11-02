@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.view.GameDimension;
 
 /**
@@ -97,4 +98,6 @@ public abstract class World {
 	public void setPeopleList(Array<Person> peopleList) {
 		this.peopleList = peopleList;
 	}
+	
+	public abstract void runEvent(EventType type);
 }

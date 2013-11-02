@@ -69,7 +69,7 @@ public class MainMenuScreen extends BadVibesScreen
 
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
-        .start(tweenManager);
+        .start(BadVibes.tweenManager);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class MainMenuScreen extends BadVibesScreen
                     BadVibes.getInstance().setScreen(BadVibes.gameScreen);
                 }
             }
-        }).start(tweenManager);
+        }).start(BadVibes.tweenManager);
 
         return false;
     }

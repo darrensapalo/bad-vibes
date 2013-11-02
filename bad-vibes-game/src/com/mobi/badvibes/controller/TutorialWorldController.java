@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
+import com.mobi.badvibes.controller.gameplay.RushGameplay;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.GameDimension;
@@ -25,7 +26,8 @@ public class TutorialWorldController extends WorldController {
 	
 	protected void Initialize() {
 		renderer = new WorldRenderer(world);
-		gameplay = new DragGameplay(world);
+		gameplay.push(new DragGameplay(world));
+		gameplay.push(new RushGameplay(world));
         sprites     = ContentManager.loadImage("data/game/sprites.png");
         
         float railWidth = width;
@@ -58,7 +60,7 @@ public class TutorialWorldController extends WorldController {
 	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
         spriteBatch.end();
         
-        drawTiles(shapeRenderer);
+        // drawTiles(shapeRenderer);
         
         renderer.render(spriteBatch, shapeRenderer, delta);
 	}
@@ -90,20 +92,4 @@ public class TutorialWorldController extends WorldController {
 	public void onResume() {
 		
 	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return gameplay.touchDown(screenX, screenY, pointer, button);
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return gameplay.touchUp(screenX, screenY, pointer, button);
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return gameplay.touchDragged(screenX, screenY, pointer);
-	}
-
 }

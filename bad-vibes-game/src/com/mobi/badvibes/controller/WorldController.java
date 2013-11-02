@@ -1,5 +1,7 @@
 package com.mobi.badvibes.controller;
 
+import java.util.Stack;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,14 +14,14 @@ public abstract class WorldController {
 	protected World world;
 	protected WorldRenderer renderer;
 	
-	protected GameplayStrategy gameplay;
+	protected Stack<GameplayStrategy> gameplay;
 
     protected int             width;
     protected int				height;
 	
 	public WorldController(World world){
-		this.world = world;
-		
+		this.world  = world;
+		gameplay    = new Stack<GameplayStrategy>();
 		width       = Gdx.graphics.getWidth();
         height		= Gdx.graphics.getHeight();
         Initialize();
@@ -40,14 +42,31 @@ public abstract class WorldController {
 	public abstract void onResume();
 
 	public boolean touchDown(int screenX, int screenY, int pointer, int button){
-		return gameplay.touchDown(screenX, screenY, pointer, button);
+		boolean value = false;
+		for (GameplayStrategy gs : gameplay){
+			if (value = gs.touchDown(screenX, screenY, pointer, button) || value)
+				return value;
+		}
+		return value;
+				
+		
 	}
 
 	public boolean touchUp(int screenX, int screenY, int pointer, int button){
-		return gameplay.touchUp(screenX, screenY, pointer, button);
+		boolean value = false;
+		for (GameplayStrategy gs : gameplay){
+			if (value = gs.touchUp(screenX, screenY, pointer, button) || value)
+				return value;
+		}
+		return value;
 	}
 
 	public boolean touchDragged(int screenX, int screenY, int pointer){
-		return gameplay.touchDragged(screenX, screenY, pointer);
+		boolean value = false;
+		for (GameplayStrategy gs : gameplay){
+			if (value = gs.touchDragged(screenX, screenY, pointer) || value)
+				return value;
+		}
+		return value;
 	}
 }

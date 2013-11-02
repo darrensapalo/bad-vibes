@@ -89,4 +89,12 @@ public abstract class Person {
 	public PersonView getView() {
 		return view;
 	}
+
+	public PersonLogic getLogic() {
+		return logic;
+	}
+
+	public void setLogic(PersonLogic logic) {
+		this.logic = logic;
+	}
 }
