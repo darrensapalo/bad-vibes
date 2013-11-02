@@ -59,22 +59,9 @@ public class TutorialWorldController extends WorldController {
 	        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 800, 120, true, true);
 	        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
         spriteBatch.end();
-        
-        drawTiles(shapeRenderer);
-        
         renderer.render(spriteBatch, shapeRenderer, delta);
 	}
 	
-    private void drawTiles(ShapeRenderer shapeRenderer) {
-    	
-    	shapeRenderer.begin(ShapeType.Rectangle);
-		shapeRenderer.setColor(Color.RED);
-		
-		for (int y = 0; y < World.GRID_HEIGHT * 2; y++)
-			for (int x = 0; x < World.GRID_WIDTH * 2; x++)
-			shapeRenderer.rect(GameDimension.X_OFFSET + x * GameDimension.Cell.x, GameDimension.PlatformOffset + y * GameDimension.Cell.y, GameDimension.Cell.x, GameDimension.Cell.y);
-		shapeRenderer.end();
-	}
     
 
 	public World getWorld() {

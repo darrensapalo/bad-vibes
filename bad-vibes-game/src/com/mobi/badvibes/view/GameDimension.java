@@ -38,6 +38,12 @@ public class GameDimension {
 	 */
 	public static Vector2 Cell;
 	
+	/**
+	 * This determines the dimension of each mini cell in the platform
+	 * with respect to the viewport.
+	 */
+	public static Vector2 MiniCell;
+	
 	public static float PlatformOffset;
 	public static float RailOffset;
 
@@ -71,9 +77,12 @@ public class GameDimension {
 		Platform = new Vector2(_w, _h);
 		
 		// Cell dimensions
-		_w = width / 800f * WorldRenderer.CELL_WIDTH / 2;
-		_h = height / 480f * WorldRenderer.CELL_HEIGHT / 2;
+		_w = width / 800f * WorldRenderer.CELL_WIDTH;
+		_h = height / 480f * WorldRenderer.CELL_HEIGHT;
 		Cell = new Vector2(_w, _h);
+		
+		MiniCell = new Vector2(Cell);
+		MiniCell.div(2);
 		
 		PlatformOffset = height / 480f * WorldRenderer.PLATFORM_Y_OFFSET;
 		

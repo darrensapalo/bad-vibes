@@ -38,6 +38,9 @@ public abstract class World {
 	public static final int GRID_WIDTH = 10;
 	public static final int GRID_HEIGHT = 5;
 	
+	public static final int MINI_GRID_WIDTH = GRID_WIDTH * 2;
+	public static final int MINI_GRID_HEIGHT = GRID_HEIGHT * 2;
+	
 	/**
 	 * This method begins creating the world by instantiating
 	 * people. This method determines the kinds of people to be
@@ -84,16 +87,16 @@ public abstract class World {
 		else if (gridy > GRID_HEIGHT * 4)
 			gridy = GRID_HEIGHT * 4;
 		
-		float x = gridx * GameDimension.Cell.x / 4;
-		float y = gridy * GameDimension.Cell.y / 4 + GameDimension.PlatformOffset;
+		float x = gridx * GameDimension.MiniCell.x;
+		float y = gridy * GameDimension.MiniCell.y + GameDimension.PlatformOffset;
 		
-		x += GameDimension.Cell.x / 8;
-		y += GameDimension.Cell.y / 8;
+		x += GameDimension.MiniCell.x / 2;
+		y += GameDimension.MiniCell.y / 2;
 		
 		x += GameDimension.Person.x / 2;
 		y += GameDimension.Person.y / 2;
 		
-		// y -= GameDimension.Person.y / 4;
+		y -= GameDimension.Person.y / 4;
 		
 		return new Vector2(x,y);
 	}

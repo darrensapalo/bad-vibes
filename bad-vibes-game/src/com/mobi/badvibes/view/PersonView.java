@@ -160,7 +160,7 @@ public class PersonView {
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
 		spriteBatch.begin();
-		spriteBatch.draw(region, Position.x, Position.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 180f);
+		spriteBatch.draw(region, Position.x, Position.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
 		spriteBatch.end();
 	}
 

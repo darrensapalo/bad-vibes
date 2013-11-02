@@ -1,7 +1,9 @@
 package com.mobi.badvibes.view;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
@@ -38,8 +40,9 @@ public class WorldRenderer {
 	}
 
 	public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta) {
-		Array<Person> peopleList = world.getPeopleList();
-		for(Person p : peopleList){
+		drawTiles(shapeRenderer);
+		
+		for(Person p : world.getPeopleList()){
 			p.render(spriteBatch, delta);
 
 			/*
@@ -50,6 +53,18 @@ public class WorldRenderer {
 			*/
 		}
 		
+		
+	}
+
+    private void drawTiles(ShapeRenderer shapeRenderer) {
+    	
+    	shapeRenderer.begin(ShapeType.Rectangle);
+		shapeRenderer.setColor(Color.RED);
+		
+		for (int y = 0; y < World.MINI_GRID_HEIGHT; y++)
+			for (int x = 0; x < World.MINI_GRID_WIDTH; x++)
+			shapeRenderer.rect(GameDimension.X_OFFSET + x * GameDimension.MiniCell.x, GameDimension.PlatformOffset + y * GameDimension.MiniCell.y, GameDimension.MiniCell.x, GameDimension.MiniCell.y);
+		shapeRenderer.end();
 	}
 
 }
