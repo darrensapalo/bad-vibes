@@ -1,5 +1,6 @@
 package com.mobi.badvibes;
 
+import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
@@ -15,12 +16,26 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 public abstract class BadVibesScreen implements Screen, InputProcessor
 {
     
+	/**
+	 * This attribute is the specific spriteBatch for this screen.
+	 * @see SpriteBatch
+	 */
     protected SpriteBatch        spriteBatch   = new SpriteBatch();
+    /**
+     * This attribute is the specific camera for this screen.
+     * @see OrthographicCamera
+     */
     protected OrthographicCamera camera        = null;
 
     private FrameBuffer          frameBuffer   = null;
     private TextureRegion        textureRegion = null;
 
+    /**
+     * This attribute dictates the opacity of the current screen.
+     * This is usually used in conjunction with a Tween to handle
+     * the screen transitions.
+     * @see Tween
+     */
     protected float              screenOpacity = 0;
 
     public BadVibesScreen()
@@ -35,18 +50,34 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
         textureRegion   = new TextureRegion(frameBuffer.getColorBufferTexture(), frameBuffer.getWidth(), frameBuffer.getHeight());
     }
 
+    /**
+     * This method returns the opacity of the screen.
+     * @return
+     */
     public float getScreenOpacity()
     {
         return screenOpacity;
     }
 
+    /**
+     * This method is used to set the opacity of the screen.
+     * @param screenOpacity
+     */
     public void setScreenOpacity(float screenOpacity)
     {
         this.screenOpacity = screenOpacity;
     }
 
+    /**
+     * This method is called as before a screen is loaded into
+     * the view. This is for preparation of the screen.
+     */
     protected abstract void initialize();
 
+    /**
+     * This method handles the logic of the screen.
+     * @param delta decimal seconds of how much time has passed 
+     */
     protected abstract void renderScreen(float delta);
 
     @Override

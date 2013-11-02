@@ -4,7 +4,6 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.mobi.badvibes.view.GameDimension;
 
 public class BadVibes extends Game

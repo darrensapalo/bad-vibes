@@ -59,7 +59,7 @@ public class ExploreLogic extends PersonLogic {
 		Vector2 destination;
 		Random r = new Random();
 		delayBeforeWalking = 0.5f + r.nextFloat() * 6f;
-		destination = World.getRandomPlatformPosition();
+		destination = World.getRandomLargePosition();
 		Vector2 distance = destination.cpy().sub(view.getPosition());
 		float rate = 250f;
 		velocity = distance.div(rate);

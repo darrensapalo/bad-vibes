@@ -2,12 +2,16 @@ package com.mobi.badvibes.view;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 
+/**
+ * This class handles the rendering of the world. It runs all 
+ * person's logic and rendering.
+ * @author Darren
+ *
+ */
 public class WorldRenderer {
 
 	private World world;

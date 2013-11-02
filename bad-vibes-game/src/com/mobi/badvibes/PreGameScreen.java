@@ -8,12 +8,19 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 
+/**
+ * This class shows the textual instructions on how to
+ * win the game to be played.
+ * Before instructing the GameMaster to prepare the game,
+ * ensure that setInformation(String, String) was called. 
+ * @see GameMaster
+ * @author Darren
+ *
+ */
 public class PreGameScreen extends BadVibesScreen implements TweenCallback
 {
     // For debugging purposes
@@ -39,13 +46,12 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
 
-        setInformation("No title", "No subtitle");
-        
+        updatePosition();
         Tween.registerAccessor(PreGameScreen.class, new BadVibesScreenAccessor());
 
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0).ease(TweenEquations.easeInCubic).delay(1.5f)
+        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0).ease(TweenEquations.easeInCubic).delay(2.5f)
     															  .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback() {
 																	@Override
 																	public void onEvent(int arg0, BaseTween<?> arg1) {
@@ -58,8 +64,6 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
     public void setInformation(String title, String subtitle){
     	this.titleHeader = title;
     	this.subtitleHeader = subtitle;
-    	
-    	updatePosition();
     }
 
     @Override

@@ -1,7 +1,16 @@
 package com.mobi.badvibes.view;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.BadVibes;
 
+/**
+ * This class handles the resizing of the game dimensions depending
+ * on the available viewport. The initialize method is called by the
+ * BadVibes class in the create() method.
+ * @see BadVibes
+ * @author Darren
+ *
+ */
 public class GameDimension {
 	
 
@@ -62,8 +71,8 @@ public class GameDimension {
 		Platform = new Vector2(_w, _h);
 		
 		// Cell dimensions
-		_w = width / 800f * WorldRenderer.CELL_WIDTH;
-		_h = height / 480f * WorldRenderer.CELL_HEIGHT;
+		_w = width / 800f * WorldRenderer.CELL_WIDTH / 2;
+		_h = height / 480f * WorldRenderer.CELL_HEIGHT / 2;
 		Cell = new Vector2(_w, _h);
 		
 		PlatformOffset = height / 480f * WorldRenderer.PLATFORM_Y_OFFSET;

@@ -10,25 +10,24 @@ import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
-import com.mobi.badvibes.model.world.EventType;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
 
 
-public class DragGameplay extends GameplayStrategy implements TweenCallback {
+public class DragGameplay extends GameplayStrategy{
 
 	public enum DragState {
-		PickingUp,
+		Free,
 		Held,
 		FallingDown,
-		Free
 	}
 	
 	public Array<Person> personsReference;
 	public Vector2 startPoint, endPoint, offset;
 	public Person selectedPerson;
+	private DragState state;
 	private static final float PICKUP_OFFSET = 15f;
 	private static DragGameplay Instance;
 	
@@ -48,11 +47,19 @@ public class DragGameplay extends GameplayStrategy implements TweenCallback {
 				selectedPerson = person;
 				startPoint = view.getPosition();
 				
+				state = DragState.Held;
 				
 				Tween.to(person, PersonAccessor.POSITION, 0.2f)
 				.targetRelative(0, -PICKUP_OFFSET)
 				.ease(Cubic.INOUT)
-				.setCallback(Instance)
+				.setCallback(new TweenCallback() {
+					
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1) {
+						if (selectedPerson != null)
+							setStartOffset(selectedPerson.getView().getPosition());
+					}
+				})
 				.start(BadVibes.tweenManager);
 				
 				view.setCurrentState(State.PICKED_UP);
@@ -73,6 +80,7 @@ public class DragGameplay extends GameplayStrategy implements TweenCallback {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (selectedPerson != null){
+			state = DragState.FallingDown;
 			endPoint = new Vector2(screenX, screenY);
 			endTouch();
 			return true;
@@ -85,10 +93,20 @@ public class DragGameplay extends GameplayStrategy implements TweenCallback {
 		Tween.to(selectedPerson, PersonAccessor.POSITION, 0.2f)
 		.targetRelative(0, +PICKUP_OFFSET)
 		.ease(Cubic.INOUT)
-		.setCallback(Instance)
+		.setCallback(new TweenCallback() {
+			
+			@Override
+			public void onEvent(int arg0, BaseTween<?> arg1) {
+				state = DragState.Free;
+				if (selectedPerson != null){
+					selectedPerson.takeAPosition();
+					selectedPerson = null;
+					startPoint = null;
+				}
+			}
+		})
 		.start(BadVibes.tweenManager);
-		selectedPerson = null;
-		startPoint = null;
+		
 	}
 	
 	@Override
@@ -105,12 +123,6 @@ public class DragGameplay extends GameplayStrategy implements TweenCallback {
 			return true;
 		}
 		return true;
-	}
-
-	@Override
-	public void onEvent(int arg0, BaseTween<?> arg1) {
-		if (selectedPerson != null)
-			setStartOffset(selectedPerson.getView().getPosition());
 	}
 
 }

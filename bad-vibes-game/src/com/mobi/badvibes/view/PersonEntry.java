@@ -1,5 +1,11 @@
 package com.mobi.badvibes.view;
 
+/**
+ * This bean is used as a node in the cache for
+ * the PersonView class. 
+ * @author Michael Ong
+ *
+ */
 public class PersonEntry {
 
 	public PersonEntry(PersonView view) {

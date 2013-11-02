@@ -13,14 +13,6 @@ public class TutorialWorld extends World{
 			list.add(new NormanTheNormal());
 			list.add(new NormanTheNormal());
 			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
-			list.add(new NormanTheNormal());
 		return list;
 	}
 

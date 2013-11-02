@@ -2,8 +2,16 @@ package com.mobi.badvibes.model.people;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
+import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.view.PersonView;
 
+/**
+ * This class contains the logic and the view of a Person class.
+ * @see PersonView
+ * @see PersonLogic 
+ * @author Darren
+ *
+ */
 public abstract class Person {
 	
 	/**
@@ -30,16 +38,7 @@ public abstract class Person {
 	 * It is set to 0 by default.
 	 */
 	protected float happiness = 0;
-	
-	/**
-	 * If this boolean value is true, then it means that
-	 * this person is either getting on or getting off the
-	 * train station. Other persons simply stay where they
-	 * are, and can be moved by the player.
-	 * It is set to false by default. 
-	 */
-	protected boolean isActive = false;
-	
+		
 	/**
 	 * This attribute handles the displaying of the image.
 	 */
@@ -96,5 +95,9 @@ public abstract class Person {
 
 	public void setLogic(PersonLogic logic) {
 		this.logic = logic;
+	}
+
+	public void takeAPosition() {
+		setLogic(new StillLogic(this));
 	}
 }
