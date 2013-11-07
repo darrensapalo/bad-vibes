@@ -8,8 +8,14 @@ import com.mobi.badvibes.model.people.logic.RushLogic;
 
 public class TutorialWorld extends World{
 
-	public Array<Person> initialize() {
+	public Array<Person> createPeople() {
 		Array<Person> list = new Array<Person>();
+			list.add(new NormanTheNormal());
+			list.add(new NormanTheNormal());
+			list.add(new NormanTheNormal());
+			list.add(new NormanTheNormal());
+			list.add(new NormanTheNormal());
+			list.add(new NormanTheNormal());
 			list.add(new NormanTheNormal());
 			list.add(new NormanTheNormal());
 			list.add(new NormanTheNormal());

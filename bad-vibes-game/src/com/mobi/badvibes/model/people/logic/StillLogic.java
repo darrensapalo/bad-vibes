@@ -29,14 +29,10 @@ public class StillLogic extends PersonLogic {
 			--celly;
 		destination = World.getPosition(cellx, celly);
 		
-		System.out.print("My destination is " + new Point(cellx, celly));
-		System.out.print(" which is (" + destination + ") ");
-		
 		velocity = getDistance().nor();
 		velocity.mul(0.35f);
-		System.out.println(" and I will walk at a rate of " + velocity.len());
-		state = StillState.WalkingToMiniCell;
 		
+		state = StillState.WalkingToMiniCell;
 	}
 	public Vector2 getDistance(){
 		return destination.cpy().sub(person.getView().getPosition().cpy());

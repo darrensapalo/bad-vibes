@@ -50,6 +50,7 @@ public class PersonView {
 	protected Vector2 Position;
 	protected Rectangle Bounds;
 	protected State currentState;
+	protected int currentBucketID;
 	protected float stateTime;
 	protected float opacity;
 	
@@ -134,6 +135,7 @@ public class PersonView {
 		animationPickedUp = new Animation(frameDuration, region[2][0]);
 		
 		currentState = State.WALKING;
+		currentBucketID = -1;
 		opacity = 1f;
 		setPosition( World.getPosition(0, 0) );
 	}
@@ -147,6 +149,23 @@ public class PersonView {
 	synchronized public void setPosition(Vector2 position){
 		Position = position;
 		Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y  - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
+		
+		if (WorldRenderer.Instance != null){ 
+			if (WorldRenderer.Instance.masterBucketContains(this)){
+				int bucketID = computeBucketID(position);
+				if (currentBucketID != bucketID) 
+					WorldRenderer.Instance.addToList(this, bucketID);
+			}else{
+				int bucketID = computeBucketID(position);
+				WorldRenderer.Instance.addToList(this, bucketID);
+			}
+		}
+	}
+
+	private int computeBucketID(Vector2 position) {
+		Vector2 platform = position.cpy().sub(0, GameDimension.PlatformOffset);
+		return (int)platform.y / (int)GameDimension.MiniCell.y;
+		
 	}
 
 	public Animation getAnimation() {
@@ -155,7 +174,6 @@ public class PersonView {
 	
 	public void render(SpriteBatch spriteBatch, float delta){
 		stateTime += delta;
-		
 		currentAnimation = getCurrentAnimation();
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
@@ -192,8 +210,7 @@ public class PersonView {
 	}
 
 	public float getOpacity() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.opacity;
 	}
 
 	public void setOpacity(float opacity) {

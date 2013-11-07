@@ -24,10 +24,15 @@ public abstract class WorldController {
 		gameplay    = new Stack<GameplayStrategy>();
 		width       = Gdx.graphics.getWidth();
         height		= Gdx.graphics.getHeight();
-        Initialize();
+        Prepare();
 	}
 	
-	protected abstract void Initialize();
+	/**
+	 * This handles the selection of a renderer, gameplay mechanics,
+	 * spritesheets, and more. This will vary depending on level design.
+	 * @author Darren
+	 */
+	protected abstract void Prepare();
 	
 	public abstract void update(float delta);
 

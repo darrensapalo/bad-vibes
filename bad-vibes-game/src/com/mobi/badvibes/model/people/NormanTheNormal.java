@@ -10,12 +10,16 @@ public class NormanTheNormal extends Person{
 		// TODO add logic and view
 		super(PersonView.getView(PersonView.Character.NORMAN_THE_NORMAL));
 
-		view.setPosition(World.getRandomLargePosition());
-		logic = new ExploreLogic(this);
 	}
 
 	public void update(float delta) {
 		
+	}
+	
+	@Override
+	public void initialize() {
+		view.setPosition(World.getRandomLargePosition());
+		logic = new ExploreLogic(this);
 	}
 
 }

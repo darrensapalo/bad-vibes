@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.controller.gameplay.RushGameplay;
+import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.GameDimension;
@@ -24,10 +25,13 @@ public class TutorialWorldController extends WorldController {
 		super(world);
 	}	
 	
-	protected void Initialize() {
+	protected void Prepare() {
 		renderer = new WorldRenderer(world);
 		gameplay.push(new DragGameplay(world));
 		gameplay.push(new RushGameplay(world));
+		
+		world.initialize();
+		
         sprites     = ContentManager.loadImage("data/game/sprites.png");
         
         float railWidth = width;
@@ -43,7 +47,8 @@ public class TutorialWorldController extends WorldController {
 	}
 	
 	public void update(float delta) {
-		
+		for(Person p : world.getPeopleList())
+			p.preupdate(delta);
 	}
 
 

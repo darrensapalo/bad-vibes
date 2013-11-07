@@ -46,13 +46,15 @@ public abstract class World {
 	 * people. This method determines the kinds of people to be
 	 * created.
 	 */
-	public abstract Array<Person> initialize();
+	public abstract Array<Person> createPeople();
+	
+	public void initialize(){
+		for (Person p : peopleList) p.initialize();
+	}
 	
 	public World(){
 		Instance = this;
-		
-		// Initialize people
-		peopleList = initialize();
+		setPeopleList(createPeople());
 	}
 	
 	/**
@@ -149,6 +151,10 @@ public abstract class World {
 	public Array<Person> getPeopleList() {
 		return peopleList;
 	}
+	
+	protected void setPeopleList(Array<Person> peopleList) {
+		this.peopleList = peopleList;
+	}
 
 	/**
 	 * This method runs a certain kind of event in the world. 
@@ -156,4 +162,5 @@ public abstract class World {
 	 * @param type
 	 */
 	public abstract void runEvent(EventType type);
+	
 }

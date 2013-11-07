@@ -65,13 +65,13 @@ public abstract class Person {
 	 * as necessary depending on what kind of person it is.
 	 * @param delta - how much time has changed since last update
 	 */
-	public void render(SpriteBatch spriteBatch, float delta){
+	public void preupdate(float delta){
 		if (logic != null)
 			logic.think(delta);
-		
 		this.update(delta);
-		view.render(spriteBatch, delta);
 	}
+	
+	public abstract void initialize();
 	
 	public abstract void update(float delta);
 	

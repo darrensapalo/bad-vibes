@@ -1,5 +1,7 @@
 package com.mobi.badvibes.view;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,6 +18,8 @@ import com.mobi.badvibes.model.world.World;
  */
 public class WorldRenderer {
 
+	public static WorldRenderer Instance;
+	
 	private World world;
 
 	public static final float GRID_CELL_HEIGHT = 80f;
@@ -35,28 +39,60 @@ public class WorldRenderer {
 	
 	public static float RAIL_Y_OFFSET = 25;
 	
+	public ArrayList<ArrayList<PersonView>> masterBucket;
+	
 	public WorldRenderer(World world) {
+		Instance = this;
 		this.world = world;
+		
+		// initialize the buckets
+		masterBucket = new ArrayList<ArrayList<PersonView>>();
+		for(int i = 0; i < World.MINI_GRID_HEIGHT; i++)
+			masterBucket.add(new ArrayList<PersonView>());
 	}
 
 	public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta) {
-		drawTiles(shapeRenderer);
 		
-		for(Person p : world.getPeopleList()){
-			p.render(spriteBatch, delta);
-
-			/*
-			Rectangle bounds = p.getView().getBounds();
-			shapeRenderer.begin(ShapeType.Rectangle);
-				shapeRenderer.rect(bounds.x, bounds.y, bounds.width, bounds.height);
-			shapeRenderer.end();
-			*/
-		}
+		drawTiles(shapeRenderer);
+		for (int i = 0; i < World.MINI_GRID_HEIGHT; i++)
+			for(PersonView p : masterBucket.get(i)) 
+				p.render(spriteBatch, delta);
 		
 		
 	}
-
-    private void drawTiles(ShapeRenderer shapeRenderer) {
+	
+	private void removeFromList(PersonView p){
+		for (int i = 0; i < World.MINI_GRID_HEIGHT; i++){
+			if (masterBucket.get(i).contains(p)){
+				masterBucket.get(i).remove(p);
+			}
+		}
+	}
+	
+	public boolean masterBucketContains(PersonView p){
+		for (int i = 0; i < World.MINI_GRID_HEIGHT; i++){
+			if (masterBucket.get(i).contains(p))
+				return true;
+			
+		}
+		return false;
+	}
+	
+	public void addToList(PersonView p, int bucketID){
+		try {
+			removeFromList(p);
+			
+			if (bucketID < 0 || bucketID > World.MINI_GRID_HEIGHT)
+				throw new Exception("Incorrect bucket ID.");
+			if (masterBucketContains(p) == false)
+				masterBucket.get(bucketID).add(p);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void drawTiles(ShapeRenderer shapeRenderer) {
     	
     	shapeRenderer.begin(ShapeType.Rectangle);
 		shapeRenderer.setColor(Color.RED);
