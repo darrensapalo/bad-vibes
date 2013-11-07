@@ -49,8 +49,8 @@ public class DragGameplay extends GameplayStrategy{
 				
 				state = DragState.Held;
 				
-				Tween.to(person, PersonAccessor.POSITION, 0.2f)
-				.targetRelative(0, -PICKUP_OFFSET)
+				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f)
+				.target(0, -PICKUP_OFFSET)
 				.ease(Cubic.INOUT)
 				.setCallback(new TweenCallback() {
 					
@@ -90,8 +90,8 @@ public class DragGameplay extends GameplayStrategy{
 
 	public void endTouch(){
 		selectedPerson.getView().setCurrentState(State.IDLE);
-		Tween.to(selectedPerson, PersonAccessor.POSITION, 0.2f)
-		.targetRelative(0, +PICKUP_OFFSET)
+		Tween.to(selectedPerson, PersonAccessor.PICKUP_OFFSET, 0.2f)
+		.target(0, 0)
 		.ease(Cubic.INOUT)
 		.setCallback(new TweenCallback() {
 			

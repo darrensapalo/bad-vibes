@@ -83,7 +83,7 @@ public class WorldRenderer {
 			removeFromList(p);
 			
 			if (bucketID < 0 || bucketID > World.MINI_GRID_HEIGHT)
-				throw new Exception("Incorrect bucket ID.");
+				throw new Exception("Incorrect bucket ID used: " + bucketID);
 			if (masterBucketContains(p) == false)
 				masterBucket.get(bucketID).add(p);
 			

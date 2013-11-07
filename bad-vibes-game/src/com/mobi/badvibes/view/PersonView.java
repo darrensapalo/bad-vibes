@@ -53,7 +53,9 @@ public class PersonView {
 	protected int currentBucketID;
 	protected float stateTime;
 	protected float opacity;
-	
+	protected Vector2 pickupOffset;
+
+
 	public static void Initialize(){
 		
 		DarrenTheDapaen = new ArrayList<PersonEntry>();
@@ -137,13 +139,14 @@ public class PersonView {
 		currentState = State.WALKING;
 		currentBucketID = -1;
 		opacity = 1f;
+		setPickupOffset(Vector2.Zero);
 		setPosition( World.getPosition(0, 0) );
 	}
 	
 	// Getters and setters
 
-	public Vector2 getPosition() {
-		return Position;
+	public Vector2 getComputedPosition(){
+		return Position.cpy().add(pickupOffset);
 	}
 	
 	synchronized public void setPosition(Vector2 position){
@@ -177,8 +180,9 @@ public class PersonView {
 		currentAnimation = getCurrentAnimation();
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
+		Vector2 computedPosition = getComputedPosition();
 		spriteBatch.begin();
-		spriteBatch.draw(region, Position.x, Position.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
+		spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
 		spriteBatch.end();
 	}
 
@@ -192,17 +196,12 @@ public class PersonView {
 		}
 	}
 
-
-
 	public State getCurrentState() {
 		return currentState;
 	}
 
-
-
 	public void setCurrentState(State currentState) {
 		this.currentState = currentState;
-		//TODO Change animation to be used
 	}
 
 	public Rectangle getBounds() {
@@ -216,5 +215,16 @@ public class PersonView {
 	public void setOpacity(float opacity) {
 		this.opacity = opacity;
 	}
+	
+	public Vector2 getPosition() {
+		return Position;
+	}
+	
+	public Vector2 getPickupOffset() {
+		return pickupOffset;
+	}
 
+	public void setPickupOffset(Vector2 pickupOffset) {
+		this.pickupOffset = pickupOffset;
+	}
 }
