@@ -30,8 +30,8 @@ public class PersonView {
 	
 	private static Texture shadowfeet;
 	
-	private static final int FRAME_COLS = 3;
-	private static final int FRAME_ROWS = 3;
+	private static final int FRAME_COLS = 4;
+	private static final int FRAME_ROWS = 4;
 	
 	public static final float WIDTH = 52;
 	public static final float HEIGHT = 83;

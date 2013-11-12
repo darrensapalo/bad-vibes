@@ -25,28 +25,24 @@ public class DragGameplay extends GameplayStrategy{
 	}
 	
 	public Array<Person> personsReference;
-	public Vector2 startPoint, endPoint, offset;
+	public Vector2 startPoint, offset;
 	public Person selectedPerson;
 	private DragState state;
 	private static final float PICKUP_OFFSET = 15f;
-	private static DragGameplay Instance;
 	
 	public DragGameplay(World world) {
 		super(world);
-		Instance = this;
 		personsReference = world.getPeopleList();
 		Tween.registerAccessor(Person.class, new PersonAccessor());
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Point p = new Point(screenX, screenY);
+		Vector2 p = new Vector2(screenX, screenY);
 		for(Person person : personsReference){
 			PersonView view = person.getView();
 			if (view.getBounds().contains(p.x, p.y)){
 				selectedPerson = person;
-				startPoint = view.getPosition();
-				
 				state = DragState.Held;
 				
 				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f)
@@ -57,31 +53,22 @@ public class DragGameplay extends GameplayStrategy{
 					@Override
 					public void onEvent(int arg0, BaseTween<?> arg1) {
 						if (selectedPerson != null)
-							setStartOffset(selectedPerson.getView().getPosition());
+							startPoint = selectedPerson.getView().getPosition().cpy();
 					}
 				})
 				.start(BadVibes.tweenManager);
-				
+				offset = view.getPosition().cpy().sub(p);
 				view.setCurrentState(State.PICKED_UP);
-				float x = p.x - startPoint.x;
-				float y = p.y - startPoint.y;
-				offset = new Vector2(x, y + PICKUP_OFFSET);
 				return true;
 			}
 		}
 		return true;
 	}
 	
-	public boolean setStartOffset(Vector2 start){
-		startPoint = start.cpy();
-		return true;
-	}
-
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (selectedPerson != null){
 			state = DragState.FallingDown;
-			endPoint = new Vector2(screenX, screenY);
 			endTouch();
 			return true;
 		}
@@ -111,15 +98,13 @@ public class DragGameplay extends GameplayStrategy{
 	
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		
+		Vector2 p = new Vector2(screenX, screenY);
 		if (selectedPerson != null && startPoint != null){
 			Vector2 finger = new Vector2(screenX, screenY);
+			finger.add(offset);
 			PersonView view = selectedPerson.getView();
-			if (finger.sub(view.getPosition()).len() > 70){
-				endTouch();
-				return false;
-			}
-			view.setPosition(new Vector2(screenX - offset.x, screenY - offset.y));
+			
+			view.setPosition(finger);
 			return true;
 		}
 		return true;

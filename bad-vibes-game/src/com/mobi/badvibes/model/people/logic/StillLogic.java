@@ -23,17 +23,45 @@ public class StillLogic extends PersonLogic {
 		position.sub(0, GameDimension.PlatformOffset);
 		int cellx = (int)position.x / (int)GameDimension.MiniCell.x;
 		int celly = (int)position.y / (int)GameDimension.MiniCell.y;
+		
 		if (cellx > 0)
 			--cellx;
-		if (celly > 0)
-			--celly;
-		destination = World.getPosition(cellx, celly);
+		// if (celly > 0)--celly;
+		
+		Vector2 realposition = person.getView().getPosition();
+		Vector2 upperLeft = World.getPosition(cellx, celly);
+		Vector2 upperRight = World.getPosition(cellx + 1, celly);
+		Vector2 lowerLeft = World.getPosition(cellx, celly - 1);
+		Vector2 lowerRight = World.getPosition(cellx + 1, celly - 1);
+		
+		// closest represents the best point the player should go to.
+		Vector2 closest = upperLeft;
+		float bestDistance;
+		float tempDistance;
+		bestDistance = getPreDistance(realposition, upperLeft);
+		if ((tempDistance = getPreDistance(realposition, upperRight)) < bestDistance){
+			closest = upperRight;
+			bestDistance = tempDistance;
+		}else if ((tempDistance = getPreDistance(realposition, lowerLeft)) < bestDistance){
+			closest = lowerLeft;
+			bestDistance = tempDistance;
+		}else if ((tempDistance = getPreDistance(realposition, lowerRight)) < bestDistance){
+			closest = lowerRight;
+			bestDistance = tempDistance;
+		}
+		
+		destination = closest;
 		
 		velocity = getDistance().nor();
 		velocity.mul(0.35f);
 		
 		state = StillState.WalkingToMiniCell;
 	}
+	
+	private float getPreDistance(Vector2 first, Vector2 second){
+		return first.cpy().sub(second).len();
+	}
+	
 	public Vector2 getDistance(){
 		return destination.cpy().sub(person.getView().getPosition().cpy());
 	}

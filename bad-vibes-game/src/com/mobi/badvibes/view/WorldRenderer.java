@@ -53,7 +53,7 @@ public class WorldRenderer {
 
 	public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta) {
 		
-		drawTiles(shapeRenderer);
+		// drawTiles(shapeRenderer);
 		for (int i = 0; i < World.MINI_GRID_HEIGHT; i++)
 			for(PersonView p : masterBucket.get(i)) 
 				p.render(spriteBatch, delta);
@@ -88,7 +88,7 @@ public class WorldRenderer {
 				masterBucket.get(bucketID).add(p);
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 	
