@@ -51,6 +51,11 @@ public class GameDimension {
 	 * This is used for the x offset for the platform. 
 	 */
 	public static int X_OFFSET;
+
+	/**
+	 * This determines the position of the shadow of the player.
+	 */
+	public static Vector2 Shadow;
 	
 	/**
 	 * This method is called when the viewport dimensions are 
@@ -87,6 +92,11 @@ public class GameDimension {
 		PlatformOffset = height / 480f * WorldRenderer.PLATFORM_Y_OFFSET;
 		
 		RailOffset = height / 480f * WorldRenderer.RAIL_Y_OFFSET;
+		
+		// Shadow dimensions
+		_w = width / 800f * PersonView.SHADOW_WIDTH;
+		_h = height / 480f * PersonView.SHADOW_HEIGHT;
+		Shadow = new Vector2(_w, _h);
 	}
 	
 

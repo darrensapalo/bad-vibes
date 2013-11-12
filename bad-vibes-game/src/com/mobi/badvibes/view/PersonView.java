@@ -28,11 +28,16 @@ public class PersonView {
 		NORMAN_THE_NORMAL,
 	}
 	
+	private static Texture shadowfeet;
+	
 	private static final int FRAME_COLS = 3;
 	private static final int FRAME_ROWS = 3;
 	
 	public static final float WIDTH = 52;
 	public static final float HEIGHT = 83;
+
+	public static final float SHADOW_WIDTH = 52;
+	public static final float SHADOW_HEIGHT = 9;
 	
 	
 	protected static ArrayList<PersonEntry> DarrenTheDapaen;
@@ -48,12 +53,12 @@ public class PersonView {
 	protected Animation currentAnimation;
 	
 	protected Vector2 Position;
+	protected Vector2 pickupOffset;
 	protected Rectangle Bounds;
 	protected State currentState;
 	protected int currentBucketID;
 	protected float stateTime;
 	protected float opacity;
-	protected Vector2 pickupOffset;
 
 
 	public static void Initialize(){
@@ -71,6 +76,8 @@ public class PersonView {
 			PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
 			NormanTheNormal.add(newPerson);
 		}
+		
+		shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
 	}
 	
 	public static PersonView getView(Character character) {
@@ -180,12 +187,20 @@ public class PersonView {
 		currentAnimation = getCurrentAnimation();
 		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 		
-		Vector2 computedPosition = getComputedPosition();
 		spriteBatch.begin();
-		spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
+			spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+			Vector2 shadowPosition = getShadowPosition();
+			spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
+			spriteBatch.setColor(1f, 1f, 1f, 1f);
+			Vector2 computedPosition = getComputedPosition();
+			spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
 		spriteBatch.end();
 	}
 
+
+	private Vector2 getShadowPosition() {
+		return Position.cpy().add(-GameDimension.Shadow.x, - GameDimension.Shadow.y / 2);
+	}
 
 	private Animation getCurrentAnimation() {
 		switch(currentState){
