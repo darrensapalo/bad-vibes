@@ -17,7 +17,6 @@ public class GameScreen extends BadVibesScreen
 {
     private WorldController controller;
 
-    
     private ShapeRenderer 	shapeRenderer;
     
     @Override
@@ -51,8 +50,6 @@ public class GameScreen extends BadVibesScreen
         controller.update(delta);
     	controller.draw(spriteBatch, shapeRenderer, delta);
     }
-    
-
 
 	@Override
     public void hide()

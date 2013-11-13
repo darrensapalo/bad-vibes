@@ -12,234 +12,266 @@ import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
 
-public class PersonView {
-	
-	/*
-	 * Static variables
-	 */
-	
-	public enum State {
-		IDLE,
-		WALKING,
-		PICKED_UP
-	}
-	
-	public enum Character {
-		NORMAN_THE_NORMAL,
-	}
-	
-	private static Texture shadowfeet;
-	
-	private static final int FRAME_COLS = 4;
-	private static final int FRAME_ROWS = 4;
-	
-	public static final float WIDTH = 52;
-	public static final float HEIGHT = 83;
+public class PersonView
+{
 
-	public static final float SHADOW_WIDTH = 52;
-	public static final float SHADOW_HEIGHT = 9;
-	
-	
-	protected static ArrayList<PersonEntry> DarrenTheDapaen;
-	protected static ArrayList<PersonEntry> NormanTheNormal;
-	
-	/*
-	 * Attributes
-	 */
-	protected Animation animationIdle;
-	protected Animation animationWalking;
-	protected Animation animationPickedUp;
-	
-	protected Animation currentAnimation;
-	
-	protected Vector2 Position;
-	protected Vector2 pickupOffset;
-	protected Rectangle Bounds;
-	protected State currentState;
-	protected int currentBucketID;
-	protected float stateTime;
-	protected float opacity;
+    /*
+     * Static variables
+     */
 
+    public enum State
+    {
+        IDLE, WALKING, PICKED_UP
+    }
 
-	public static void Initialize(){
-		
-		DarrenTheDapaen = new ArrayList<PersonEntry>();
-		
-		for (int i = 0; i< 15; i++) {
-			PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
-			DarrenTheDapaen.add(newPerson);
-		}
-		
-		NormanTheNormal = new ArrayList<PersonEntry>();
+    public enum Character
+    {
+        NORMAN_THE_NORMAL,
+    }
 
-		for (int i = 0; i< 15; i++) {
-			PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
-			NormanTheNormal.add(newPerson);
-		}
-		
-		shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
-	}
-	
-	public static PersonView getView(Character character) {
-		
-		switch (character) {
-		
-		case NORMAN_THE_NORMAL:
-						
-			for (int i = 0; i < NormanTheNormal.size(); i++) {
-				
-				PersonEntry view = NormanTheNormal.get(i);
-				
-				if (view.taken == false) {
-					view.taken = true;
-					return view.view;
-				}
-			}
-			
-			PersonEntry newView = new PersonEntry(Load("data/game/wireframe-people.png"));
-			newView.taken = true;
-			NormanTheNormal.add(newView);
-			
-			return newView.view;
-			
-		default:
-			return null;
-		}
-	}
-	
-	public static void releasePerson(Character character, PersonView view) {
+    private static Texture                  shadowfeet;
 
-		switch (character) {
-		
-		case NORMAN_THE_NORMAL:
-						
-			for (int i = 0; i < NormanTheNormal.size(); i++) {
-				
-				PersonEntry entry = NormanTheNormal.get(i); 
-				
-				if (view == entry.view) {					
-					entry.taken = false;
-				}
-			}
-			break;
-		}
-	}
-	
-	protected static PersonView Load(String path){
-		return new PersonView(0.15f, path);
-	}
-	
-	/**
-	 * The constructor of this object is private, so that it
-	 * can only be created in this Factory class (PersonView)
-	 * @param frameDuration
-	 * @param path
-	 */
-	private PersonView(float frameDuration, String path){
-		Texture texture = new Texture(Gdx.files.internal(path));
-		TextureRegion[][] region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-		
-		animationIdle = new Animation(frameDuration, region[0]);
-		animationWalking = new Animation(frameDuration, region[1]);
-		animationPickedUp = new Animation(frameDuration, region[2][0]);
-		
-		currentState = State.WALKING;
-		currentBucketID = -1;
-		opacity = 1f;
-		setPickupOffset(Vector2.Zero);
-		setPosition( World.getPosition(0, 0) );
-	}
-	
-	// Getters and setters
+    private static final int                FRAME_COLS    = 4;
+    private static final int                FRAME_ROWS    = 4;
 
-	public Vector2 getComputedPosition(){
-		return Position.cpy().add(pickupOffset);
-	}
-	
-	synchronized public void setPosition(Vector2 position){
-		Position = position;
-		Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y  - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
-		
-		if (WorldRenderer.Instance != null){ 
-			if (WorldRenderer.Instance.masterBucketContains(this)){
-				int bucketID = computeBucketID(position);
-				if (currentBucketID != bucketID) 
-					WorldRenderer.Instance.addToList(this, bucketID);
-			}else{
-				int bucketID = computeBucketID(position);
-				WorldRenderer.Instance.addToList(this, bucketID);
-			}
-		}
-	}
+    public static final float               WIDTH         = 52;
+    public static final float               HEIGHT        = 83;
 
-	private int computeBucketID(Vector2 position) {
-		Vector2 platform = position.cpy().sub(0, GameDimension.PlatformOffset);
-		return (int)platform.y / (int)GameDimension.MiniCell.y;
-		
-	}
+    public static final float               SHADOW_WIDTH  = 52;
+    public static final float               SHADOW_HEIGHT = 9;
 
-	public Animation getAnimation() {
-		return animationIdle;
-	}
-	
-	public void render(SpriteBatch spriteBatch, float delta){
-		stateTime += delta;
-		currentAnimation = getCurrentAnimation();
-		TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
-		
-		spriteBatch.begin();
-			spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-			Vector2 shadowPosition = getShadowPosition();
-			spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
-			spriteBatch.setColor(1f, 1f, 1f, 1f);
-			Vector2 computedPosition = getComputedPosition();
-			spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
-		spriteBatch.end();
-	}
+    protected static ArrayList<PersonEntry> DarrenTheDapaen;
+    protected static ArrayList<PersonEntry> NormanTheNormal;
 
+    /*
+     * Attributes
+     */
+    
+    protected Animation                     animationIdle;
+    protected Animation                     animationWalking;
+    protected Animation                     animationPickedUp;
 
-	private Vector2 getShadowPosition() {
-		return Position.cpy().add(-GameDimension.Shadow.x, - GameDimension.Shadow.y / 2);
-	}
+    protected Animation                     currentAnimation;
 
-	private Animation getCurrentAnimation() {
-		switch(currentState){
-			case PICKED_UP: return animationPickedUp;
-			case WALKING: return animationWalking;
-			default:
-			case IDLE: return animationIdle;
-		}
-	}
+    protected Vector2                       Position;
+    protected Vector2                       pickupOffset;
+    protected Rectangle                     Bounds;
+    protected State                         currentState;
+    protected int                           currentBucketID;
+    protected float                         stateTime;
+    protected float                         opacity;
 
-	public State getCurrentState() {
-		return currentState;
-	}
+    public static void Initialize()
+    {
+        DarrenTheDapaen = new ArrayList<PersonEntry>();
 
-	public void setCurrentState(State currentState) {
-		this.currentState = currentState;
-	}
+        for (int i = 0; i < 15; i++)
+        {
+            PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
+            DarrenTheDapaen.add(newPerson);
+        }
 
-	public Rectangle getBounds() {
-		return Bounds;
-	}
+        NormanTheNormal = new ArrayList<PersonEntry>();
 
-	public float getOpacity() {
-		return this.opacity;
-	}
+        for (int i = 0; i < 15; i++)
+        {
+            PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
+            NormanTheNormal.add(newPerson);
+        }
 
-	public void setOpacity(float opacity) {
-		this.opacity = opacity;
-	}
-	
-	public Vector2 getPosition() {
-		return Position;
-	}
-	
-	public Vector2 getPickupOffset() {
-		return pickupOffset;
-	}
+        shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
+    }
 
-	public void setPickupOffset(Vector2 pickupOffset) {
-		this.pickupOffset = pickupOffset;
-	}
+    public static PersonView getView(Character character)
+    {
+        switch (character)
+        {
+        case NORMAN_THE_NORMAL:
+
+            for (int i = 0; i < NormanTheNormal.size(); i++)
+            {
+                PersonEntry view = NormanTheNormal.get(i);
+
+                if (view.taken == false)
+                {
+                    view.taken = true;
+                    return view.view;
+                }
+            }
+
+            PersonEntry newView = new PersonEntry(Load("data/game/wireframe-people.png"));
+            newView.taken = true;
+            NormanTheNormal.add(newView);
+
+            return newView.view;
+
+        default:
+            return null;
+        }
+    }
+
+    public static void releasePerson(Character character, PersonView view)
+    {
+        switch (character)
+        {
+        case NORMAN_THE_NORMAL:
+
+            for (int i = 0; i < NormanTheNormal.size(); i++)
+            {
+                PersonEntry entry = NormanTheNormal.get(i);
+
+                if (view == entry.view)
+                {
+                    entry.taken = false;
+                }
+            }
+            break;
+        }
+    }
+
+    protected static PersonView Load(String path)
+    {
+        return new PersonView(0.15f, path);
+    }
+
+    /**
+     * The constructor of this object is private, so that it can only be created
+     * in this Factory class (PersonView)
+     * 
+     * @param frameDuration
+     * @param path
+     */
+    private PersonView(float frameDuration, String path)
+    {
+        Texture texture = new Texture(Gdx.files.internal(path));
+        TextureRegion[][] region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
+
+        animationIdle = new Animation(frameDuration, region[0]);
+        animationWalking = new Animation(frameDuration, region[1]);
+        animationPickedUp = new Animation(frameDuration, region[2][0]);
+
+        currentState = State.WALKING;
+        currentBucketID = -1;
+        opacity = 1f;
+        setPickupOffset(Vector2.Zero);
+        setPosition(World.getPosition(0, 0));
+    }
+
+    // Getters and setters
+
+    public Vector2 getComputedPosition()
+    {
+        return Position.cpy().add(pickupOffset);
+    }
+
+    synchronized public void setPosition(Vector2 position)
+    {
+        Position = position;
+        Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
+
+        if (WorldRenderer.Instance != null)
+        {
+            if (WorldRenderer.Instance.masterBucketContains(this))
+            {
+                int bucketID = computeBucketID(position);
+                if (currentBucketID != bucketID)
+                    WorldRenderer.Instance.addToList(this, bucketID);
+            }
+            else
+            {
+                int bucketID = computeBucketID(position);
+                WorldRenderer.Instance.addToList(this, bucketID);
+            }
+        }
+    }
+
+    private int computeBucketID(Vector2 position)
+    {
+        Vector2 platform = position.cpy().sub(0, GameDimension.PlatformOffset);
+        return (int) platform.y / (int) GameDimension.MiniCell.y;
+
+    }
+
+    public Animation getAnimation()
+    {
+        return animationIdle;
+    }
+
+    public void render(SpriteBatch spriteBatch, float delta)
+    {
+        stateTime += delta;
+        currentAnimation = getCurrentAnimation();
+        TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
+
+        spriteBatch.begin();
+        
+        Vector2 shadowPosition = getShadowPosition();
+        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+        spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
+        
+        Vector2 computedPosition = getComputedPosition();
+        spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
+        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
+        
+        spriteBatch.end();
+    }
+
+    private Vector2 getShadowPosition()
+    {
+        return Position.cpy().add(-GameDimension.Shadow.x, -GameDimension.Shadow.y / 2);
+    }
+
+    private Animation getCurrentAnimation()
+    {
+        switch (currentState)
+        {
+        case PICKED_UP:
+            return animationPickedUp;
+        case WALKING:
+            return animationWalking;
+        default:
+        case IDLE:
+            return animationIdle;
+        }
+    }
+
+    public State getCurrentState()
+    {
+        return currentState;
+    }
+
+    public void setCurrentState(State currentState)
+    {
+        this.currentState = currentState;
+    }
+
+    public Rectangle getBounds()
+    {
+        return Bounds;
+    }
+
+    public float getOpacity()
+    {
+        return this.opacity;
+    }
+
+    public void setOpacity(float opacity)
+    {
+        this.opacity = opacity;
+    }
+
+    public Vector2 getPosition()
+    {
+        return Position;
+    }
+
+    public Vector2 getPickupOffset()
+    {
+        return pickupOffset;
+    }
+
+    public void setPickupOffset(Vector2 pickupOffset)
+    {
+        this.pickupOffset = pickupOffset;
+    }
 }
