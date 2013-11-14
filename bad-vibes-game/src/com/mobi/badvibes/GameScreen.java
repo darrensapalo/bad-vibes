@@ -5,9 +5,11 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mobi.badvibes.controller.TutorialWorldController;
 import com.mobi.badvibes.controller.WorldController;
+import com.mobi.badvibes.model.localstorage.LocalStorage;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PersonAccessor;
@@ -33,6 +35,21 @@ public class GameScreen extends BadVibesScreen
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(BadVibes.tweenManager);
+        
+        if (LocalStorage.IsAvailable()){
+        	System.out.println("Local storage is available.");
+        	System.out.println("Local path is: " + LocalStorage.getLocalPath());
+        	FileHandle file = Gdx.files.local("data/gamedata.dat");
+        	if (LocalStorage.exists("data/gamedata.dat")){
+        		System.out.println("data/gamedata.dat exists!");
+        		System.out.println("The file says: " + file.readString());
+        		file.writeString("My god, it's full of stars", false);
+        		
+        	}else{
+        		System.out.println("data/dgamedata.dat does not exists!");
+        		file.writeString("My god, it's full of stars", false);
+        	}
+        }
         
     }
 
