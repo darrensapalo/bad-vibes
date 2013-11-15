@@ -2,14 +2,9 @@ package com.mobi.badvibes.model.world;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
-import com.mobi.badvibes.view.GameDimension;
-import com.mobi.badvibes.view.PersonView;
-import com.mobi.badvibes.view.WorldRenderer;
 
 /**
  * Alternatively, you can call this the train station. Each level of the game is

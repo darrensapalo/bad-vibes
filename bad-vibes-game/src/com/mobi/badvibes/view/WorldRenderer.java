@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.Array;
-import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 
 /**
@@ -24,6 +21,11 @@ public class WorldRenderer
 
     private World                           world;
 
+    public World getWorld()
+    {
+        return world;
+    }
+    
     public static final float               RAIL_WIDTH        = 800;
     public static final float               RAIL_HEIGHT       = 120;
 
@@ -67,17 +69,6 @@ public class WorldRenderer
         }
     }
 
-    private void removeFromList(PersonView p)
-    {
-        for (int i = 0; i < World.GRID_HEIGHT; i++)
-        {
-            if (masterBucket.get(i).contains(p))
-            {
-                masterBucket.get(i).remove(p);
-            }
-        }
-    }
-
     public boolean masterBucketContains(PersonView p)
     {
         for (int i = 0; i < World.GRID_HEIGHT; i++)
@@ -95,6 +86,17 @@ public class WorldRenderer
 
         if (masterBucketContains(p) == false)
             masterBucket.get(bucketID).add(p);
+    }
+
+    private void removeFromList(PersonView p)
+    {
+        for (int i = 0; i < World.GRID_HEIGHT; i++)
+        {
+            if (masterBucket.get(i).contains(p))
+            {
+                masterBucket.get(i).remove(p);
+            }
+        }
     }
 
     private void drawTiles(ShapeRenderer shapeRenderer)

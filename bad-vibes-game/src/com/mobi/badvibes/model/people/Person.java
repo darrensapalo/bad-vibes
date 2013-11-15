@@ -1,26 +1,36 @@
 package com.mobi.badvibes.model.people;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.StillLogic;
+import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
+import com.mobi.badvibes.view.PersonView.State;
 
 /**
  * This class contains the logic and the view of a Person class.
  * 
  * @see PersonView
  * @see PersonLogic
+ * 
  * @author Darren
  * 
  */
 public abstract class Person
-{    
+{
+    public static final int   MAX_IDLE_TIME = 5;
+    public static final int   MIN_IDLE_TIME = 5;
+
+    public static final float VELOCITY      = 0.5f;
+
     /**
      * This value shows how responsive the person is when picked up with the
      * drag-and-drop gesture. It is set to 4 by default. The lowest value is 1.
      * The heaviest weight is 16.
      */
-    protected float       weight    = 4;
+    protected float           weight        = 4;
 
     /**
      * This value ranges between 0 to 1, which represents how much patience he
@@ -28,27 +38,27 @@ public abstract class Person
      * happiness drops to flat -1. It is set to 0 by default.
      */
 
-    protected float       tolerance = 0;
+    protected float           tolerance     = 0;
     /**
      * This value ranges between -1 to 1, which signifies whether a person is
      * extremely unhappy or very pleased with the experience. It is set to 0 by
      * default.
      */
-    protected float       happiness = 0;
+    protected float           happiness     = 0;
 
     /**
      * This attribute handles the displaying of the image.
      */
-    protected PersonView  view;
+    protected PersonView      view;
 
     /**
      * This attribute determines the logic that the person follows. There are
      * multiple kinds of logic such as ArrivedLogic, BoardingLogic, ArguingLogic
      */
-    protected PersonLogic logic;
+    protected PersonLogic     logic;
 
-    protected Point       personCellPosition;
-    
+    protected Point           personCellPosition;
+
     /**
      * Constructor that requires the logic and the view of the person
      * 
@@ -58,7 +68,6 @@ public abstract class Person
     public Person(PersonView view)
     {
         this.view = view;
-        this.personCellPosition = new Point(-1, -1);
     }
 
     /**
@@ -72,11 +81,21 @@ public abstract class Person
     {
         if (logic != null)
             logic.think(delta);
-        
+
         this.update(delta);
     }
 
-    public abstract void initialize();
+    public void initialize()
+    {
+        Point newLocation = World.getRandomCellCoordinate();
+        Vector2 personLocation = new Vector2(newLocation.x * GameDimension.Cell.x, newLocation.y * GameDimension.Cell.y);
+
+        getView().setPosition(personLocation.add(0, GameDimension.PlatformOffset));
+        getView().setCurrentState(State.WALKING);
+
+        setCellPoint(newLocation);
+        setLogic(new StillLogic(this));
+    }
 
     public abstract void update(float delta);
 
@@ -99,7 +118,7 @@ public abstract class Person
     {
         return personCellPosition;
     }
-    
+
     public PersonView getView()
     {
         return view;
@@ -118,10 +137,5 @@ public abstract class Person
     public void setCellPoint(Point newPoint)
     {
         personCellPosition = newPoint;
-    }
-    
-    public void takeAPosition()
-    {
-        setLogic(new StillLogic(this));
     }
 }

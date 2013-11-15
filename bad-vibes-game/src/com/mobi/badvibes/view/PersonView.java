@@ -7,11 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.MathHelper;
 
@@ -32,7 +29,6 @@ public class PersonView
     }
 
     private static Texture                  shadowfeet;
-    private static Texture                  box_glyph;
     
     private static final int                FRAME_COLS    = 4;
     private static final int                FRAME_ROWS    = 4;
@@ -82,8 +78,7 @@ public class PersonView
             NormanTheNormal.add(newPerson);
         }
 
-        box_glyph   = new Texture(Gdx.files.internal("data/box_glyph.png"));
-        shadowfeet  = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
+        shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
     }
 
     public static PersonView getView(Character character)
@@ -174,7 +169,7 @@ public class PersonView
 
     // Getters and setters
 
-    synchronized public void setPosition(Vector2 position)
+    public synchronized void setPosition(Vector2 position)
     {
         Position    = position;
         Bounds      = new Rectangle(position.x + (GameDimension.Cell.x - GameDimension.Person.x) / 2.0f,

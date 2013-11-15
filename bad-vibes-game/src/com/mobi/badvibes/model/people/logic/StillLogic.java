@@ -1,5 +1,7 @@
 package com.mobi.badvibes.model.people.logic;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
@@ -20,14 +22,27 @@ import com.mobi.badvibes.view.PersonView.State;
  */
 public class StillLogic extends PersonLogic
 {
+    public float idleTime = 0;
+    public float currTime = 0;
+    
     public StillLogic(Person person)
     {
         super(person);
+        
+        // set a random time to be idle
+        idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat() * Person.MAX_IDLE_TIME;
+        currTime = 0;
     }
 
     @Override
     public void think(float delta)
     {
-
+        currTime += delta;
+        
+        if (currTime >= idleTime)
+        {
+            // move to another spot
+            person.setLogic(new ExploreLogic(person));
+        }
     }
 }

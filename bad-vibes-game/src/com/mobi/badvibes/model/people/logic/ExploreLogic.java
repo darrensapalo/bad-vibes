@@ -2,10 +2,16 @@ package com.mobi.badvibes.model.people.logic;
 
 import java.util.Random;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -23,6 +29,42 @@ public class ExploreLogic extends PersonLogic
     public ExploreLogic(Person person)
     {
         super(person);
+        
+        Point   newPoint        = World.getRandomCellCoordinate();
+        Vector2 nextDestination = new Vector2(newPoint.x * GameDimension.Cell.x,
+                                              newPoint.y * GameDimension.Cell.y + GameDimension.PlatformOffset);
+
+        person.getView().setCurrentState(State.WALKING);
+        
+        person.setCellPoint(newPoint);
+        
+        
+        // compute the time it will take for the person to move from its current position to
+        // the new position
+        Vector2 curPosition = person.getView().getPosition();
+        Vector2 newPosition = nextDestination;
+        
+        float distance = curPosition.dst(newPosition);
+        
+        System.out.println("Distance is: " + distance);
+        
+        float time = (distance / GameDimension.Cell.x) * Person.VELOCITY;
+        
+        System.out.println("Time is: " + time);
+        
+        // animate to that location
+        Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)
+            .setCallback(new TweenCallback()
+            {
+                @Override
+                public void onEvent(int arg0, BaseTween<?> arg1)
+                {
+                    if (arg0 == TweenCallback.COMPLETE)
+                    {
+                        ExploreLogic.this.person.setLogic(new StillLogic(ExploreLogic.this.person));
+                    }
+                }
+            }).start(BadVibes.tweenManager);
     }
 
     @Override

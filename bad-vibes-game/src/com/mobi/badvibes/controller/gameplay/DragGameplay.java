@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.BadVibes;
@@ -91,7 +92,7 @@ public class DragGameplay extends GameplayStrategy
                 state = DragState.Free;
                 if (selectedPerson != null)
                 {
-                    selectedPerson.takeAPosition();
+                    // TODO: uhh...
                     
                     selectedPerson  = null;
                     startPoint      = null;
@@ -107,8 +108,8 @@ public class DragGameplay extends GameplayStrategy
         {
             // TODO: update hard-coded values
             
-            int finalYPosition = MathHelper.Clamp(screenY, (int)GameDimension.PlatformOffset, 480);
-            int finalXPosition = MathHelper.Clamp(screenX, 0, 800);
+            int finalYPosition = MathHelper.Clamp(screenY, (int)GameDimension.PlatformOffset, Gdx.graphics.getHeight());
+            int finalXPosition = MathHelper.Clamp(screenX, 0, Gdx.graphics.getWidth());
             
             Vector2 finger = new Vector2(finalXPosition, finalYPosition);
                     finger.add(offset);
