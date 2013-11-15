@@ -1,7 +1,6 @@
 package com.mobi.badvibes;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -41,8 +40,12 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
     public BadVibesScreen()
     {
         // Initialize camera
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), -Gdx.graphics.getHeight());
+        int w = Gdx.graphics.getWidth();
+        int h = Gdx.graphics.getHeight();
+
+        camera = new OrthographicCamera(w, h);
         camera.position.set(0, 0, 0);
+        
         camera.setToOrtho(true);
         camera.update();
 
@@ -84,10 +87,11 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
     public void resize(int width, int height)
     {
         int w = Gdx.graphics.getWidth();
-        int h = -Gdx.graphics.getHeight();
+        int h = Gdx.graphics.getHeight();
 
         camera = new OrthographicCamera(w, h);
         camera.position.set(0, 0, 0);
+        
         camera.setToOrtho(true);
         camera.update();
     }

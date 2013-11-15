@@ -87,7 +87,6 @@ public class GameDimension {
 		Cell = new Vector2(_w, _h);
 		
 		MiniCell = new Vector2(Cell);
-		MiniCell.div(2);
 		
 		PlatformOffset = height / 480f * WorldRenderer.PLATFORM_Y_OFFSET;
 		
@@ -98,6 +97,4 @@ public class GameDimension {
 		_h = height / 480f * PersonView.SHADOW_HEIGHT;
 		Shadow = new Vector2(_w, _h);
 	}
-	
-
 }

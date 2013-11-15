@@ -7,14 +7,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.util.MathHelper;
 
 public class PersonView
 {
-
     /*
      * Static variables
      */
@@ -30,7 +32,8 @@ public class PersonView
     }
 
     private static Texture                  shadowfeet;
-
+    private static Texture                  box_glyph;
+    
     private static final int                FRAME_COLS    = 4;
     private static final int                FRAME_ROWS    = 4;
 
@@ -79,7 +82,8 @@ public class PersonView
             NormanTheNormal.add(newPerson);
         }
 
-        shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
+        box_glyph   = new Texture(Gdx.files.internal("data/box_glyph.png"));
+        shadowfeet  = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
     }
 
     public static PersonView getView(Character character)
@@ -143,43 +147,54 @@ public class PersonView
      */
     private PersonView(float frameDuration, String path)
     {
-        Texture texture = new Texture(Gdx.files.internal(path));
-        TextureRegion[][] region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
+        Texture             texture = new Texture(Gdx.files.internal(path));
+        
+        TextureRegion[][]   region  = TextureRegion.split(texture,
+                                                          texture.getWidth() / FRAME_COLS,
+                                                          texture.getHeight() / FRAME_ROWS);
+        
+        for (int y = 0; y < region.length; y++)
+        {
+            for (int x = 0; x < region[y].length; x++)
+            {
+                region[y][x].flip(false, true);
+            }
+        }
+        
+        animationIdle       = new Animation(frameDuration, region[0]);
+        animationWalking    = new Animation(frameDuration, region[1]);
+        animationPickedUp   = new Animation(frameDuration, region[2][0]);
 
-        animationIdle = new Animation(frameDuration, region[0]);
-        animationWalking = new Animation(frameDuration, region[1]);
-        animationPickedUp = new Animation(frameDuration, region[2][0]);
-
-        currentState = State.WALKING;
-        currentBucketID = -1;
-        opacity = 1f;
+        currentState        = State.WALKING;
+        currentBucketID     = -1;
+        opacity             = 1f;
+        
         setPickupOffset(Vector2.Zero);
-        setPosition(World.getPosition(0, 0));
     }
 
     // Getters and setters
 
-    public Vector2 getComputedPosition()
-    {
-        return Position.cpy().add(pickupOffset);
-    }
-
     synchronized public void setPosition(Vector2 position)
     {
-        Position = position;
-        Bounds = new Rectangle(position.x - GameDimension.Person.x, position.y - GameDimension.Person.y, GameDimension.Person.x, GameDimension.Person.y);
+        Position    = position;
+        Bounds      = new Rectangle(position.x + (GameDimension.Cell.x - GameDimension.Person.x) / 2.0f,
+                                    position.y - (GameDimension.Cell.y),
+                                    GameDimension.Person.x,
+                                    GameDimension.Person.y);
 
         if (WorldRenderer.Instance != null)
         {
             if (WorldRenderer.Instance.masterBucketContains(this))
             {
                 int bucketID = computeBucketID(position);
+                
                 if (currentBucketID != bucketID)
                     WorldRenderer.Instance.addToList(this, bucketID);
             }
             else
             {
                 int bucketID = computeBucketID(position);
+                
                 WorldRenderer.Instance.addToList(this, bucketID);
             }
         }
@@ -187,9 +202,8 @@ public class PersonView
 
     private int computeBucketID(Vector2 position)
     {
-        Vector2 platform = position.cpy().sub(0, GameDimension.PlatformOffset);
-        return (int) platform.y / (int) GameDimension.MiniCell.y;
-
+        float finalPosition = position.y - GameDimension.PlatformOffset;
+        return MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, 0, World.GRID_HEIGHT);
     }
 
     public Animation getAnimation()
@@ -201,24 +215,42 @@ public class PersonView
     {
         stateTime += delta;
         currentAnimation = getCurrentAnimation();
+        
         TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
 
         spriteBatch.begin();
         
-        Vector2 shadowPosition = getShadowPosition();
-        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-        spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
-        
         Vector2 computedPosition = getComputedPosition();
         spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
-        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, -1.0f, -1.0f, 0f);
+        spriteBatch.draw(region,
+                         computedPosition.x, computedPosition.y,
+                         0, 0,
+                         GameDimension.Person.x, GameDimension.Person.y,
+                         1.0f, 1.0f,
+                         0f);
+
+        Vector2 shadowPosition = getShadowPosition();
+        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+        spriteBatch.draw(shadowfeet,
+                         shadowPosition.x, shadowPosition.y,
+                         GameDimension.Shadow.x, GameDimension.Shadow.y);
         
         spriteBatch.end();
     }
 
+    public Vector2 getComputedPosition()
+    {
+        return Position.cpy()
+                .add((GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, 0)
+                .sub(0, GameDimension.Cell.y)
+                .add(pickupOffset);
+    }
+
     private Vector2 getShadowPosition()
     {
-        return Position.cpy().add(-GameDimension.Shadow.x, -GameDimension.Shadow.y / 2);
+        return Position.cpy()
+                .add((GameDimension.Cell.x - GameDimension.Shadow.x) / 2.0f, 0)
+                .add(0, GameDimension.Cell.y);
     }
 
     private Animation getCurrentAnimation()

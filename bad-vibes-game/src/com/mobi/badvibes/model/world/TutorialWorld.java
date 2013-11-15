@@ -12,7 +12,8 @@ public class TutorialWorld extends World
     {
         Array<Person> list = new Array<Person>();
 
-        list.add(new NormanTheNormal());
+        for (int i = 0; i < 10; i++)
+            list.add(new NormanTheNormal());
 
         return list;
     }

@@ -12,13 +12,15 @@ public class Point
         this.x = x;
         this.y = y;
     }
-    
+
     @Override
-    public String toString() {
-    	return "(" + x + ":" + y +")";
+    public String toString()
+    {
+        return "(" + x + ":" + y + ")";
     }
 
-	public Vector2 getVector() {
-		return new Vector2(x, y);
-	}
+    public Vector2 getVector()
+    {
+        return new Vector2(x, y);
+    }
 }

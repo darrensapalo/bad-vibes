@@ -1,5 +1,6 @@
 package com.mobi.badvibes.model.people;
 
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.view.PersonView;
@@ -13,8 +14,7 @@ import com.mobi.badvibes.view.PersonView;
  * 
  */
 public abstract class Person
-{
-
+{    
     /**
      * This value shows how responsive the person is when picked up with the
      * drag-and-drop gesture. It is set to 4 by default. The lowest value is 1.
@@ -47,6 +47,8 @@ public abstract class Person
      */
     protected PersonLogic logic;
 
+    protected Point       personCellPosition;
+    
     /**
      * Constructor that requires the logic and the view of the person
      * 
@@ -56,6 +58,7 @@ public abstract class Person
     public Person(PersonView view)
     {
         this.view = view;
+        this.personCellPosition = new Point(-1, -1);
     }
 
     /**
@@ -69,6 +72,7 @@ public abstract class Person
     {
         if (logic != null)
             logic.think(delta);
+        
         this.update(delta);
     }
 
@@ -91,6 +95,11 @@ public abstract class Person
         return happiness;
     }
 
+    public Point getCellPoint()
+    {
+        return personCellPosition;
+    }
+    
     public PersonView getView()
     {
         return view;
@@ -106,6 +115,11 @@ public abstract class Person
         this.logic = logic;
     }
 
+    public void setCellPoint(Point newPoint)
+    {
+        personCellPosition = newPoint;
+    }
+    
     public void takeAPosition()
     {
         setLogic(new StillLogic(this));

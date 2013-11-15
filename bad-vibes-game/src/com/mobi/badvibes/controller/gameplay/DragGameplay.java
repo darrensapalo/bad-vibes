@@ -12,12 +12,12 @@ import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.MathHelper;
+import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
 
 public class DragGameplay extends GameplayStrategy
 {
-
     public enum DragState
     {
         Free, Held, FallingDown,
@@ -43,10 +43,11 @@ public class DragGameplay extends GameplayStrategy
         for (Person person : personsReference)
         {
             PersonView view = person.getView();
+            
             if (view.getBounds().contains(p.x, p.y))
             {
-                selectedPerson = person;
-                state = DragState.Held;
+                selectedPerson  = person;
+                state           = DragState.Held;
 
                 Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
                 {
@@ -91,8 +92,9 @@ public class DragGameplay extends GameplayStrategy
                 if (selectedPerson != null)
                 {
                     selectedPerson.takeAPosition();
-                    selectedPerson = null;
-                    startPoint = null;
+                    
+                    selectedPerson  = null;
+                    startPoint      = null;
                 }
             }
         }).start(BadVibes.tweenManager);
@@ -103,7 +105,12 @@ public class DragGameplay extends GameplayStrategy
     {
         if (selectedPerson != null && startPoint != null)
         {
-            Vector2 finger = new Vector2(screenX, MathHelper.Clamp(screenY, World.SAFE_AREA_START, 480));
+            // TODO: update hard-coded values
+            
+            int finalYPosition = MathHelper.Clamp(screenY, (int)GameDimension.PlatformOffset, 480);
+            int finalXPosition = MathHelper.Clamp(screenX, 0, 800);
+            
+            Vector2 finger = new Vector2(finalXPosition, finalYPosition);
                     finger.add(offset);
                     
             PersonView view = selectedPerson.getView();

@@ -33,7 +33,6 @@ public class GameScreen extends BadVibesScreen
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(BadVibes.tweenManager);
-        
     }
 
     @Override
