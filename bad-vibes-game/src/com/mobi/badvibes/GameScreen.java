@@ -35,8 +35,6 @@ public class GameScreen extends BadVibesScreen
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(BadVibes.tweenManager);
-<<<<<<< HEAD
-=======
         
         if (LocalStorage.IsAvailable()){
         	System.out.println("Local storage is available.");
@@ -53,7 +51,6 @@ public class GameScreen extends BadVibesScreen
         	}
         }
         
->>>>>>> 607d3f81d8a14a3547c2c96e2784a677729d3161
     }
 
     @Override
