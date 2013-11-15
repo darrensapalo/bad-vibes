@@ -1,7 +1,5 @@
 package com.mobi.badvibes.model.people.logic;
 
-import java.util.Random;
-
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -13,13 +11,10 @@ import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.view.GameDimension;
-import com.mobi.badvibes.view.PersonView;
-import com.mobi.badvibes.view.WorldRenderer;
 import com.mobi.badvibes.view.PersonView.State;
 
 /**
- * Explore logic determines where the person will go next. After determining the
- * location, this class will handle logic to <code>StillLogic</code>.
+ * This class will determine where the a person should go next.
  * 
  * @author micha_000
  * 
@@ -37,8 +32,7 @@ public class ExploreLogic extends PersonLogic
         person.getView().setCurrentState(State.WALKING);
         
         person.setCellPoint(newPoint);
-        
-        
+                
         // compute the time it will take for the person to move from its current position to
         // the new position
         Vector2 curPosition = person.getView().getPosition();
