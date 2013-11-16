@@ -38,13 +38,8 @@ public class ExploreLogic extends PersonLogic
         Vector2 curPosition = person.getView().getPosition();
         Vector2 newPosition = nextDestination;
         
-        float distance = curPosition.dst(newPosition);
-        
-        System.out.println("Distance is: " + distance);
-        
-        float time = (distance / GameDimension.Cell.x) * Person.VELOCITY;
-        
-        System.out.println("Time is: " + time);
+        float distance  = curPosition.dst(newPosition);
+        float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY;
         
         // animate to that location
         Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)

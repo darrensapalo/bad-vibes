@@ -30,6 +30,11 @@ public class StillLogic extends PersonLogic
     @Override
     public void think(float delta)
     {
+        if (person.getView().getCurrentState() == State.PICKED_UP)
+        {
+            return;
+        }
+        
         currTime += delta;
 
         if (currTime >= idleTime)

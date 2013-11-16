@@ -68,11 +68,8 @@ public abstract class World
         int rx = 1 + randomizer.nextInt(GRID_WIDTH  - 2);
         int ry = 2 + randomizer.nextInt(GRID_HEIGHT - 2);
         
-        System.out.println("X: " + rx + " Y: " + ry);
-        
         // get random location
-        return new Point(rx,
-                         ry);
+        return new Point(rx, ry);
     }
 
     /**
