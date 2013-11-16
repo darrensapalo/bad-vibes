@@ -19,56 +19,58 @@ public class GameScreen extends BadVibesScreen
 {
     private WorldController controller;
 
-    private ShapeRenderer 	shapeRenderer;
-    
+    private ShapeRenderer   shapeRenderer;
+
     @Override
     protected void initialize()
     {
-    	/* Instantiation */
-    	controller = new TutorialWorldController(new TutorialWorld());
-    	shapeRenderer = new ShapeRenderer();
-        
-    	/* Tweens */
-    	Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
+        /* Instantiation */
+        controller = new TutorialWorldController(new TutorialWorld());
+        shapeRenderer = new ShapeRenderer();
+
+        /* Tweens */
+        Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
         Tween.registerAccessor(PersonView.class, new PersonAccessor());
-    	
-        Timeline.createSequence()
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
-        .start(BadVibes.tweenManager);
-        
-        if (LocalStorage.IsAvailable()){
-        	System.out.println("Local storage is available.");
-        	System.out.println("Local path is: " + LocalStorage.getLocalPath());
-        	FileHandle file = Gdx.files.local("data/gamedata.dat");
-        	if (LocalStorage.exists("data/gamedata.dat")){
-        		System.out.println("data/gamedata.dat exists!");
-        		System.out.println("The file says: " + file.readString());
-        		file.writeString("My god, it's full of stars", false);
-        		
-        	}else{
-        		System.out.println("data/dgamedata.dat does not exists!");
-        		file.writeString("My god, it's full of stars", false);
-        	}
+
+        Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
+
+        if (LocalStorage.IsAvailable())
+        {
+            System.out.println("Local storage is available.");
+            System.out.println("Local path is: " + LocalStorage.getLocalPath());
+            FileHandle file = Gdx.files.local("data/gamedata.dat");
+            if (LocalStorage.exists("data/gamedata.dat"))
+            {
+                System.out.println("data/gamedata.dat exists!");
+                System.out.println("The file says: " + file.readString());
+                file.writeString("My god, it's full of stars", false);
+
+            }
+            else
+            {
+                System.out.println("data/dgamedata.dat does not exists!");
+                file.writeString("My god, it's full of stars", false);
+            }
         }
-        
+
     }
 
     @Override
     protected void renderScreen(float delta)
     {
-    	// Prepare sprite batch and default renderer
+        // Prepare sprite batch and default renderer
         spriteBatch.setProjectionMatrix(camera.projection);
         spriteBatch.setTransformMatrix(camera.view);
 
         shapeRenderer.setProjectionMatrix(camera.projection);
         shapeRenderer.setTransformMatrix(camera.view);
-        
+
         // Update and draw
         controller.update(delta);
-    	controller.draw(spriteBatch, shapeRenderer, delta);
+        controller.draw(spriteBatch, shapeRenderer, delta);
     }
 
-	@Override
+    @Override
     public void hide()
     {
         Gdx.input.setInputProcessor(null);
@@ -83,13 +85,13 @@ public class GameScreen extends BadVibesScreen
     @Override
     public void pause()
     {
-    	controller.onPause();
+        controller.onPause();
     }
 
     @Override
     public void resume()
     {
-    	controller.onResume();
+        controller.onResume();
     }
 
     @Override

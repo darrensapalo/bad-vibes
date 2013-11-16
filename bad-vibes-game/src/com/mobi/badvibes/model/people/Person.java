@@ -1,5 +1,7 @@
 package com.mobi.badvibes.model.people;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
@@ -58,6 +60,8 @@ public abstract class Person
     protected PersonLogic     logic;
 
     protected Point           personCellPosition;
+
+    public Tween              walkingTween;
 
     /**
      * Constructor that requires the logic and the view of the person

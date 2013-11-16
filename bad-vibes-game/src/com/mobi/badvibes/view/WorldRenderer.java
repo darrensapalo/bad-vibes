@@ -36,7 +36,7 @@ public class WorldRenderer
     public static final float               CELL_WIDTH        = 40;
 
     public static float                     X_OFFSET          = 0;
-    public static float                     PLATFORM_Y_OFFSET = 130;
+    public static float                     PLATFORM_Y_OFFSET = 85;
 
     public static float                     RAIL_Y_OFFSET     = 25;
 
@@ -59,6 +59,8 @@ public class WorldRenderer
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
         drawTiles(shapeRenderer);
+        
+        world.getTrain().trainView.render(spriteBatch, delta);
         
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {

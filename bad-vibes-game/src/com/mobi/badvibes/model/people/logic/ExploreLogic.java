@@ -42,7 +42,7 @@ public class ExploreLogic extends PersonLogic
         float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY;
         
         // animate to that location
-        Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)
+        person.walkingTween = Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)
             .setCallback(new TweenCallback()
             {
                 @Override
@@ -51,6 +51,7 @@ public class ExploreLogic extends PersonLogic
                     if (arg0 == TweenCallback.COMPLETE)
                     {
                         ExploreLogic.this.person.setLogic(new StillLogic(ExploreLogic.this.person));
+                        ExploreLogic.this.person.walkingTween = null;
                     }
                 }
             }).start(BadVibes.tweenManager);

@@ -5,11 +5,9 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.BadVibes;
-import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
@@ -60,6 +58,9 @@ public class DragGameplay extends GameplayStrategy
             {
                 selectedPerson  = person;
                 
+                if (selectedPerson.walkingTween != null)
+                    selectedPerson.walkingTween.kill();
+                
                 selectedPerson.setLogic(new StillLogic(selectedPerson));
                 selectedPerson.getView().setCurrentState(State.PICKED_UP);
                 
@@ -90,6 +91,15 @@ public class DragGameplay extends GameplayStrategy
     {
         if (selectedPerson != null)
         {
+            int cellXPosition = MathHelper.Clamp((int)(screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
+            int cellYPosition = MathHelper.Clamp((int)((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
+            
+            int finalXPosition = cellXPosition * (int)GameDimension.Cell.x;
+            int finalYPosition = (int)((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
+            
+            PersonView view = selectedPerson.getView();
+                       view.setPosition(new Vector2(finalXPosition, finalYPosition));
+
             state = DragState.FallingDown;
             endTouch();
             

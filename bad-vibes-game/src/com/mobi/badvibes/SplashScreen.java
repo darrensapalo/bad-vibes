@@ -10,6 +10,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.view.PersonView;
+import com.mobi.badvibes.view.TrainView;
 
 public class SplashScreen extends BadVibesScreen
 {
@@ -19,9 +20,10 @@ public class SplashScreen extends BadVibesScreen
     @Override
     protected void initialize()
     {
-    	// Initializes cache of person views
-    	PersonView.Initialize();
-    	
+        // Initializes cache of person views
+        PersonView.Initialize();
+        TrainView.Initialize();
+
         // non-power of two images
         Texture.setEnforcePotImages(false);
 
@@ -33,10 +35,7 @@ public class SplashScreen extends BadVibesScreen
         Tween.setCombinedAttributesLimit(3);
         Tween.registerAccessor(SplashScreen.class, new BadVibesScreenAccessor());
 
-        Timeline.createSequence()
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1.0f).ease(TweenEquations.easeInCubic))
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic).delay(1.0f))
-        .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback()
+        Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1.0f).ease(TweenEquations.easeInCubic)).push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic).delay(1.0f)).setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback()
         {
             @Override
             public void onEvent(int type, BaseTween<?> source)
@@ -46,8 +45,7 @@ public class SplashScreen extends BadVibesScreen
                     BadVibes.getInstance().setScreen(BadVibes.mainMenuScreen);
                 }
             }
-        })
-        .start(BadVibes.tweenManager);
+        }).start(BadVibes.tweenManager);
     }
 
     @Override
@@ -60,7 +58,7 @@ public class SplashScreen extends BadVibesScreen
         spriteBatch.draw(splash, splashPos.x, splashPos.y, splash.getWidth() / 2, splash.getHeight() / 2, 0, 0, splash.getWidth(), splash.getHeight(), false, true);
         spriteBatch.end();
     }
-    
+
     private void updatePosition()
     {
         int x = Gdx.graphics.getWidth() / 2 - splash.getWidth() / 4;

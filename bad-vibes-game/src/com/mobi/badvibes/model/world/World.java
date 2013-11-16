@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.train.Train;
 
 /**
  * Alternatively, you can call this the train station. Each level of the game is
@@ -36,8 +37,10 @@ public abstract class World
      */
     protected Array<Person> peopleList;
 
-    public static final int GRID_WIDTH      = 20;
-    public static final int GRID_HEIGHT     = 8;
+    protected Train         train;
+
+    public static final int GRID_WIDTH  = 20;
+    public static final int GRID_HEIGHT = 9;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -54,20 +57,24 @@ public abstract class World
     public World()
     {
         Instance = this;
+        
+        train = new Train();
+        
         setPeopleList(createPeople());
     }
 
     /**
      * Returns a random value that ranges from 1 to 1 - GRID_WIDTH
+     * 
      * @return The position in world coordinates.
      */
     public static Point getRandomCellCoordinate()
     {
         Random randomizer = new Random();
-        
-        int rx = 1 + randomizer.nextInt(GRID_WIDTH  - 2);
+
+        int rx = 1 + randomizer.nextInt(GRID_WIDTH - 2);
         int ry = 2 + randomizer.nextInt(GRID_HEIGHT - 2);
-        
+
         // get random location
         return new Point(rx, ry);
     }
@@ -80,6 +87,11 @@ public abstract class World
     public Array<Person> getPeopleList()
     {
         return peopleList;
+    }
+
+    public Train getTrain()
+    {
+        return train;
     }
 
     protected void setPeopleList(Array<Person> peopleList)
