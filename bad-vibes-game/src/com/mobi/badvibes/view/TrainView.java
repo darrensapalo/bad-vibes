@@ -66,7 +66,8 @@ public class TrainView
     
     public TrainView()
     {
-
+    	Position.x 		= -240;
+    	TrainDoorOffset = 50;
     }
 
     public void render(SpriteBatch spriteBatch, float delta)
