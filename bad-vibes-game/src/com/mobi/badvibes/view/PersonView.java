@@ -26,6 +26,8 @@ public class PersonView
     public enum Character
     {
         NORMAN_THE_NORMAL,
+        PATRICK_THE_PUSHER,
+        CARL_THE_COUNTERFLOWER
     }
 
     private static Texture                  shadowfeet;
@@ -125,6 +127,12 @@ public class PersonView
                 }
             }
             break;
+		case CARL_THE_COUNTERFLOWER:
+			break;
+		case PATRICK_THE_PUSHER:
+			break;
+		default:
+			break;
         }
     }
 

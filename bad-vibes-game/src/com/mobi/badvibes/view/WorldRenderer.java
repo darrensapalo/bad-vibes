@@ -58,7 +58,7 @@ public class WorldRenderer
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
-        drawTiles(shapeRenderer);
+        // drawTiles(shapeRenderer);
         
         world.getTrain().trainView.render(spriteBatch, delta);
         
