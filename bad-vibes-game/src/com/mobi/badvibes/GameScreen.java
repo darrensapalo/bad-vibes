@@ -13,6 +13,7 @@ import com.mobi.badvibes.model.localstorage.LocalStorage;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PersonAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 
 public class GameScreen extends BadVibesScreen
@@ -24,6 +25,9 @@ public class GameScreen extends BadVibesScreen
     @Override
     protected void initialize()
     {
+    	// BGM
+    	MediaPlayer.bgm("game");
+    	
         /* Instantiation */
         controller = new TutorialWorldController(new TutorialWorld());
         shapeRenderer = new ShapeRenderer();

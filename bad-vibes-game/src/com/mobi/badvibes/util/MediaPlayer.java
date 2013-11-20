@@ -17,16 +17,21 @@ public class MediaPlayer {
 	HashMap<String, Music> backgroundMusicLibrary;
 	HashMap<String, Sound> backgroundSFXLibrary;
 	
+	private static Music currentMusic;
+	
 	private MediaPlayer(){
 		backgroundMusicLibrary = new HashMap<String, Music>();
+		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
+		loadMusicToLibrary("mainmenu", "Main Menu - Happy Bee.mp3");
+		loadMusicToLibrary("scoresabout", "Scores and About Page - Pamgaea.mp3");
+		
+		
 		backgroundSFXLibrary = new HashMap<String, Sound>();
 		loadSoundToLibrary("approaching", "approachingtrain.wav");
 		loadSoundToLibrary("closing", "closinglrt.wav");
 		
 		loadSoundToLibrary("drop", "dropsfx.wav");
 		loadSoundToLibrary("entered", "enteredTrain.wav");
-		
-		System.out.println(backgroundSFXLibrary);
 	}
 	
 	/**
@@ -45,7 +50,16 @@ public class MediaPlayer {
 	}
 
 	public static void bgm(String bgm){
-		
+		Music music = Instance.backgroundMusicLibrary.get(bgm);
+		if (music != null){
+			if (currentMusic != null){
+				currentMusic.pause();
+			}
+			currentMusic = music;
+			music.play();
+		}else{
+			System.err.println("Background music not found.");
+		}
 	}
 	
 	public static void Initialize(){
@@ -70,6 +84,8 @@ public class MediaPlayer {
 	 */
 	private void loadMusicToLibrary(String key, String filename){
 		Music m = loadMusic(filename);
+		m.setLooping(true);
+		m.setVolume(0.3F);
 		backgroundMusicLibrary.put(key, m);
 	}
 	

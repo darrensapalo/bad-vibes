@@ -9,6 +9,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
 
@@ -20,6 +21,9 @@ public class SplashScreen extends BadVibesScreen
     @Override
     protected void initialize()
     {
+    	// BGM
+    	MediaPlayer.bgm("mainmenu");
+    	
         // Initializes cache of person views
         PersonView.Initialize();
         TrainView.Initialize();
