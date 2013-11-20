@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.controller.gameplay.RushGameplay;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.GameDimension;
@@ -20,13 +21,13 @@ public class TutorialWorldController extends WorldController
     private Rectangle railPosition;
     private Rectangle platformPosition;
 
-    public TutorialWorldController(World world)
+    public TutorialWorldController()
     {
-        super(world);
+        super(new TutorialWorld());
     }
 
     protected void Prepare()
-    {
+    {        
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
         gameplay.push(new RushGameplay(world));

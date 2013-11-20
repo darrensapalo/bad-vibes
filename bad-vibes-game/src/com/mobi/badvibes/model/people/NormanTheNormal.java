@@ -1,5 +1,6 @@
 package com.mobi.badvibes.model.people;
 
+import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.view.PersonView;
 
 public class NormanTheNormal extends Person
@@ -15,8 +16,8 @@ public class NormanTheNormal extends Person
     }
 
     @Override
-    public void initialize()
+    public void initialize(World theWorld)
     {
-        super.initialize();
+        super.initialize(theWorld);
     }
 }

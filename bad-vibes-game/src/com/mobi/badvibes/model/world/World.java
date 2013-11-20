@@ -1,8 +1,8 @@
 package com.mobi.badvibes.model.world;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.train.Train;
@@ -35,48 +35,88 @@ public abstract class World
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
-    protected Array<Person> peopleList;
+    protected ArrayList<Person> peopleList;
 
-    protected Train         train;
+    protected Train             train;
 
-    public static final int GRID_WIDTH  = 20;
-    public static final int GRID_HEIGHT = 9;
+    public static final int     GRID_WIDTH  = 20;
+    public static final int     GRID_HEIGHT = 9;
 
     /**
      * This method begins creating the world by instantiating people. This
      * method determines the kinds of people to be created.
      */
-    public abstract Array<Person> createPeople();
+    public abstract ArrayList<Person> createPeople();
 
     public void initialize()
     {
         for (Person p : peopleList)
-            p.initialize();
+        {
+            System.out.println("Person initialized!");
+            p.initialize(this);
+        }
     }
 
     public World()
     {
         Instance = this;
-        
+
         train = new Train();
-        
+
         setPeopleList(createPeople());
     }
 
     /**
-     * Returns a random value that ranges from 1 to 1 - GRID_WIDTH
+     * Returns a random value for the grid.
      * 
-     * @return The position in world coordinates.
+     * @return The position in grid coordinates.
      */
-    public static Point getRandomCellCoordinate()
+    public Point getRandomCellCoordinate()
     {
         Random randomizer = new Random();
 
-        int rx = 1 + randomizer.nextInt(GRID_WIDTH - 2);
-        int ry = 2 + randomizer.nextInt(GRID_HEIGHT - 2);
+        ArrayList<Point> notAvailableCells = new ArrayList<Point>();
 
-        // get random location
-        return new Point(rx, ry);
+        // get the list of available spaces
+        for (Person person : peopleList)
+        {
+            if (!person.getCellPoint().equals(new Point(-1, -1)))
+            {
+                notAvailableCells.add(person.getCellPoint());
+            }
+        }
+
+        ArrayList<Point> availableCells = new ArrayList<Point>();
+
+        for (int y = 2; y < GRID_HEIGHT - 1; y++)
+        {
+            for (int x = 1; x < GRID_WIDTH - 1; x++)
+            {
+                Point cellPoint = new Point(x, y);
+
+                if (notAvailableCells.contains(cellPoint))
+                {
+                    continue;
+                }
+
+                availableCells.add(cellPoint);
+            }
+        }
+
+        return availableCells.get(randomizer.nextInt(availableCells.size()));
+    }
+
+    public boolean checkIfPersonIsOccupying(Point point)
+    {
+        for (Person person : peopleList)
+        {
+            if (person.getCellPoint().equals(point))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -84,7 +124,7 @@ public abstract class World
      * 
      * @return
      */
-    public Array<Person> getPeopleList()
+    public ArrayList<Person> getPeopleList()
     {
         return peopleList;
     }
@@ -94,7 +134,7 @@ public abstract class World
         return train;
     }
 
-    protected void setPeopleList(Array<Person> peopleList)
+    protected void setPeopleList(ArrayList<Person> peopleList)
     {
         this.peopleList = peopleList;
     }

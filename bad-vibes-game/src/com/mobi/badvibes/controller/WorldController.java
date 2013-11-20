@@ -11,7 +11,6 @@ import com.mobi.badvibes.view.WorldRenderer;
 
 public abstract class WorldController
 {
-
     protected World                   world;
     protected WorldRenderer           renderer;
 
@@ -23,12 +22,12 @@ public abstract class WorldController
     public WorldController(World world)
     {
         this.world = world;
-        
-        gameplay    = new Stack<GameplayStrategy>();
-        
-        width       = Gdx.graphics.getWidth();
-        height      = Gdx.graphics.getHeight();
-        
+
+        gameplay = new Stack<GameplayStrategy>();
+
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
+
         Prepare();
     }
 

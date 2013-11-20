@@ -10,31 +10,25 @@ public class RushGameplay extends GameplayStrategy
     public RushGameplay(World world)
     {
         super(world);
+        
         destination = new Vector2();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
-        /*
-         * destination = new Vector2(screenX, screenY);
-         * world.runEvent(EventType.RUSH);
-         */
         return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
-        // TODO Auto-generated method stub
         return true;
     }
-
 }

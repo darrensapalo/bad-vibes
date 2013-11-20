@@ -10,31 +10,32 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mobi.badvibes.controller.TutorialWorldController;
 import com.mobi.badvibes.controller.WorldController;
 import com.mobi.badvibes.model.localstorage.LocalStorage;
-import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PersonAccessor;
-import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.nimators.TrainAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
 
 public class GameScreen extends BadVibesScreen
 {
-    private WorldController controller;
+    public WorldController controller;
 
-    private ShapeRenderer   shapeRenderer;
+    private ShapeRenderer  shapeRenderer;
 
     @Override
     protected void initialize()
     {
-    	// BGM
-    	MediaPlayer.bgm("game");
-    	
+        // BGM
+        MediaPlayer.bgm("game");
+
         /* Instantiation */
-        controller = new TutorialWorldController(new TutorialWorld());
-        shapeRenderer = new ShapeRenderer();
+        
+        controller      = new TutorialWorldController();
+        shapeRenderer   = new ShapeRenderer();
 
         /* Tweens */
+        
         Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
         Tween.registerAccessor(PersonView.class, new PersonAccessor());
         Tween.registerAccessor(TrainView.class, new TrainAccessor());

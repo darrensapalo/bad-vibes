@@ -22,7 +22,7 @@ import com.mobi.badvibes.view.PersonView.State;
  */
 public abstract class Person
 {
-    public static final int   MAX_IDLE_TIME = 5;
+    public static final int   MAX_IDLE_TIME = 10;
     public static final int   MIN_IDLE_TIME = 5;
 
     public static final float VELOCITY      = 0.5f;
@@ -61,6 +61,8 @@ public abstract class Person
 
     protected Point           personCellPosition;
 
+    private World             parent;
+
     public Tween              walkingTween;
 
     /**
@@ -72,6 +74,7 @@ public abstract class Person
     public Person(PersonView view)
     {
         this.view = view;
+        this.personCellPosition = new Point(-1, -1);
     }
 
     /**
@@ -89,10 +92,12 @@ public abstract class Person
         this.update(delta);
     }
 
-    public void initialize()
+    public void initialize(World theWorld)
     {
-        Point newLocation = World.getRandomCellCoordinate();
-        Vector2 personLocation = new Vector2(newLocation.x * GameDimension.Cell.x, newLocation.y * GameDimension.Cell.y);
+        parent = theWorld;
+        
+        Point newLocation       = theWorld.getRandomCellCoordinate();
+        Vector2 personLocation  = new Vector2(newLocation.x * GameDimension.Cell.x, newLocation.y * GameDimension.Cell.y);
 
         getView().setPosition(personLocation.add(0, GameDimension.PlatformOffset));
         getView().setCurrentState(State.WALKING);
@@ -103,6 +108,11 @@ public abstract class Person
 
     public abstract void update(float delta);
 
+    public World getWorld()
+    {
+        return parent;
+    }
+    
     public float getWeight()
     {
         return weight;

@@ -23,4 +23,19 @@ public class Point
     {
         return new Vector2(x, y);
     }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj instanceof Point)
+        {
+            Point point = (Point)obj;
+            
+            return point.x == this.x && point.y == this.y;
+        }
+        
+        return false;
+    }
+    
+    
 }

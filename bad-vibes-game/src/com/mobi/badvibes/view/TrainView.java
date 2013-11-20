@@ -3,7 +3,6 @@ package com.mobi.badvibes.view;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.equations.Cubic;
 import aurelienribon.tweenengine.equations.Expo;
 
@@ -12,8 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
 import com.mobi.badvibes.BadVibes;
-import com.mobi.badvibes.BadVibesScreen;
 import com.mobi.badvibes.nimators.TrainAccessor;
 
 public class TrainView
@@ -73,11 +72,6 @@ public class TrainView
     public Vector2               Position           = new Vector2();
 
     public float                 TrainDoorOffset    = 0;
-    
-    private float curTime = 0;
-    private float trainTime = 0;
-    
-    private boolean trainArrived = false;
     
     public TrainView()
     {
@@ -140,24 +134,6 @@ public class TrainView
     
     public void render(SpriteBatch spriteBatch, float delta)
     {
-        trainTime   += delta;
-        
-        if (trainTime >= 20)
-        {
-            if (trainArrived)
-            {
-                departTrain();
-                trainArrived = false;
-            }
-            else
-            {
-                arriveTrain();
-                trainArrived = true;
-            }
-            
-            trainTime = 0;
-        }
-        
         spriteBatch.begin();
 
         spriteBatch.setColor(1, 1, 1, 1);

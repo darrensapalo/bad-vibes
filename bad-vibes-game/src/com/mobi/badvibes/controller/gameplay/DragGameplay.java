@@ -1,12 +1,13 @@
 package com.mobi.badvibes.controller.gameplay;
 
+import java.util.ArrayList;
+
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.StillLogic;
@@ -25,7 +26,7 @@ public class DragGameplay extends GameplayStrategy
         Free, Held, FallingDown,
     }
 
-    public Array<Person>       personsReference;
+    public ArrayList<Person>   personsReference;
     public Vector2             startPoint, offset;
     public Person              selectedPerson;
     private DragState          state;
@@ -34,10 +35,10 @@ public class DragGameplay extends GameplayStrategy
     public DragGameplay(World world)
     {
         super(world);
-        
+
         state = DragState.Free;
         personsReference = world.getPeopleList();
-        
+
         Tween.registerAccessor(Person.class, new PersonAccessor());
     }
 
@@ -48,24 +49,24 @@ public class DragGameplay extends GameplayStrategy
         {
             return false;
         }
-        
+
         Vector2 p = new Vector2(screenX, screenY);
-        
+
         for (Person person : personsReference)
         {
             PersonView view = person.getView();
-            
+
             if (view.getBounds().contains(p.x, p.y))
             {
-                selectedPerson  = person;
-                
+                selectedPerson = person;
+
                 if (selectedPerson.walkingTween != null)
                     selectedPerson.walkingTween.kill();
-                
+
                 selectedPerson.setLogic(new StillLogic(selectedPerson));
                 selectedPerson.getView().setCurrentState(State.PICKED_UP);
-                
-                state           = DragState.Held;
+
+                state = DragState.Held;
                 MediaPlayer.sfx("drop");
 
                 Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
@@ -77,14 +78,14 @@ public class DragGameplay extends GameplayStrategy
                             startPoint = selectedPerson.getView().getPosition().cpy();
                     }
                 }).start(BadVibes.tweenManager);
-                
+
                 offset = view.getPosition().cpy().sub(p);
                 view.setCurrentState(State.PICKED_UP);
-                
+
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -93,22 +94,22 @@ public class DragGameplay extends GameplayStrategy
     {
         if (selectedPerson != null)
         {
-            int cellXPosition = MathHelper.Clamp((int)(screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-            int cellYPosition = MathHelper.Clamp((int)((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-            
-            int finalXPosition = cellXPosition * (int)GameDimension.Cell.x;
-            int finalYPosition = (int)((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
-            
+            int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
+            int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
+
+            int finalXPosition = cellXPosition * (int) GameDimension.Cell.x;
+            int finalYPosition = (int) ((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
+
             PersonView view = selectedPerson.getView();
-                       view.setPosition(new Vector2(finalXPosition, finalYPosition));
+            view.setPosition(new Vector2(finalXPosition, finalYPosition));
 
             state = DragState.FallingDown;
-            
+
             endTouch();
-            
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -121,13 +122,13 @@ public class DragGameplay extends GameplayStrategy
             public void onEvent(int arg0, BaseTween<?> arg1)
             {
                 state = DragState.Free;
-                
+
                 if (selectedPerson != null)
                 {
                     selectedPerson.getView().setCurrentState(State.IDLE);
-                    
-                    selectedPerson  = null;
-                    startPoint      = null;
+
+                    selectedPerson = null;
+                    startPoint = null;
                 }
             }
         }).start(BadVibes.tweenManager);
@@ -138,18 +139,18 @@ public class DragGameplay extends GameplayStrategy
     {
         if (selectedPerson != null && startPoint != null)
         {
-            int cellXPosition = MathHelper.Clamp((int)(screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-            int cellYPosition = MathHelper.Clamp((int)((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-            
-            int finalXPosition = cellXPosition * (int)GameDimension.Cell.x;
-            int finalYPosition = (int)((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
-            
+            int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
+            int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
+
+            int finalXPosition = cellXPosition * (int) GameDimension.Cell.x;
+            int finalYPosition = (int) ((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
+
             PersonView view = selectedPerson.getView();
-                       view.setPosition(new Vector2(finalXPosition, finalYPosition));
+            view.setPosition(new Vector2(finalXPosition, finalYPosition));
 
             return true;
         }
-        
+
         return false;
     }
 }
