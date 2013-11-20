@@ -13,6 +13,7 @@ import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.MathHelper;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
@@ -65,6 +66,7 @@ public class DragGameplay extends GameplayStrategy
                 selectedPerson.getView().setCurrentState(State.PICKED_UP);
                 
                 state           = DragState.Held;
+                MediaPlayer.sfx("drop");
 
                 Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
                 {
@@ -101,6 +103,7 @@ public class DragGameplay extends GameplayStrategy
                        view.setPosition(new Vector2(finalXPosition, finalYPosition));
 
             state = DragState.FallingDown;
+            
             endTouch();
             
             return true;

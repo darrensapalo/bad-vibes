@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 
 public class BadVibes extends Game
@@ -33,6 +34,7 @@ public class BadVibes extends Game
     public void create()
     {
     	GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    	MediaPlayer.Initialize();
     	
     	preGameScreen = new PreGameScreen();
     	splashScreen = new SplashScreen();
