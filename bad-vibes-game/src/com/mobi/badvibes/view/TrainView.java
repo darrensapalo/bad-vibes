@@ -1,10 +1,20 @@
 package com.mobi.badvibes.view;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.equations.Cubic;
+import aurelienribon.tweenengine.equations.Expo;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.BadVibesScreen;
+import com.mobi.badvibes.nimators.TrainAccessor;
 
 public class TrainView
 {
@@ -62,16 +72,92 @@ public class TrainView
     
     public Vector2               Position           = new Vector2();
 
-    public float                 TrainDoorOffset    = 50;
+    public float                 TrainDoorOffset    = 0;
+    
+    private float curTime = 0;
+    private float trainTime = 0;
+    
+    private boolean trainArrived = false;
     
     public TrainView()
     {
-    	Position.x 		= -240;
-    	TrainDoorOffset = 50;
+    	Position.x 		= - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);;
+    	TrainDoorOffset = 0;
     }
 
+    // TODO: place this in Train.java
+    
+    public void arriveTrain()
+    {
+        Tween.to(this, TrainAccessor.TRAIN, 4)
+        .target(-240)
+        .ease(Cubic.OUT)
+        .start(BadVibes.tweenManager)
+        .setCallback(new TweenCallback()
+        {
+            @Override
+            public void onEvent(int arg0, BaseTween<?> arg1)
+            {
+                if (TweenCallback.COMPLETE == arg0)
+                    Tween.to(TrainView.this, TrainAccessor.TRAIN_DOORS, 2).target(50).start(BadVibes.tweenManager);
+            }
+        });
+    }
+    
+    public void departTrain()
+    {
+        Tween
+            .to(this, TrainAccessor.TRAIN_DOORS, 2)
+            .target(0)
+            .start(BadVibes.tweenManager)
+            .setCallback(new TweenCallback()
+            {
+                @Override
+                public void onEvent(int arg0, BaseTween<?> arg1)
+                {
+                    if (TweenCallback.COMPLETE == arg0)
+                    {
+                        Tween
+                            .to(TrainView.this, TrainAccessor.TRAIN, 4)
+                            .ease(Expo.IN)
+                            .target(800)
+                            .setCallback(new TweenCallback()
+                            {            
+                                @Override
+                                public void onEvent(int arg0, BaseTween<?> arg1)
+                                {
+                                    if (TweenCallback.COMPLETE == arg0)
+                                    {
+                                        Position.x = - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);
+                                    }
+                                }
+                            })
+                        .start(BadVibes.tweenManager);
+                    }
+                }
+            });
+    }
+    
     public void render(SpriteBatch spriteBatch, float delta)
     {
+        trainTime   += delta;
+        
+        if (trainTime >= 20)
+        {
+            if (trainArrived)
+            {
+                departTrain();
+                trainArrived = false;
+            }
+            else
+            {
+                arriveTrain();
+                trainArrived = true;
+            }
+            
+            trainTime = 0;
+        }
+        
         spriteBatch.begin();
 
         spriteBatch.setColor(1, 1, 1, 1);
