@@ -19,16 +19,17 @@ public abstract class World
     public static World Instance;
 
     /**
-     * There are two stages of each train station, the pre-game wherein the
-     * player prepares for boarding or getting off, and the act of boarding and
-     * getting off itself.
+     * There are two stages of each train station. Entering is the state where 
+     * people are beginning to enter the train station. Arrival is when the 
+     * train comes to the station. Boarding is when the players are entering the
+     * train. Departure is when the train leaves.
      * 
      * @author Darren
      * 
      */
     enum State
     {
-        PRE_GAME, GAME
+        ENTERING, ARRIVAL, BOARDING, DEPARTURE
     }
 
     /**
@@ -38,6 +39,8 @@ public abstract class World
     protected ArrayList<Person> peopleList;
 
     protected Train             train;
+
+	protected State currentState;
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
@@ -50,6 +53,7 @@ public abstract class World
 
     public void initialize()
     {
+    	currentState = State.ENTERING;
         for (Person p : peopleList)
         {
             System.out.println("Person initialized!");
@@ -146,4 +150,10 @@ public abstract class World
      * @param type
      */
     public abstract void runEvent(EventType type);
+    
+    /**
+     * This method does the logic for the world.
+     * @param delta
+     */
+    public abstract void update(float delta);
 }

@@ -51,6 +51,8 @@ public class TutorialWorldController extends WorldController
     {
         for (Person p : world.getPeopleList())
             p.preupdate(delta);
+        
+        world.update(delta);
     }
 
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)

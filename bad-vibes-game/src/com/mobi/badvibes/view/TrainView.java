@@ -17,6 +17,11 @@ import com.mobi.badvibes.nimators.TrainAccessor;
 
 public class TrainView
 {
+	public enum TrainState {
+		ARRIVAL, BOARDING, DEPARTURE
+	}
+	
+	
     /*
      * Metrics
      */
@@ -46,6 +51,8 @@ public class TrainView
     private static TextureRegion trainDoorRight;
 
     private static TextureRegion trainInterior;
+    
+    public TrainState currentState;
 
     public static void Initialize()
     {
@@ -73,16 +80,23 @@ public class TrainView
 
     public float                 TrainDoorOffset    = 0;
     
+    public float 				 Timer = 0;
+    
     public TrainView()
     {
     	Position.x 		= - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);;
     	TrainDoorOffset = 0;
+    	
+    	
+    	
+    	Timer = 1;
     }
 
     // TODO: place this in Train.java
     
     public void arriveTrain()
     {
+        currentState = TrainState.ARRIVAL;
         Tween.to(this, TrainAccessor.TRAIN, 4)
         .target(-240)
         .ease(Cubic.OUT)
@@ -92,8 +106,10 @@ public class TrainView
             @Override
             public void onEvent(int arg0, BaseTween<?> arg1)
             {
-                if (TweenCallback.COMPLETE == arg0)
+                if (TweenCallback.COMPLETE == arg0){
+                    currentState = TrainState.BOARDING;
                     Tween.to(TrainView.this, TrainAccessor.TRAIN_DOORS, 2).target(50).start(BadVibes.tweenManager);
+                }
             }
         });
     }
@@ -111,6 +127,7 @@ public class TrainView
                 {
                     if (TweenCallback.COMPLETE == arg0)
                     {
+                    	currentState = TrainState.DEPARTURE;
                         Tween
                             .to(TrainView.this, TrainAccessor.TRAIN, 4)
                             .ease(Expo.IN)
