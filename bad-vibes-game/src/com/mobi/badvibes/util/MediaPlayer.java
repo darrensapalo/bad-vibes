@@ -13,13 +13,15 @@ import com.badlogic.gdx.audio.Sound;
  */
 public class MediaPlayer {
 	private static MediaPlayer Instance;
-	
+	public static boolean IsEnabled;
 	HashMap<String, Music> backgroundMusicLibrary;
 	HashMap<String, Sound> backgroundSFXLibrary;
 	
 	private static Music currentMusic;
 	
 	private MediaPlayer(){
+		IsEnabled = false;
+		
 		backgroundMusicLibrary = new HashMap<String, Music>();
 		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
 		loadMusicToLibrary("mainmenu", "Main Menu - Happy Bee.mp3");
@@ -43,7 +45,8 @@ public class MediaPlayer {
 	public static void sfx(String sfx){
 		Sound sound = Instance.backgroundSFXLibrary.get(sfx);
 		if (sound != null){
-			sound.play();
+			if (IsEnabled)
+				sound.play();
 		}else{
 			System.err.println("Sound effect not found.");
 		}
@@ -56,7 +59,8 @@ public class MediaPlayer {
 				currentMusic.pause();
 			}
 			currentMusic = music;
-			music.play();
+			if (IsEnabled)
+				music.play();
 		}else{
 			System.err.println("Background music not found.");
 		}
