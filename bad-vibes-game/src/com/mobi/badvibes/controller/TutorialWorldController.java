@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
+import com.mobi.badvibes.controller.gameplay.PrepareGameplay;
 import com.mobi.badvibes.controller.gameplay.RushGameplay;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.TutorialWorld;
@@ -20,6 +22,7 @@ public class TutorialWorldController extends WorldController
     private Texture   sprites;
     private Rectangle railPosition;
     private Rectangle platformPosition;
+	private PrepareGameplay prepareGameplay;
 
     public TutorialWorldController()
     {
@@ -30,6 +33,7 @@ public class TutorialWorldController extends WorldController
     {        
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
+        gameplay.push(prepareGameplay = new PrepareGameplay(world));
         gameplay.push(new RushGameplay(world));
 
         world.initialize();
@@ -58,20 +62,32 @@ public class TutorialWorldController extends WorldController
     public void draw(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
         shapeRenderer.begin(ShapeType.FilledRectangle);
-        shapeRenderer.setColor(54 / 255f, 52 / 255f, 50 / 255f, 1.0f);
-
-        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer.end();
-
+	        shapeRenderer.setColor(54 / 255f, 52 / 255f, 50 / 255f, 1.0f);
+	        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	    shapeRenderer.end();    
+	    
         spriteBatch.begin();
         spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 800, 120, true, true);
         spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
         spriteBatch.end();
         
+        shapeRenderer.begin(ShapeType.FilledRectangle);
+        	renderDestinations(spriteBatch, shapeRenderer);
+        shapeRenderer.end();
+        
+        
+        
         renderer.render(spriteBatch, shapeRenderer, delta);
     }
 
-    public World getWorld()
+    private void renderDestinations(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+    	shapeRenderer.setColor(101 / 255f, 140 / 255f, 100 / 255f, 0.05f);
+	        for (Point p : prepareGameplay.positions){
+	        	shapeRenderer.filledRect(p.x * GameDimension.MiniCell.x, p.y * GameDimension.MiniCell.y + GameDimension.PlatformOffset, GameDimension.MiniCell.x, GameDimension.MiniCell.y);
+	        }
+	}
+
+	public World getWorld()
     {
         return world;
     }

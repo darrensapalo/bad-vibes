@@ -13,18 +13,12 @@ public class TutorialWorld extends World {
     /**
      * People have 4 seconds to enter the train station.
      */
-    private static final float ArrivalTime   = 4;
+    private static final float ArrivalTime   = 12;
 
     /**
-     * The train allows people to board for 4 seconds.
+     * The train allows people to board for 7 seconds.
      */
     private static final float BoardingTime  = 7;
-
-    /**
-     * The train leaves by the 12th second.
-     */
-    private static final float DepartureTime = 12;
-
     /**
      * The next train arrives in 10 seconds.
      */
@@ -67,27 +61,28 @@ public class TutorialWorld extends World {
             if (Timer >= ArrivalTime) {
                 Timer = 0;
                 train.trainView.arriveTrain();
-                currentState = State.ARRIVAL;
+                currentState = WorldState.ARRIVAL;
                 
             }
             break;
         case ARRIVAL:
             if (train.trainView.currentState == TrainState.BOARDING){
                 Timer = 0;
-                currentState = State.BOARDING;
+                currentState = WorldState.BOARDING;
+                runEvent(EventType.RUSH);
             }
             break;
         case BOARDING:
             if (Timer >= BoardingTime) {
                 Timer = 0;
-                currentState = State.DEPARTURE;
+                currentState = WorldState.DEPARTURE;
                 train.trainView.departTrain();
             }
             break;
         case DEPARTURE:
             if (Timer >= NextTrainTime) {
                 Timer = 0;
-                currentState = State.ENTERING;
+                currentState = WorldState.ENTERING;
             }
             break;
 

@@ -10,7 +10,6 @@ public class RushGameplay extends GameplayStrategy
     public RushGameplay(World world)
     {
         super(world);
-        
         destination = new Vector2();
     }
 

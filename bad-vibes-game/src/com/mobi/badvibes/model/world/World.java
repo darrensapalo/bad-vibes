@@ -27,7 +27,7 @@ public abstract class World
      * @author Darren
      * 
      */
-    enum State
+    public enum WorldState
     {
         ENTERING, ARRIVAL, BOARDING, DEPARTURE
     }
@@ -37,10 +37,15 @@ public abstract class World
      * the train or not on the train.
      */
     protected ArrayList<Person> peopleList;
+    
+    /**
+     * This array contains the destinations that persons will aim to go to.
+     */
+    protected ArrayList<Point> 	targetPositions;
 
     protected Train             train;
 
-	protected State currentState;
+	protected WorldState 		currentState;
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
@@ -53,10 +58,10 @@ public abstract class World
 
     public void initialize()
     {
-    	currentState = State.ENTERING;
+    	currentState = WorldState.ENTERING;
+    	
         for (Person p : peopleList)
         {
-            System.out.println("Person initialized!");
             p.initialize(this);
         }
     }
@@ -66,7 +71,7 @@ public abstract class World
         Instance = this;
 
         train = new Train();
-
+        targetPositions = new ArrayList<Point>();
         setPeopleList(createPeople());
     }
 
@@ -156,4 +161,16 @@ public abstract class World
      * @param delta
      */
     public abstract void update(float delta);
+
+	public WorldState getCurrentState() {
+		return currentState;
+	}
+
+	public ArrayList<Point> getTargetPositions() {
+		return targetPositions;
+	}
+
+	public void setTargetPositions(ArrayList<Point> targetPositions) {
+		this.targetPositions = targetPositions;
+	}
 }
