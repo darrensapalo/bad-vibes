@@ -9,6 +9,7 @@ import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.nimators.PersonAccessor;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView.State;
 
@@ -25,11 +26,9 @@ public class ExploreLogic extends PersonLogic
         super(person);
         
         Point   newPoint        = person.getWorld().getRandomCellCoordinate();
-        Vector2 nextDestination = new Vector2(newPoint.x * GameDimension.Cell.x,
-                                              newPoint.y * GameDimension.Cell.y + GameDimension.PlatformOffset);
-
-        person.getView().setCurrentState(State.WALKING);
-        
+        Vector2 nextDestination = GameUtil.getPlatformVector(newPoint); 
+        		
+        person.getView().setDestination(nextDestination);
         person.setCellPoint(newPoint);
                 
         // compute the time it will take for the person to move from its current position to

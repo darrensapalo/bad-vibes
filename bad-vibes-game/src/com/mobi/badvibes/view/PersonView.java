@@ -18,9 +18,21 @@ public class PersonView
      * Static variables
      */
 
+	/**
+	 * Walking forward means facing the train, walking backward 
+	 * means facing away from the train, idle means not moving,
+	 * and picked up means held like a kitten.
+	 * @author Darren
+	 *
+	 */
     public enum State
     {
-        IDLE, WALKING, PICKED_UP
+        IDLE, WALKING, PICKED_UP 
+    }
+    
+    public enum Facing {
+    	FORWARD,
+    	BACKWARD
     }
 
     public enum Character
@@ -48,9 +60,14 @@ public class PersonView
      * Attributes
      */
     
-    protected Animation                     animationIdle;
-    protected Animation                     animationWalking;
+    protected Animation 					animationIdleBackward;
+    protected Animation                     animationIdleForward;
+    
+    protected Animation                     animationWalkingForward;
+    protected Animation 					animationWalkingBackward;
+    
     protected Animation                     animationPickedUp;
+    
 
     protected Animation                     currentAnimation;
 
@@ -58,9 +75,15 @@ public class PersonView
     protected Vector2                       pickupOffset;
     protected Rectangle                     Bounds;
     protected State                         currentState;
+    protected Facing						currentFacing;
+    
     protected int                           currentBucketID;
     protected float                         stateTime;
     protected float                         opacity;
+
+	
+
+	
 
     public static void Initialize()
     {
@@ -164,17 +187,32 @@ public class PersonView
             }
         }
         
-        animationIdle       = new Animation(frameDuration, region[0]);
-        animationWalking    = new Animation(frameDuration, region[1]);
-        animationPickedUp   = new Animation(frameDuration, region[2][0]);
+        animationIdleForward       		= new Animation(frameDuration, region[0]);
+        animationWalkingForward     = new Animation(frameDuration, region[1]);
+        animationWalkingBackward    = new Animation(frameDuration, region[2]);
+        animationPickedUp   		= new Animation(frameDuration, region[3][0]);
 
-        currentState        = State.WALKING;
+        setCurrentState(State.IDLE);
+        setCurrentFacing(Facing.FORWARD);
         currentBucketID     = -1;
         opacity             = 1f;
         
         setPickupOffset(Vector2.Zero);
     }
 
+    /**
+     * Determines which animation to use, whether forward or backward
+     * depending on the y axis of the destination.
+     * @param destination - the next destination of the player
+     */
+    public void setDestination(Vector2 destination){
+    	setCurrentState(State.WALKING);
+    	if (getPosition().y < destination.y)
+    		setCurrentFacing(Facing.BACKWARD);
+    	else
+    		setCurrentFacing(Facing.FORWARD);
+    }
+    
     // Getters and setters
 
     public synchronized void setPosition(Vector2 position)
@@ -211,7 +249,7 @@ public class PersonView
 
     public Animation getAnimation()
     {
-        return animationIdle;
+        return animationIdleForward;
     }
 
     public void render(SpriteBatch spriteBatch, float delta)
@@ -258,16 +296,28 @@ public class PersonView
 
     private Animation getCurrentAnimation()
     {
-        switch (currentState)
-        {
-        case PICKED_UP:
-            return animationPickedUp;
-        case WALKING:
-            return animationWalking;
-        default:
-        case IDLE:
-            return animationIdle;
-        }
+    	if (currentState == State.PICKED_UP)
+    		return animationPickedUp;
+    	if (currentFacing == Facing.FORWARD){
+	        switch (currentState)
+	        {
+	        case WALKING:
+	            return animationWalkingForward;
+	        default:
+	        case IDLE:
+	            return animationIdleForward;
+	        }
+    	}else{
+    		switch (currentState)
+	        {
+	        case WALKING:
+	            return animationWalkingBackward;
+	        default:
+	        case IDLE:
+	        	// TODO: This needs to be replaced to animationIdleBackwards once the art is done
+	            return animationIdleForward;
+	        }
+    	}
     }
 
     public State getCurrentState()
@@ -309,4 +359,12 @@ public class PersonView
     {
         this.pickupOffset = pickupOffset;
     }
+
+	public Facing getCurrentFacing() {
+		return currentFacing;
+	}
+
+	public void setCurrentFacing(Facing currentFacing) {
+		this.currentFacing = currentFacing;
+	}
 }
