@@ -43,8 +43,8 @@ public abstract class World
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
-    protected ArrayList<Person>   peopleList;
-    protected ArrayList<Person>   peopleInTrainList;
+    protected ArrayList<Person>   peopleList        = new ArrayList<Person>();
+    protected ArrayList<Person>   peopleInTrainList = new ArrayList<Person>();
 
     /**
      * This array contains the destinations that persons will aim to go to.
@@ -178,7 +178,7 @@ public abstract class World
     {
         return peopleInTrainList;
     }
-    
+
     public Train getTrain()
     {
         return train;

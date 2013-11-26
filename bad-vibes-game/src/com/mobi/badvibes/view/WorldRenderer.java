@@ -86,7 +86,7 @@ public class WorldRenderer
 
         // world.getTrain().trainView.renderDoors(spriteBatch, delta);
         
-        for (int i = 0; i < World.GRID_HEIGHT; i++)
+        for (int i = 2; i < World.GRID_HEIGHT; i++)
         {
             for (PersonView p : masterBucket.get(i))
             {
