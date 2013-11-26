@@ -153,6 +153,7 @@ public abstract class World
     
     /**
     /**
+    /**
      * This method returns the list of people from the current world.
      * 
      * @return
