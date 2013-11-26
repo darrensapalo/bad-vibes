@@ -52,8 +52,11 @@ public abstract class World
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
+<<<<<<< HEAD
     
     
+=======
+>>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -134,6 +137,31 @@ public abstract class World
         return false;
     }
 
+<<<<<<< HEAD
+=======
+    public void setInfoText(String info, int duration)
+    {
+        renderer.infoTextText       = info;
+        renderer.infoTextOpacity    = 0;
+        
+        renderer.infoTextTextDirty  = true;
+        
+        Timeline.createSequence()
+
+            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
+                       .target    (1)
+                 )
+
+            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
+                       .delay     (duration)
+                       .target    (0))
+
+            .start(BadVibes.tweenManager);
+    }
+    
+    /**
+    /**
+>>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
     /**
      * This method returns the list of people from the current world.
      * 
@@ -175,6 +203,7 @@ public abstract class World
 	public ArrayList<Point> getTargetPositions() {
 		return targetPositions;
 	}
+<<<<<<< HEAD
 
 	public void setTargetPositions(ArrayList<Point> targetPositions) {
 		this.targetPositions = targetPositions;
@@ -195,4 +224,10 @@ public abstract class World
     	person.setCellPoint(newPoint);
     }
 
+=======
+
+	public void setTargetPositions(ArrayList<Point> targetPositions) {
+		this.targetPositions = targetPositions;
+	}
+>>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
 }
