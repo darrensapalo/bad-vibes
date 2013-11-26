@@ -8,7 +8,8 @@ import com.mobi.badvibes.model.people.logic.ExploreLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.view.TrainView.TrainState;
 
-public class TutorialWorld extends World {
+public class TutorialWorld extends World
+{
 
     /**
      * People have 4 seconds to enter the train station.
@@ -26,7 +27,8 @@ public class TutorialWorld extends World {
 
     private float              Timer         = 0;
 
-    public ArrayList<Person> createPeople() {
+    public ArrayList<Person> createPeople()
+    {
         ArrayList<Person> list = new ArrayList<Person>();
 
         for (int i = 0; i < 10; i++)
@@ -35,53 +37,72 @@ public class TutorialWorld extends World {
         return list;
     }
 
+    public ArrayList<Person> createPeopleInTrain()
+    {
+        ArrayList<Person> list = new ArrayList<Person>();
+        
+        for (int i = 0; i < 5; i++)
+            list.add(new NormanTheNormal());
+        
+        return list;
+    }
+
     @Override
-    public void runEvent(EventType type) {
-        switch (type) {
+    public void runEvent(EventType type)
+    {
+        switch (type)
+        {
         case RUSH:
             System.out.println("Rush!");
-            for (Person p : peopleList) {
+            for (Person p : peopleList)
+            {
                 p.setLogic(new RushLogic(p));
             }
             break;
         case EXPLORE:
             System.out.println("Explore!");
-            for (Person p : peopleList) {
+            for (Person p : peopleList)
+            {
                 p.setLogic(new ExploreLogic(p));
             }
         }
     }
 
     @Override
-    public void update(float delta) {
+    public void update(float delta)
+    {
         Timer += delta;
 
-        switch (currentState) {
+        switch (currentState)
+        {
         case ENTERING:
-            if (Timer >= ArrivalTime) {
+            if (Timer >= ArrivalTime)
+            {
                 Timer = 0;
                 train.trainView.arriveTrain();
                 currentState = WorldState.ARRIVAL;
-                
+                setInfoText("The train is arriving!", 5);
             }
             break;
         case ARRIVAL:
-            if (train.trainView.currentState == TrainState.BOARDING){
+            if (train.trainView.currentState == TrainState.BOARDING)
+            {
                 Timer = 0;
                 currentState = WorldState.BOARDING;
-                setInfoText("The train is arriving!", 2);
                 runEvent(EventType.RUSH);
             }
             break;
         case BOARDING:
-            if (Timer >= BoardingTime) {
+            if (Timer >= BoardingTime)
+            {
                 Timer = 0;
                 currentState = WorldState.DEPARTURE;
                 train.trainView.departTrain();
             }
             break;
         case DEPARTURE:
-            if (Timer >= NextTrainTime) {
+            if (Timer >= NextTrainTime)
+            {
                 Timer = 0;
                 currentState = WorldState.ENTERING;
             }

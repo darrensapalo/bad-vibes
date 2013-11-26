@@ -56,6 +56,9 @@ public class TutorialWorldController extends WorldController
         for (Person p : world.getPeopleList())
             p.preupdate(delta);
         
+        for (Person p : world.getPeopleInTrainList())
+            p.preupdate(delta);
+        
         world.update(delta);
     }
 

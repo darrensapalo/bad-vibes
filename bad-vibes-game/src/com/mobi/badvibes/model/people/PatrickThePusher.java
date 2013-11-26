@@ -16,8 +16,8 @@ public class PatrickThePusher extends Person
     }
 
     @Override
-    public void initialize(World theWorld)
+    public void initialize(World theWorld, boolean inTrain)
     {
-        super.initialize(theWorld);
+        super.initialize(theWorld, inTrain);
     }
 }

@@ -8,7 +8,6 @@ import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.GameUtil;
-import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
 
@@ -93,16 +92,27 @@ public abstract class Person
         this.update(delta);
     }
 
-    public void initialize(World theWorld)
+    public void initialize(World theWorld, boolean inTrain)
     {
         parent = theWorld;
-        
-        Point newPoint       = theWorld.getRandomCellCoordinate();
-        Vector2 personLocation  = GameUtil.getPlatformVectorCentered(newPoint);
+
+        if (inTrain)
+        {
+            // TODO: update value to match the train's door.
+
+            getView().setPosition(theWorld.getTrain().trainView.Position);
+
+            // we don't set a logic for them yet.
+            
+            return;
+        }
+
+        Point newPoint = theWorld.getRandomCellCoordinate();
+        Vector2 personLocation = GameUtil.getPlatformVectorCentered(newPoint);
 
         getView().setPosition(personLocation);
         getView().setCurrentState(State.WALKING);
-        
+
         setCellPoint(newPoint);
         setLogic(new StillLogic(this));
     }
@@ -113,7 +123,7 @@ public abstract class Person
     {
         return parent;
     }
-    
+
     public float getWeight()
     {
         return weight;

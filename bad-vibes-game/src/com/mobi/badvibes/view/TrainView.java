@@ -147,7 +147,7 @@ public class TrainView
             });
     }
     
-    public void render(SpriteBatch spriteBatch, float delta)
+    public void renderTrain(SpriteBatch spriteBatch, float delta)
     {
         spriteBatch.begin();
 
@@ -172,6 +172,13 @@ public class TrainView
                          GameDimension.TrainPartInterior.x, GameDimension.TrainPartInterior.y,
                          1.0f, 1.0f,
                          0.0f);
+        
+        spriteBatch.end();
+    }
+    
+    public void renderDoors(SpriteBatch spriteBatch, float delta)
+    {
+        spriteBatch.begin();
         
         spriteBatch.draw(trainDoorLeft,
                          TrainLeftSide + Position.x - TrainDoorOffset, Position.y,

@@ -73,7 +73,15 @@ public class WorldRenderer
     {
         // drawTiles(shapeRenderer);
         
-        world.getTrain().trainView.render(spriteBatch, delta);
+        world.getTrain().trainView.renderTrain(spriteBatch, delta);
+
+        // render 
+        for (PersonView p : masterBucket.get(-1))
+        {
+            p.render(spriteBatch, delta);
+        }
+
+        // world.getTrain().trainView.renderDoors(spriteBatch, delta);
         
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {
@@ -91,14 +99,15 @@ public class WorldRenderer
             infoTextTextDirty  = false;
         }
 
-        spriteBatch.begin();
-        
-        if (infoText != null){
+        if (infoText != null)
+        {
+            spriteBatch.begin();
+            
 	        infoText.setColor   (0, 0, 0, infoTextOpacity);
 	        infoText.draw       (spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
-        }
 
-        spriteBatch.end();
+	        spriteBatch.end();
+        }
     }
 
     public boolean masterBucketContains(PersonView p)

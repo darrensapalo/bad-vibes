@@ -9,7 +9,6 @@ import aurelienribon.tweenengine.Tween;
 
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
-import com.mobi.badvibes.controller.WorldController;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.train.Train;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
@@ -27,8 +26,8 @@ public abstract class World
     public static World Instance;
 
     /**
-     * There are two stages of each train station. Entering is the state where 
-     * people are beginning to enter the train station. Arrival is when the 
+     * There are two stages of each train station. Entering is the state where
+     * people are beginning to enter the train station. Arrival is when the
      * train comes to the station. Boarding is when the players are entering the
      * train. Departure is when the train leaves.
      * 
@@ -44,35 +43,43 @@ public abstract class World
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
-    protected ArrayList<Person> peopleList;
-    
+    protected ArrayList<Person>   peopleList;
+    protected ArrayList<Person>   peopleInTrainList;
+
     /**
      * This array contains the destinations that persons will aim to go to.
      */
-    protected ArrayList<Point> 	targetPositions;
+    protected ArrayList<Point>    targetPositions;
 
     public HashMap<Person, Point> personPositions;
-    
-    protected Train             train;
 
-	protected WorldState 		currentState;
+    protected Train               train;
 
-    public static final int     GRID_WIDTH  = 20;
-    public static final int     GRID_HEIGHT = 9;
-    
+    protected WorldState          currentState;
+
+    public static final int       GRID_WIDTH  = 20;
+    public static final int       GRID_HEIGHT = 9;
+
     /**
      * This method begins creating the world by instantiating people. This
      * method determines the kinds of people to be created.
      */
     public abstract ArrayList<Person> createPeople();
 
+    public abstract ArrayList<Person> createPeopleInTrain();
+
     public void initialize()
     {
-    	currentState = WorldState.ENTERING;
-    	
+        currentState = WorldState.ENTERING;
+
         for (Person p : peopleList)
         {
-            p.initialize(this);
+            p.initialize(this, false);
+        }
+        
+        for (Person p: peopleInTrainList)
+        {
+            p.initialize(this, true);
         }
     }
 
@@ -82,8 +89,9 @@ public abstract class World
         train = new Train();
         targetPositions = new ArrayList<Point>();
         personPositions = new HashMap<Person, Point>();
-        
+
         setPeopleList(createPeople());
+        setPeopleInTrainList(createPeopleInTrain());
     }
 
     /**
@@ -141,25 +149,21 @@ public abstract class World
 
     public void setInfoText(String info, int duration)
     {
-    	WorldRenderer renderer = WorldRenderer.Instance;
-        renderer.infoTextText       = info;
-        renderer.infoTextOpacity    = 0;
-        
-        renderer.infoTextTextDirty  = true;
-        
+        WorldRenderer renderer = WorldRenderer.Instance;
+        renderer.infoTextText = info;
+        renderer.infoTextOpacity = 0;
+
+        renderer.infoTextTextDirty = true;
+
         Timeline.createSequence()
 
-            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
-                       .target    (1)
-                 )
+        .push(Tween.to(renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1).target(1))
 
-            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
-                       .delay     (duration)
-                       .target    (0))
+        .push(Tween.to(renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1).delay(duration).target(0))
 
-            .start(BadVibes.tweenManager);
+        .start(BadVibes.tweenManager);
     }
-    
+
     /**
      * This method returns the list of people from the current world.
      * 
@@ -170,6 +174,11 @@ public abstract class World
         return peopleList;
     }
 
+    public ArrayList<Person> getPeopleInTrainList()
+    {
+        return peopleInTrainList;
+    }
+    
     public Train getTrain()
     {
         return train;
@@ -180,6 +189,11 @@ public abstract class World
         this.peopleList = peopleList;
     }
 
+    protected void setPeopleInTrainList(ArrayList<Person> peopleList)
+    {
+        peopleInTrainList = peopleList;
+    }
+    
     /**
      * This method runs a certain kind of event in the world.
      * 
@@ -187,37 +201,44 @@ public abstract class World
      * @param type
      */
     public abstract void runEvent(EventType type);
-    
+
     /**
      * This method does the logic for the world.
+     * 
      * @param delta
      */
     public abstract void update(float delta);
 
-	public WorldState getCurrentState() {
-		return currentState;
-	}
+    public WorldState getCurrentState()
+    {
+        return currentState;
+    }
 
-	public ArrayList<Point> getTargetPositions() {
-		return targetPositions;
-	}
+    public ArrayList<Point> getTargetPositions()
+    {
+        return targetPositions;
+    }
 
-	public void setTargetPositions(ArrayList<Point> targetPositions) {
-		this.targetPositions = targetPositions;
-	}
+    public void setTargetPositions(ArrayList<Point> targetPositions)
+    {
+        this.targetPositions = targetPositions;
+    }
 
-	public void removeTargetPosition(Person selectedPerson) {
-		if (personPositions.containsKey(selectedPerson)){
-			Point point = personPositions.get(selectedPerson);
-			personPositions.remove(selectedPerson);
-			targetPositions.remove(point);
-		}
-	}
-    
-    public void addTargetPosition(Person person, Point newPoint){
-    	if (targetPositions.contains(newPoint) == false)
-    		targetPositions.add(newPoint);
-    	personPositions.put(person, newPoint);
-    	person.setCellPoint(newPoint);
+    public void removeTargetPosition(Person selectedPerson)
+    {
+        if (personPositions.containsKey(selectedPerson))
+        {
+            Point point = personPositions.get(selectedPerson);
+            personPositions.remove(selectedPerson);
+            targetPositions.remove(point);
+        }
+    }
+
+    public void addTargetPosition(Person person, Point newPoint)
+    {
+        if (targetPositions.contains(newPoint) == false)
+            targetPositions.add(newPoint);
+        personPositions.put(person, newPoint);
+        person.setCellPoint(newPoint);
     }
 }
