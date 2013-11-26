@@ -31,9 +31,7 @@ public class TutorialWorldController extends WorldController
 
     protected void Prepare()
     {        
-        renderer        = new WorldRenderer(world);
-        world.renderer  = renderer;
-        
+        renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
         gameplay.push(prepareGameplay = new PrepareGameplay(world));
         gameplay.push(new RushGameplay(world));

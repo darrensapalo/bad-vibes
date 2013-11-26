@@ -7,6 +7,7 @@ import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
@@ -96,13 +97,13 @@ public abstract class Person
     {
         parent = theWorld;
         
-        Point newLocation       = theWorld.getRandomCellCoordinate();
-        Vector2 personLocation  = new Vector2(newLocation.x * GameDimension.Cell.x, newLocation.y * GameDimension.Cell.y);
+        Point newPoint       = theWorld.getRandomCellCoordinate();
+        Vector2 personLocation  = GameUtil.getPlatformVectorCentered(newPoint);
 
-        getView().setPosition(personLocation.add(0, GameDimension.PlatformOffset));
+        getView().setPosition(personLocation);
         getView().setCurrentState(State.WALKING);
-
-        setCellPoint(newLocation);
+        
+        setCellPoint(newPoint);
         setLogic(new StillLogic(this));
     }
 

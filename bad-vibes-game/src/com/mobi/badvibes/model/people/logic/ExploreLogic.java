@@ -11,7 +11,6 @@ import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
-import com.mobi.badvibes.view.PersonView.State;
 
 /**
  * This class will determine where the a person should go next.
@@ -26,7 +25,7 @@ public class ExploreLogic extends PersonLogic
         super(person);
         
         Point   newPoint        = person.getWorld().getRandomCellCoordinate();
-        Vector2 nextDestination = GameUtil.getPlatformVector(newPoint); 
+        Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		
         person.getView().setDestination(nextDestination);
         person.setCellPoint(newPoint);

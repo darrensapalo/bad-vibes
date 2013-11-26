@@ -10,8 +10,6 @@ import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.train.Train;
-import com.mobi.badvibes.nimators.WorldRendererAccessor;
-import com.mobi.badvibes.view.WorldRenderer;
 
 /**
  * Alternatively, you can call this the train station. Each level of the game is
@@ -22,9 +20,11 @@ import com.mobi.badvibes.view.WorldRenderer;
  */
 public abstract class World
 {
+    public static World Instance;
+
     /**
-     * There are two stages of each train station. Entering is the state where
-     * people are beginning to enter the train station. Arrival is when the
+     * There are two stages of each train station. Entering is the state where 
+     * people are beginning to enter the train station. Arrival is when the 
      * train comes to the station. Boarding is when the players are entering the
      * train. Departure is when the train leaves.
      * 
@@ -36,45 +36,46 @@ public abstract class World
         ENTERING, ARRIVAL, BOARDING, DEPARTURE
     }
 
-    public static World         Instance;
-
-    public static final int     GRID_WIDTH  = 20;
-    public static final int     GRID_HEIGHT = 9;
-
     /**
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
     protected ArrayList<Person> peopleList;
-
+    
     /**
      * This array contains the destinations that persons will aim to go to.
      */
-    protected ArrayList<Point>  targetPositions;
+    protected ArrayList<Point> 	targetPositions;
 
     protected Train             train;
 
-    protected WorldState        currentState;
+	protected WorldState 		currentState;
 
-    public WorldRenderer        renderer;
+    public static final int     GRID_WIDTH  = 20;
+    public static final int     GRID_HEIGHT = 9;
 
-    public World()
-    {
-        Instance = this;
-
-        train = new Train();
-        targetPositions = new ArrayList<Point>();
-        setPeopleList(createPeople());
-    }
+    /**
+     * This method begins creating the world by instantiating people. This
+     * method determines the kinds of people to be created.
+     */
+    public abstract ArrayList<Person> createPeople();
 
     public void initialize()
     {
-        currentState = WorldState.ENTERING;
-
+    	currentState = WorldState.ENTERING;
+    	
         for (Person p : peopleList)
         {
             p.initialize(this);
         }
+    }
+
+    public World()
+    {
+        Instance = this;
+        train = new Train();
+        targetPositions = new ArrayList<Point>();
+        setPeopleList(createPeople());
     }
 
     /**
@@ -151,42 +152,6 @@ public abstract class World
     }
     
     /**
-     * This method begins creating the world by instantiating people. This
-     * method determines the kinds of people to be created.
-     */
-    public abstract ArrayList<Person> createPeople();
-
-    /**
-     * This method runs a certain kind of event in the world.
-     * 
-     * @see EventType
-     * @param type
-     */
-    public abstract void runEvent(EventType type);
-
-    /**
-     * This method does the logic for the world.
-     * 
-     * @param delta
-     */
-    public abstract void update(float delta);
-
-    public WorldState getCurrentState()
-    {
-        return currentState;
-    }
-
-    public ArrayList<Point> getTargetPositions()
-    {
-        return targetPositions;
-    }
-
-    public void setTargetPositions(ArrayList<Point> targetPositions)
-    {
-        this.targetPositions = targetPositions;
-    }
-
-    /**
      * This method returns the list of people from the current world.
      * 
      * @return
@@ -205,4 +170,30 @@ public abstract class World
     {
         this.peopleList = peopleList;
     }
+
+    /**
+     * This method runs a certain kind of event in the world.
+     * 
+     * @see EventType
+     * @param type
+     */
+    public abstract void runEvent(EventType type);
+    
+    /**
+     * This method does the logic for the world.
+     * @param delta
+     */
+    public abstract void update(float delta);
+
+	public WorldState getCurrentState() {
+		return currentState;
+	}
+
+	public ArrayList<Point> getTargetPositions() {
+		return targetPositions;
+	}
+
+	public void setTargetPositions(ArrayList<Point> targetPositions) {
+		this.targetPositions = targetPositions;
+	}
 }

@@ -73,6 +73,8 @@ public class WorldRenderer
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
+        // drawTiles(shapeRenderer);
+
         world.getTrain().trainView.render(spriteBatch, delta);
 
         for (int i = 0; i < World.GRID_HEIGHT; i++)
