@@ -23,7 +23,7 @@ import com.mobi.badvibes.view.PersonView.State;
 public abstract class Person
 {
     public static final int   MAX_IDLE_TIME = 10;
-    public static final int   MIN_IDLE_TIME = 5;
+    public static final int   MIN_IDLE_TIME = 30;
 
     public static final float VELOCITY      = 0.5f;
 

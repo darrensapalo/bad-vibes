@@ -20,7 +20,7 @@ public class MediaPlayer {
 	private static Music currentMusic;
 	
 	private MediaPlayer(){
-		IsEnabled = true;
+		IsEnabled = false;
 		
 		backgroundMusicLibrary = new HashMap<String, Music>();
 		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
