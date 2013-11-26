@@ -45,6 +45,15 @@ public class GameDimension {
 	 */
 	public static Vector2 Cell;
 	
+	public static Vector2 TrainPartA;
+	public static Vector2 TrainPartB;
+	
+	public static Vector2 TrainPartInterior;
+	public static Vector2 TrainPartDoorLeft;
+	public static Vector2 TrainPartDoorRight;
+	
+	
+	
 	/**
 	 * This determines the dimension of each mini cell in the platform
 	 * with respect to the viewport.
@@ -108,5 +117,13 @@ public class GameDimension {
 		_w = width / 800f * PersonView.SHADOW_WIDTH;
 		_h = height / 480f * PersonView.SHADOW_HEIGHT;
 		Shadow = new Vector2(_w, _h);
+		
+		TrainPartA = new Vector2(width / 800.0f * TrainView.TrainLeftSide, height / 480.0f * TrainView.TrainHeight);
+		TrainPartB = new Vector2(width / 800.0f * TrainView.TrainRightSide, height / 480.0f * TrainView.TrainHeight);
+		
+		TrainPartInterior = new Vector2(width / 800.0f * TrainView.TrainInteriorWidth, height / 480.0f * TrainView.TrainHeight);
+		
+		TrainPartDoorLeft = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
+		TrainPartDoorRight = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
 	}
 }

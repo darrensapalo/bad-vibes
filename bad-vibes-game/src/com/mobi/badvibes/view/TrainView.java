@@ -156,33 +156,33 @@ public class TrainView
         spriteBatch.draw(trainPartA,
                          Position.x, Position.y,
                          0.0f, 0.0f,
-                         trainPartA.getRegionWidth(), trainPartA.getRegionHeight(),
+                         GameDimension.TrainPartA.x, GameDimension.TrainPartA.y,
                          1.0f, 1.0f,
                          0.0f);
         spriteBatch.draw(trainPartB,
                          TrainLeftSide + Position.x + TrainDoorWidth * 2, Position.y,
                          0.0f, 0.0f,
-                         trainPartB.getRegionWidth(), trainPartB.getRegionHeight(),
+                         GameDimension.TrainPartB.x, GameDimension.TrainPartB.y,
                          1.0f, 1.0f,
                          0.0f);
 
         spriteBatch.draw(trainInterior,
                          TrainLeftSide + Position.x, Position.y,
                          0.0f, 0.0f,
-                         trainInterior.getRegionWidth(), trainInterior.getRegionHeight(),
+                         GameDimension.TrainPartInterior.x, GameDimension.TrainPartInterior.y,
                          1.0f, 1.0f,
                          0.0f);
         
         spriteBatch.draw(trainDoorLeft,
                          TrainLeftSide + Position.x - TrainDoorOffset, Position.y,
                          0.0f, 0.0f,
-                         trainDoorLeft.getRegionWidth(), trainDoorLeft.getRegionHeight(),
+                         GameDimension.TrainPartDoorLeft.x, GameDimension.TrainPartDoorLeft.y,
                          1.0f, 1.0f,
                          0.0f);
         spriteBatch.draw(trainDoorRight,
                          TrainLeftSide + Position.x + TrainDoorOffset + TrainDoorWidth, Position.y,
                          0.0f, 0.0f,
-                         trainDoorRight.getRegionWidth(), trainDoorRight.getRegionHeight(),
+                         GameDimension.TrainPartDoorRight.x, GameDimension.TrainPartDoorRight.y,
                          1.0f, 1.0f,
                          0.0f);
         
