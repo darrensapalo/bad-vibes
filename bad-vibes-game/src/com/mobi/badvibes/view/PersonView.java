@@ -257,7 +257,6 @@ public class PersonView
             int bucketID = computeBucketID(position);
         	
             if (currentBucketID != bucketID){
-            	System.out.println("Added to bucket: " + bucketID);
                 WorldRenderer.Instance.addToList(this, bucketID);
             }
         }

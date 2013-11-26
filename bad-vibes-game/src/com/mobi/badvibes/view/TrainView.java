@@ -20,6 +20,9 @@ public class TrainView
 	public enum TrainState {
 		ARRIVAL, BOARDING, DEPARTURE
 	}
+
+
+	
 	
 	
     /*
@@ -31,12 +34,16 @@ public class TrainView
     public static int            TrainDoorWidth     = 48;
     public static int            TrainDoorHeight    = 81;
 
-    public static int            TrainLeftSide      = 591;
-    public static int            TrainRightSide     = 373;
+    public static int            TrainLeftSideWidth      = 591;
+    public static int            TrainRightSideWidth     = 373;
 
     public static int            TrainInteriorWidth = 96;
 
+    public static int			 TrainDoorsOffsetFull = 50;
+    
     public static int            SpriteSecondRow    = 81;
+    
+    public static final float 	 TrainArrivalX = -240;
 
     /*
      * Resources
@@ -58,8 +65,8 @@ public class TrainView
     {
         trainTexture    = new Texture(Gdx.files.internal("data/game/train.png"));
 
-        trainPartA      = new TextureRegion(trainTexture, 0, 0, TrainLeftSide, TrainHeight);
-        trainPartB      = new TextureRegion(trainTexture, 0, SpriteSecondRow, TrainRightSide, TrainHeight);
+        trainPartA      = new TextureRegion(trainTexture, 0, 0, TrainLeftSideWidth, TrainHeight);
+        trainPartB      = new TextureRegion(trainTexture, 0, SpriteSecondRow, TrainRightSideWidth, TrainHeight);
 
         trainDoorLeft   = new TextureRegion(trainTexture, 469, SpriteSecondRow, TrainDoorWidth, TrainDoorHeight);
         trainDoorRight  = new TextureRegion(trainTexture, 517, SpriteSecondRow, TrainDoorWidth, TrainDoorHeight);
@@ -84,7 +91,7 @@ public class TrainView
     
     public TrainView()
     {
-        Position.x      = - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);;
+        Position.x      = - (GameDimension.TrainPartA.x + GameDimension.TrainPartInterior.x + GameDimension.TrainPartB.x);
         TrainDoorOffset = 0;
 
         Timer = 1;
@@ -96,7 +103,7 @@ public class TrainView
     {
         currentState = TrainState.ARRIVAL;
         Tween.to(this, TrainAccessor.TRAIN, 4)
-        .target(-240)
+        .target(GameDimension.TrainArrivalX)
         .ease(Cubic.OUT)
         .start(BadVibes.tweenManager)
         .setCallback(new TweenCallback()
@@ -106,7 +113,7 @@ public class TrainView
             {
                 if (TweenCallback.COMPLETE == arg0){
                     currentState = TrainState.BOARDING;
-                    Tween.to(TrainView.this, TrainAccessor.TRAIN_DOORS, 2).target(50).start(BadVibes.tweenManager);
+                    Tween.to(TrainView.this, TrainAccessor.TRAIN_DOORS, 2).target(GameDimension.TrainDoorsOffsetFull).start(BadVibes.tweenManager);
                 }
             }
         });
@@ -129,7 +136,7 @@ public class TrainView
                         Tween
                             .to(TrainView.this, TrainAccessor.TRAIN, 4)
                             .ease(Expo.IN)
-                            .target(800)
+                            .target(1600)
                             .setCallback(new TweenCallback()
                             {            
                                 @Override
@@ -137,7 +144,7 @@ public class TrainView
                                 {
                                     if (TweenCallback.COMPLETE == arg0)
                                     {
-                                        Position.x = - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);
+                                        Position.x = - (GameDimension.TrainPartA.x + GameDimension.TrainPartInterior.x + GameDimension.TrainPartB.x);
                                     }
                                 }
                             })
@@ -160,14 +167,14 @@ public class TrainView
                          1.0f, 1.0f,
                          0.0f);
         spriteBatch.draw(trainPartB,
-                         TrainLeftSide + Position.x + TrainDoorWidth * 2, Position.y,
+                         Position.x + GameDimension.TrainPartA.x + GameDimension.TrainPartDoorLeft.x * 2, Position.y,
                          0.0f, 0.0f,
                          GameDimension.TrainPartB.x, GameDimension.TrainPartB.y,
                          1.0f, 1.0f,
                          0.0f);
 
         spriteBatch.draw(trainInterior,
-                         TrainLeftSide + Position.x, Position.y,
+                         Position.x + GameDimension.TrainPartA.x, Position.y,
                          0.0f, 0.0f,
                          GameDimension.TrainPartInterior.x, GameDimension.TrainPartInterior.y,
                          1.0f, 1.0f,
@@ -181,13 +188,13 @@ public class TrainView
         spriteBatch.begin();
         
         spriteBatch.draw(trainDoorLeft,
-                         TrainLeftSide + Position.x - TrainDoorOffset, Position.y,
+                         Position.x + GameDimension.TrainPartA.x - TrainDoorOffset, Position.y,
                          0.0f, 0.0f,
                          GameDimension.TrainPartDoorLeft.x, GameDimension.TrainPartDoorLeft.y,
                          1.0f, 1.0f,
                          0.0f);
         spriteBatch.draw(trainDoorRight,
-                         TrainLeftSide + Position.x + TrainDoorOffset + TrainDoorWidth, Position.y,
+        				 Position.x + GameDimension.TrainPartA.x + TrainDoorOffset + GameDimension.TrainPartDoorLeft.x, Position.y,
                          0.0f, 0.0f,
                          GameDimension.TrainPartDoorRight.x, GameDimension.TrainPartDoorRight.y,
                          1.0f, 1.0f,

@@ -15,9 +15,6 @@ import com.mobi.badvibes.MainMenuScreen;
  *
  */
 public class GameDimension {
-	
-
-	
 
 	/**
 	 * This determines the dimension of the PersonView with
@@ -56,6 +53,8 @@ public class GameDimension {
 	public static Vector2 TrainPartInterior;
 	public static Vector2 TrainPartDoorLeft;
 	public static Vector2 TrainPartDoorRight;
+	
+	protected static float TrainDoorsOffsetFull;
 	
 	/**
 	 * This determines the dimensions of the logo in the main menu
@@ -101,6 +100,8 @@ public class GameDimension {
 	 * main menu screen.
 	 */
 	public static Vector2 MenuButton;
+
+	public static float TrainArrivalX;
 	
 	/**
 	 * This method is called when the viewport dimensions are 
@@ -149,13 +150,17 @@ public class GameDimension {
 		Shadow = new Vector2(_w, _h);
 		
 		// TrainView dimensions
-		TrainPartA = new Vector2(width / 800.0f * TrainView.TrainLeftSide, height / 480.0f * TrainView.TrainHeight);
-		TrainPartB = new Vector2(width / 800.0f * TrainView.TrainRightSide, height / 480.0f * TrainView.TrainHeight);
+		TrainPartA = new Vector2(width / 800.0f * TrainView.TrainLeftSideWidth, height / 480.0f * TrainView.TrainHeight);
+		TrainPartB = new Vector2(width / 800.0f * TrainView.TrainRightSideWidth, height / 480.0f * TrainView.TrainHeight);
 		
 		TrainPartInterior = new Vector2(width / 800.0f * TrainView.TrainInteriorWidth, height / 480.0f * TrainView.TrainHeight);
 		
 		TrainPartDoorLeft = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
 		TrainPartDoorRight = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
+		
+		TrainDoorsOffsetFull = width / 800f * TrainView.TrainDoorsOffsetFull;
+		
+		TrainArrivalX = width / 800f * TrainView.TrainArrivalX;
 		
 		Logo = new Vector2(width / 800.f * MainMenuScreen.LOGO_WIDTH, height / 480.0f * MainMenuScreen.LOGO_HEIGHT);
 		

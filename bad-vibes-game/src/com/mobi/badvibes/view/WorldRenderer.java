@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.model.train.Train;
 import com.mobi.badvibes.model.world.World;
-import com.mobi.badvibes.model.world.World.WorldState;
 
 /**
  * This class handles the rendering of the world. It runs all person's logic and
@@ -75,17 +75,11 @@ public class WorldRenderer
     {
         // drawTiles(shapeRenderer);
         
-        world.getTrain().trainView.renderTrain(spriteBatch, delta);
+        Train train = world.getTrain();
+		train.trainView.renderTrain(spriteBatch, delta);
+		train.trainView.renderDoors(spriteBatch, delta);
 
-        if (world.getCurrentState() == WorldState.BOARDING){
-        // render 
-	        for (PersonView p : masterBucket.get(0))
-	        {
-	            p.render(spriteBatch, delta);
-	        }
-	    }
-
-        // world.getTrain().trainView.renderDoors(spriteBatch, delta);
+        renderDestinations(spriteBatch, shapeRenderer);
         
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {
@@ -98,7 +92,7 @@ public class WorldRenderer
         if (infoTextTextDirty)
         {
             infoTextPosition.x = (Gdx.graphics.getWidth() - infoText.getBounds(infoTextText).width) / 2.0f;
-            infoTextPosition.y = 50 * (Gdx.graphics.getHeight() / 480.0f);
+            infoTextPosition.y = 430 * (Gdx.graphics.getHeight() / 480.0f);
 
             infoTextTextDirty  = false;
         }
@@ -113,7 +107,7 @@ public class WorldRenderer
 	        spriteBatch.end();
         }
         
-        renderDestinations(spriteBatch, shapeRenderer);
+        
     }
     
 
