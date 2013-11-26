@@ -2,10 +2,13 @@ package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
 
 /**
@@ -17,10 +20,6 @@ import com.mobi.badvibes.model.world.World;
  */
 public class WorldRenderer
 {
-    public static WorldRenderer             Instance;
-
-    private World                           world;
-
     public World getWorld()
     {
         return world;
@@ -39,6 +38,18 @@ public class WorldRenderer
     public static float                     PLATFORM_Y_OFFSET = 85;
 
     public static float                     RAIL_Y_OFFSET     = 25;
+    public static WorldRenderer             Instance;
+
+    private World                           world;
+
+    private BitmapFont                      infoText;
+
+    public boolean                          infoTextTextDirty = false;
+
+    public String                           infoTextText      = "";
+    public Vector2                          infoTextPosition  = new Vector2();
+
+    public float                            infoTextOpacity   = 0;
 
     public ArrayList<ArrayList<PersonView>> masterBucket;
 
@@ -69,6 +80,21 @@ public class WorldRenderer
                 p.render(spriteBatch, delta);   
             }
         }
+
+        if (infoTextTextDirty)
+        {
+            infoTextPosition.x = (Gdx.graphics.getWidth() - infoText.getBounds(infoTextText).width) / 2.0f;
+            infoTextPosition.y = 50 * (Gdx.graphics.getHeight() / 480.0f);
+
+            infoTextTextDirty  = false;
+        }
+
+        spriteBatch.begin();
+        
+        infoText.setColor   (0, 0, 0, infoTextOpacity);
+        infoText.draw       (spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
+
+        spriteBatch.end();
     }
 
     public boolean masterBucketContains(PersonView p)
@@ -101,6 +127,7 @@ public class WorldRenderer
         }
     }
 
+    @SuppressWarnings("unused")
     private void drawTiles(ShapeRenderer shapeRenderer)
     {
         shapeRenderer.begin(ShapeType.Rectangle);
