@@ -32,14 +32,12 @@ public class PrepareGameplay extends GameplayStrategy
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
+    	/* Tapping on a cell that was set to be a destination/part of the queue will remove it */
     	if (world.getCurrentState() == WorldState.ENTERING){
 	    	Point toAdd = getPoint(screenX, screenY);
 	    	if (positions.contains(toAdd)){
 	    		positions.remove(toAdd);
-	    	}else{
-	    		positions.add(toAdd);
 	    	}
-	    	
 	        return true;
     	}
     	return false;

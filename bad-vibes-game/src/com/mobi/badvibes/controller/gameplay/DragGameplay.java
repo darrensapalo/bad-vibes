@@ -9,6 +9,7 @@ import aurelienribon.tweenengine.equations.Cubic;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
@@ -100,8 +101,10 @@ public class DragGameplay extends GameplayStrategy
             int finalXPosition = cellXPosition * (int) GameDimension.Cell.x;
             int finalYPosition = (int) ((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
 
+            world.getTargetPositions().add(new Point(cellXPosition, cellYPosition));
             PersonView view = selectedPerson.getView();
             view.setPosition(new Vector2(finalXPosition, finalYPosition));
+            
 
             state = DragState.FallingDown;
 
@@ -126,9 +129,9 @@ public class DragGameplay extends GameplayStrategy
                 if (selectedPerson != null)
                 {
                     selectedPerson.getView().setCurrentState(State.IDLE);
-
                     selectedPerson = null;
                     startPoint = null;
+                    
                 }
             }
         }).start(BadVibes.tweenManager);

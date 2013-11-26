@@ -81,9 +81,9 @@ public class PersonView
     protected float                         stateTime;
     protected float                         opacity;
 
-	
+	private Texture emoticons;
 
-	
+		
 
     public static void Initialize()
     {
@@ -191,7 +191,10 @@ public class PersonView
         animationWalkingForward     = new Animation(frameDuration, region[1]);
         animationWalkingBackward    = new Animation(frameDuration, region[2]);
         animationPickedUp   		= new Animation(frameDuration, region[3][0]);
-
+        
+        emoticons = new Texture(Gdx.files.internal("data/game/emotions.png"));
+        
+        
         setCurrentState(State.IDLE);
         setCurrentFacing(Facing.FORWARD);
         currentBucketID     = -1;
