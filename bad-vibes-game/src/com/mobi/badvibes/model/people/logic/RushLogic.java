@@ -28,7 +28,7 @@ public class RushLogic extends PersonLogic
         super(person);
         
         Point   newPoint        = getFreePosition();
-        Vector2 nextDestination = GameUtil.getPlatformVector(newPoint); 
+        Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		
         person.getView().setDestination(nextDestination);
         person.setCellPoint(newPoint);

@@ -14,6 +14,7 @@ import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
 import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
@@ -98,12 +99,10 @@ public class DragGameplay extends GameplayStrategy
             int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
             int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
 
-            int finalXPosition = cellXPosition * (int) GameDimension.Cell.x;
-            int finalYPosition = (int) ((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
-
+            /** Adds this spot as one of the desirable ones */
             world.getTargetPositions().add(new Point(cellXPosition, cellYPosition));
             PersonView view = selectedPerson.getView();
-            view.setPosition(new Vector2(finalXPosition, finalYPosition));
+            view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));
             
 
             state = DragState.FallingDown;
@@ -146,11 +145,8 @@ public class DragGameplay extends GameplayStrategy
             int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
             int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
 
-            int finalXPosition = cellXPosition * (int) GameDimension.Cell.x;
-            int finalYPosition = (int) ((cellYPosition * GameDimension.Cell.y) + GameDimension.PlatformOffset);
-
             PersonView view = selectedPerson.getView();
-            view.setPosition(new Vector2(finalXPosition, finalYPosition));
+            view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));
 
             return true;
         }

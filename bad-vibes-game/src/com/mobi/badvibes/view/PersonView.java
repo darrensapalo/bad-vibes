@@ -298,9 +298,16 @@ public class PersonView
         
         TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
         TextureRegion emotionRegion = getCurrentEmotion(currentEmotion);
-        spriteBatch.begin();
-        
         Vector2 computedPosition = getComputedPosition();
+        Vector2 emotionPosition = getEmotionPosition();
+        
+        spriteBatch.begin();
+        /** Draw the shadow **/
+        Vector2 shadowPosition = getShadowPosition();
+        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+        spriteBatch.draw(shadowfeet,
+                         shadowPosition.x, shadowPosition.y,
+                         GameDimension.Shadow.x, GameDimension.Shadow.y);
         /** Draw the person **/
         spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
         spriteBatch.draw(region,
@@ -309,15 +316,7 @@ public class PersonView
                          GameDimension.Person.x, GameDimension.Person.y,
                          1.0f, 1.0f,
                          0f);
-        /** Draw the shadow **/
-        Vector2 shadowPosition = getShadowPosition();
-        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-        spriteBatch.draw(shadowfeet,
-                         shadowPosition.x, shadowPosition.y,
-                         GameDimension.Shadow.x, GameDimension.Shadow.y);
-        
         /** Draw the emotion **/
-        Vector2 emotionPosition = getEmotionPosition();
         spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
         if (emotionRegion != null)
         	spriteBatch.draw(emotionRegion, 
@@ -361,7 +360,7 @@ public class PersonView
     {
         return Position.cpy()
                 .add((GameDimension.Cell.x - GameDimension.Shadow.x) / 2.0f, 0)
-                .add(0, GameDimension.Cell.y);
+                .add(0, GameDimension.Cell.y * 0.95f);
     }
     
     private TextureRegion getCurrentEmotion(Emotions e){

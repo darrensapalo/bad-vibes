@@ -10,5 +10,8 @@ public class GameUtil {
 		return new Vector2(newPoint.x * GameDimension.Cell.x, 
 						   newPoint.y * GameDimension.Cell.y + GameDimension.PlatformOffset);
 	}
-
+	public static Vector2 getPlatformVectorCentered(Point newPoint) {
+		return new Vector2(newPoint.x * GameDimension.Cell.x, 
+						   newPoint.y * GameDimension.Cell.y + GameDimension.PlatformOffset).sub(0, GameDimension.Cell.y / 2);
+	}
 }

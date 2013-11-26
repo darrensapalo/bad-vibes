@@ -69,7 +69,6 @@ public abstract class World
     public World()
     {
         Instance = this;
-
         train = new Train();
         targetPositions = new ArrayList<Point>();
         setPeopleList(createPeople());
