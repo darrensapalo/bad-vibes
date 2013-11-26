@@ -84,12 +84,10 @@ public class TrainView
     
     public TrainView()
     {
-    	Position.x 		= - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);;
-    	TrainDoorOffset = 0;
-    	
-    	
-    	
-    	Timer = 1;
+        Position.x      = - (TrainLeftSide + TrainInteriorWidth + TrainRightSide);;
+        TrainDoorOffset = 0;
+
+        Timer = 1;
     }
 
     // TODO: place this in Train.java
@@ -156,17 +154,37 @@ public class TrainView
         spriteBatch.setColor(1, 1, 1, 1);
 
         spriteBatch.draw(trainPartA,
-                         Position.x, Position.y);
-        spriteBatch.draw(trainPartB, 
-                         TrainLeftSide + Position.x + TrainDoorWidth * 2, Position.y);
+                         Position.x, Position.y,
+                         0.0f, 0.0f,
+                         trainPartA.getRegionWidth(), trainPartA.getRegionHeight(),
+                         1.0f, 1.0f,
+                         0.0f);
+        spriteBatch.draw(trainPartB,
+                         TrainLeftSide + Position.x + TrainDoorWidth * 2, Position.y,
+                         0.0f, 0.0f,
+                         trainPartB.getRegionWidth(), trainPartB.getRegionHeight(),
+                         1.0f, 1.0f,
+                         0.0f);
 
         spriteBatch.draw(trainInterior,
-                         TrainLeftSide + Position.x, Position.y);
+                         TrainLeftSide + Position.x, Position.y,
+                         0.0f, 0.0f,
+                         trainInterior.getRegionWidth(), trainInterior.getRegionHeight(),
+                         1.0f, 1.0f,
+                         0.0f);
         
         spriteBatch.draw(trainDoorLeft,
-                         TrainLeftSide + Position.x - TrainDoorOffset, Position.y);
+                         TrainLeftSide + Position.x - TrainDoorOffset, Position.y,
+                         0.0f, 0.0f,
+                         trainDoorLeft.getRegionWidth(), trainDoorLeft.getRegionHeight(),
+                         1.0f, 1.0f,
+                         0.0f);
         spriteBatch.draw(trainDoorRight,
-                         TrainLeftSide + Position.x + TrainDoorOffset + TrainDoorWidth, Position.y);
+                         TrainLeftSide + Position.x + TrainDoorOffset + TrainDoorWidth, Position.y,
+                         0.0f, 0.0f,
+                         trainDoorRight.getRegionWidth(), trainDoorRight.getRegionHeight(),
+                         1.0f, 1.0f,
+                         0.0f);
         
         spriteBatch.end();
     }

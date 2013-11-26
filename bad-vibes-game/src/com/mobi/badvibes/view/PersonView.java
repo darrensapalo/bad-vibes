@@ -187,13 +187,14 @@ public class PersonView
             }
         }
         
-        animationIdleForward       		= new Animation(frameDuration, region[0]);
+        animationIdleForward        = new Animation(frameDuration, region[0]);
         animationWalkingForward     = new Animation(frameDuration, region[1]);
         animationWalkingBackward    = new Animation(frameDuration, region[2]);
-        animationPickedUp   		= new Animation(frameDuration, region[3][0]);
+        animationPickedUp           = new Animation(frameDuration, region[3][0]);
 
         setCurrentState(State.IDLE);
         setCurrentFacing(Facing.FORWARD);
+        
         currentBucketID     = -1;
         opacity             = 1f;
         
@@ -262,6 +263,7 @@ public class PersonView
         spriteBatch.begin();
         
         Vector2 computedPosition = getComputedPosition();
+        
         spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
         spriteBatch.draw(region,
                          computedPosition.x, computedPosition.y,
