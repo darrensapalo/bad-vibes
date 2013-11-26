@@ -272,7 +272,7 @@ public class PersonView
 
     private int computeBucketID(Vector2 position)
     {
-        float finalPosition = position.y - GameDimension.PlatformOffset + GameDimension.Cell.y / 2;
+        float finalPosition = position.y + GameDimension.Cell.y / 2;
         
         // from -1 for the people in the train
         int clamp = MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, -1, World.GRID_HEIGHT);

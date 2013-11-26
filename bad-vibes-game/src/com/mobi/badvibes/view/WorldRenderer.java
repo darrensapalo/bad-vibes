@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.model.world.World.WorldState;
 
 /**
  * This class handles the rendering of the world. It runs all person's logic and
@@ -75,11 +76,13 @@ public class WorldRenderer
         
         world.getTrain().trainView.renderTrain(spriteBatch, delta);
 
+        if (world.getCurrentState() == WorldState.BOARDING){
         // render 
-        for (PersonView p : masterBucket.get(-1))
-        {
-            p.render(spriteBatch, delta);
-        }
+	        for (PersonView p : masterBucket.get(0))
+	        {
+	            p.render(spriteBatch, delta);
+	        }
+	    }
 
         // world.getTrain().trainView.renderDoors(spriteBatch, delta);
         

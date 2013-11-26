@@ -58,7 +58,7 @@ public abstract class World
     protected WorldState          currentState;
 
     public static final int       GRID_WIDTH  = 20;
-    public static final int       GRID_HEIGHT = 9;
+    public static final int       GRID_HEIGHT = 9 + 2;
 
     /**
      * This method begins creating the world by instantiating people. This
