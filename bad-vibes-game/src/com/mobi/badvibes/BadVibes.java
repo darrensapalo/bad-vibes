@@ -11,13 +11,12 @@ public class BadVibes extends Game
 {
     public static SplashScreen   splashScreen;
     public static MainMenuScreen mainMenuScreen;
-    
-    
+
     public static PreGameScreen  preGameScreen;
     public static GameScreen     gameScreen;
-    
-    public static TweenManager   tweenManager  = new TweenManager();
-    
+
+    public static TweenManager   tweenManager = new TweenManager();
+
     private static BadVibes      Instance;
 
     public static BadVibes getInstance()
@@ -33,19 +32,20 @@ public class BadVibes extends Game
     @Override
     public void create()
     {
-    	GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    	MediaPlayer.Initialize();
-    	
-    	preGameScreen = new PreGameScreen();
-    	splashScreen = new SplashScreen();
+        GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        MediaPlayer.Initialize();
+
+        preGameScreen = new PreGameScreen();
+        splashScreen = new SplashScreen();
         mainMenuScreen = new MainMenuScreen();
         gameScreen = new GameScreen();
-        
+
         setScreen(splashScreen);
     }
-    
-    public void setScreen(BadVibesScreen screen) {
-    	screen.initialize();
-    	super.setScreen(screen);
+
+    public void setScreen(BadVibesScreen screen)
+    {
+        screen.initialize();
+        super.setScreen(screen);
     }
 }

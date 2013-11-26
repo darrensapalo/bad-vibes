@@ -39,7 +39,7 @@ public class SplashScreen extends BadVibesScreen
         Tween.setCombinedAttributesLimit(3);
         Tween.registerAccessor(SplashScreen.class, new BadVibesScreenAccessor());
 
-        Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1.0f).ease(TweenEquations.easeInCubic)).push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic).delay(1.0f)).setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback()
+        TweenCallback endAnimationCallback = new TweenCallback()
         {
             @Override
             public void onEvent(int type, BaseTween<?> source)
@@ -49,7 +49,23 @@ public class SplashScreen extends BadVibesScreen
                     BadVibes.getInstance().setScreen(BadVibes.mainMenuScreen);
                 }
             }
-        }).start(BadVibes.tweenManager);
+        };
+        
+        Timeline.createSequence()
+
+                .push(Tween.to      (this, BadVibesScreenAccessor.OPACITY, 0.5f)
+                           .target  (1.0f)
+                           .ease    (TweenEquations.easeInCubic))
+
+                .push(Tween.to      (this, BadVibesScreenAccessor.OPACITY, 0.5f)
+                           .target  (0.0f)
+                           .ease    (TweenEquations.easeInCubic)
+                           .delay   (1.0f))
+
+                .setCallbackTriggers    (TweenCallback.END)
+                .setCallback            (endAnimationCallback)
+
+        .start(BadVibes.tweenManager);
     }
 
     @Override

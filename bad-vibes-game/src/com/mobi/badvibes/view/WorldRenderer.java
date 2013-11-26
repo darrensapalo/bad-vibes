@@ -40,12 +40,12 @@ public class WorldRenderer
 
     private BitmapFont                      infoText;
 
-    private boolean                         infoTextTextDirty = false;
+    public boolean                          infoTextTextDirty = false;
 
     public String                           infoTextText      = "";
     public Vector2                          infoTextPosition  = new Vector2();
 
-    public float                            infoTextOpacity   = 1;
+    public float                            infoTextOpacity   = 0;
 
     public ArrayList<ArrayList<PersonView>> masterBucket;
 
@@ -73,8 +73,6 @@ public class WorldRenderer
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
-        // drawTiles(shapeRenderer);
-
         world.getTrain().trainView.render(spriteBatch, delta);
 
         for (int i = 0; i < World.GRID_HEIGHT; i++)
@@ -88,15 +86,15 @@ public class WorldRenderer
         if (infoTextTextDirty)
         {
             infoTextPosition.x = (Gdx.graphics.getWidth() - infoText.getBounds(infoTextText).width) / 2.0f;
-            infoTextPosition.y = 150 * (Gdx.graphics.getHeight() / 480.0f);
+            infoTextPosition.y = 50 * (Gdx.graphics.getHeight() / 480.0f);
 
-            infoTextTextDirty = false;
+            infoTextTextDirty  = false;
         }
 
         spriteBatch.begin();
-
-        spriteBatch.setColor(1, 1, 1, infoTextOpacity);
-        infoText.draw(spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
+        
+        infoText.setColor   (0, 0, 0, infoTextOpacity);
+        infoText.draw       (spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
 
         spriteBatch.end();
     }

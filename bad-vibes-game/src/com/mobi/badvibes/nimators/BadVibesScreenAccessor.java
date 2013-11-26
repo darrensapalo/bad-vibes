@@ -15,10 +15,11 @@ public class BadVibesScreenAccessor implements TweenAccessor<BadVibesScreen>
         {
         case OPACITY:
             returnValues[0] = target.getScreenOpacity();
+
             return 1;
         }
 
-        return -1;
+        return 0;
     }
 
     @Override

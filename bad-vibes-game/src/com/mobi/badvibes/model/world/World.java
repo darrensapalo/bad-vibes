@@ -3,6 +3,7 @@ package com.mobi.badvibes.model.world;
 import java.util.ArrayList;
 import java.util.Random;
 
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 
 import com.mobi.badvibes.BadVibes;
@@ -134,15 +135,19 @@ public abstract class World
         renderer.infoTextText       = info;
         renderer.infoTextOpacity    = 0;
         
-        Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 2)
-             .target    (1)
-             .start     (BadVibes.tweenManager);
+        renderer.infoTextTextDirty  = true;
         
-        Tween
-             .to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 2)
-             .delay     (duration)
-             .target    (0)
-             .start     (BadVibes.tweenManager);
+        Timeline.createSequence()
+
+            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
+                       .target    (1)
+                 )
+
+            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
+                       .delay     (duration)
+                       .target    (0))
+
+            .start(BadVibes.tweenManager);
     }
     
     /**

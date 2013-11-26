@@ -15,7 +15,7 @@ public class WorldRendererAccessor implements TweenAccessor<WorldRenderer>
         {
         case INFO_TEXT_OPACITY:
 
-            instance.infoTextOpacity = data[0];
+            data[0] = instance.infoTextOpacity;
 
             return 1;
         }
