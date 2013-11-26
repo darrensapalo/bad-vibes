@@ -58,6 +58,8 @@ public class WorldRenderer
         Instance    = this;
         world       = theWorld;
 
+        infoText = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
+        
         // initialize the buckets
         masterBucket = new ArrayList<ArrayList<PersonView>>();
         
@@ -91,8 +93,10 @@ public class WorldRenderer
 
         spriteBatch.begin();
         
-        infoText.setColor   (0, 0, 0, infoTextOpacity);
-        infoText.draw       (spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
+        if (infoText != null){
+	        infoText.setColor   (0, 0, 0, infoTextOpacity);
+	        infoText.draw       (spriteBatch, infoTextText, infoTextPosition.x, infoTextPosition.y);
+        }
 
         spriteBatch.end();
     }

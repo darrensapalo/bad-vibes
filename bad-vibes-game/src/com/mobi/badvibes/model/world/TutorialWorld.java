@@ -69,6 +69,7 @@ public class TutorialWorld extends World {
             if (train.trainView.currentState == TrainState.BOARDING){
                 Timer = 0;
                 currentState = WorldState.BOARDING;
+                setInfoText("The train is arriving!", 2);
                 runEvent(EventType.RUSH);
             }
             break;

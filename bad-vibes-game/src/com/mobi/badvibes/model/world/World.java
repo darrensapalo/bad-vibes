@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+
+import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.WorldController;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.train.Train;
+import com.mobi.badvibes.nimators.WorldRendererAccessor;
+import com.mobi.badvibes.view.WorldRenderer;
 
 /**
  * Alternatively, you can call this the train station. Each level of the game is
@@ -52,12 +59,7 @@ public abstract class World
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
-<<<<<<< HEAD
     
-    
-=======
->>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
-
     /**
      * This method begins creating the world by instantiating people. This
      * method determines the kinds of people to be created.
@@ -137,10 +139,9 @@ public abstract class World
         return false;
     }
 
-<<<<<<< HEAD
-=======
     public void setInfoText(String info, int duration)
     {
+    	WorldRenderer renderer = WorldRenderer.Instance;
         renderer.infoTextText       = info;
         renderer.infoTextOpacity    = 0;
         
@@ -159,9 +160,6 @@ public abstract class World
             .start(BadVibes.tweenManager);
     }
     
-    /**
-    /**
->>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
     /**
      * This method returns the list of people from the current world.
      * 
@@ -203,7 +201,6 @@ public abstract class World
 	public ArrayList<Point> getTargetPositions() {
 		return targetPositions;
 	}
-<<<<<<< HEAD
 
 	public void setTargetPositions(ArrayList<Point> targetPositions) {
 		this.targetPositions = targetPositions;
@@ -223,11 +220,4 @@ public abstract class World
     	personPositions.put(person, newPoint);
     	person.setCellPoint(newPoint);
     }
-
-=======
-
-	public void setTargetPositions(ArrayList<Point> targetPositions) {
-		this.targetPositions = targetPositions;
-	}
->>>>>>> parent of 324af24... Cleanup and error fixing due to conflict awhile ago.
 }

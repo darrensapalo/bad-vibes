@@ -13,9 +13,11 @@ import com.mobi.badvibes.model.localstorage.LocalStorage;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.nimators.TrainAccessor;
+import com.mobi.badvibes.nimators.WorldRendererAccessor;
 import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
+import com.mobi.badvibes.view.WorldRenderer;
 
 public class GameScreen extends BadVibesScreen
 {
@@ -39,6 +41,7 @@ public class GameScreen extends BadVibesScreen
         Tween.registerAccessor(GameScreen.class, new BadVibesScreenAccessor());
         Tween.registerAccessor(PersonView.class, new PersonAccessor());
         Tween.registerAccessor(TrainView.class, new TrainAccessor());
+        Tween.registerAccessor(WorldRenderer.class, new WorldRendererAccessor());
 
         Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
 
