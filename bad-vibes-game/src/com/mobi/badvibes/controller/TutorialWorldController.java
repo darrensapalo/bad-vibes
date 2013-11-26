@@ -85,18 +85,17 @@ public class TutorialWorldController extends WorldController
                     );
         spriteBatch.end();
         
-        shapeRenderer.begin(ShapeType.FilledRectangle);
-            renderDestinations(spriteBatch, shapeRenderer);
-        shapeRenderer.end();
-        
+    	renderDestinations(spriteBatch, shapeRenderer);
         renderer.render(spriteBatch, shapeRenderer, delta);
     }
 
     private void renderDestinations(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
-    	shapeRenderer.setColor(101 / 255f, 140 / 255f, 100 / 255f, 0.05f);
+    	shapeRenderer.begin(ShapeType.FilledRectangle);
+    	shapeRenderer.setColor(80 / 255f, 100 / 255f, 80 / 255f, 0.05f);
 	        for (Point p : prepareGameplay.positions){
 	        	shapeRenderer.filledRect(p.x * GameDimension.MiniCell.x, p.y * GameDimension.MiniCell.y + GameDimension.PlatformOffset, GameDimension.MiniCell.x, GameDimension.MiniCell.y);
 	        }
+        shapeRenderer.end();
 	}
 
 	public World getWorld()

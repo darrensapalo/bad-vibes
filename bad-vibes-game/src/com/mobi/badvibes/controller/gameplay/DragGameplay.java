@@ -70,6 +70,8 @@ public class DragGameplay extends GameplayStrategy
 
                 state = DragState.Held;
                 MediaPlayer.sfx("drop");
+                
+                world.removeTargetPosition(selectedPerson);
 
                 Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
                 {
@@ -99,10 +101,11 @@ public class DragGameplay extends GameplayStrategy
             int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
             int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
 
-            /** Adds this spot as one of the desirable ones */
-            world.getTargetPositions().add(new Point(cellXPosition, cellYPosition));
+            Point newPoint = new Point(cellXPosition, cellYPosition);
+			/** Adds this spot as one of the desirable ones */
+            world.addTargetPosition(selectedPerson, newPoint);
             PersonView view = selectedPerson.getView();
-            view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));
+            view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
             
 
             state = DragState.FallingDown;

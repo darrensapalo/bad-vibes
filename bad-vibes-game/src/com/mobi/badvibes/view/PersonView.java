@@ -282,8 +282,9 @@ public class PersonView
 
     private int computeBucketID(Vector2 position)
     {
-        float finalPosition = position.y - GameDimension.PlatformOffset;
-        return MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, 0, World.GRID_HEIGHT);
+        float finalPosition = position.y - GameDimension.PlatformOffset + GameDimension.Cell.y / 2;
+        int clamp = MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, 0, World.GRID_HEIGHT);
+        return clamp;
     }
 
     public Animation getAnimation()

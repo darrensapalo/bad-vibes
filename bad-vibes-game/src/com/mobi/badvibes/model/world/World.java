@@ -1,6 +1,7 @@
 package com.mobi.badvibes.model.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import com.mobi.badvibes.Point;
@@ -43,12 +44,16 @@ public abstract class World
      */
     protected ArrayList<Point> 	targetPositions;
 
+    public HashMap<Person, Point> personPositions;
+    
     protected Train             train;
 
 	protected WorldState 		currentState;
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
+    
+    
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -71,6 +76,8 @@ public abstract class World
         Instance = this;
         train = new Train();
         targetPositions = new ArrayList<Point>();
+        personPositions = new HashMap<Person, Point>();
+        
         setPeopleList(createPeople());
     }
 
@@ -172,4 +179,20 @@ public abstract class World
 	public void setTargetPositions(ArrayList<Point> targetPositions) {
 		this.targetPositions = targetPositions;
 	}
+
+	public void removeTargetPosition(Person selectedPerson) {
+		if (personPositions.containsKey(selectedPerson)){
+			Point point = personPositions.get(selectedPerson);
+			personPositions.remove(selectedPerson);
+			targetPositions.remove(point);
+		}
+	}
+    
+    public void addTargetPosition(Person person, Point newPoint){
+    	if (targetPositions.contains(newPoint) == false)
+    		targetPositions.add(newPoint);
+    	personPositions.put(person, newPoint);
+    	person.setCellPoint(newPoint);
+    }
+
 }
