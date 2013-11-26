@@ -214,6 +214,12 @@ public abstract class World
         return currentState;
     }
 
+    /**
+     * These are the target positions for people to stay at,
+     * for them to wait in while the passengers leave the 
+     * train.
+     * @return
+     */
     public ArrayList<Point> getTargetPositions()
     {
         return targetPositions;

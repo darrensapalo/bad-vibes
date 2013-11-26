@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.model.world.World.WorldState;
 
@@ -111,7 +112,19 @@ public class WorldRenderer
 
 	        spriteBatch.end();
         }
+        
+        renderDestinations(spriteBatch, shapeRenderer);
     }
+    
+
+    private void renderDestinations(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer) {
+    	shapeRenderer.begin(ShapeType.FilledRectangle);
+    	shapeRenderer.setColor(80 / 255f, 100 / 255f, 80 / 255f, 0.05f);
+	        for (Point p : world.getTargetPositions()){
+	        	shapeRenderer.filledRect(p.x * GameDimension.MiniCell.x, p.y * GameDimension.MiniCell.y + GameDimension.PlatformOffset, GameDimension.MiniCell.x, GameDimension.MiniCell.y);
+	        }
+        shapeRenderer.end();
+	}
 
     public boolean masterBucketContains(PersonView p)
     {
