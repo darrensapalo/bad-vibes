@@ -10,6 +10,8 @@ import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.train.Train;
+import com.mobi.badvibes.nimators.WorldRendererAccessor;
+import com.mobi.badvibes.view.WorldRenderer;
 
 /**
  * Alternatively, you can call this the train station. Each level of the game is
@@ -23,8 +25,8 @@ public abstract class World
     public static World Instance;
 
     /**
-     * There are two stages of each train station. Entering is the state where 
-     * people are beginning to enter the train station. Arrival is when the 
+     * There are two stages of each train station. Entering is the state where
+     * people are beginning to enter the train station. Arrival is when the
      * train comes to the station. Boarding is when the players are entering the
      * train. Departure is when the train leaves.
      * 
@@ -41,18 +43,20 @@ public abstract class World
      * the train or not on the train.
      */
     protected ArrayList<Person> peopleList;
-    
+
     /**
      * This array contains the destinations that persons will aim to go to.
      */
-    protected ArrayList<Point> 	targetPositions;
+    protected ArrayList<Point>  targetPositions;
 
     protected Train             train;
 
-	protected WorldState 		currentState;
+    protected WorldState        currentState;
 
     public static final int     GRID_WIDTH  = 20;
     public static final int     GRID_HEIGHT = 9;
+
+    public WorldRenderer        renderer;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -62,8 +66,8 @@ public abstract class World
 
     public void initialize()
     {
-    	currentState = WorldState.ENTERING;
-    	
+        currentState = WorldState.ENTERING;
+
         for (Person p : peopleList)
         {
             p.initialize(this);
@@ -133,28 +137,22 @@ public abstract class World
 
     public void setInfoText(String info, int duration)
     {
-        renderer.infoTextText       = info;
-        renderer.infoTextOpacity    = 0;
-        
-        renderer.infoTextTextDirty  = true;
-        
+        renderer.infoTextText = info;
+        renderer.infoTextOpacity = 0;
+
+        renderer.infoTextTextDirty = true;
+
         Timeline.createSequence()
 
-            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
-                       .target    (1)
-                 )
+        .push(Tween.to(renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1).target(1))
 
-            .push(Tween.to        (renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1)
-                       .delay     (duration)
-                       .target    (0))
+        .push(Tween.to(renderer, WorldRendererAccessor.INFO_TEXT_OPACITY, 1).delay(duration).target(0))
 
-            .start(BadVibes.tweenManager);
+        .start(BadVibes.tweenManager);
     }
-    
+
     /**
-    /**
-    /**
-     * This method returns the list of people from the current world.
+     * /** /** This method returns the list of people from the current world.
      * 
      * @return
      */
@@ -180,22 +178,26 @@ public abstract class World
      * @param type
      */
     public abstract void runEvent(EventType type);
-    
+
     /**
      * This method does the logic for the world.
+     * 
      * @param delta
      */
     public abstract void update(float delta);
 
-	public WorldState getCurrentState() {
-		return currentState;
-	}
+    public WorldState getCurrentState()
+    {
+        return currentState;
+    }
 
-	public ArrayList<Point> getTargetPositions() {
-		return targetPositions;
-	}
+    public ArrayList<Point> getTargetPositions()
+    {
+        return targetPositions;
+    }
 
-	public void setTargetPositions(ArrayList<Point> targetPositions) {
-		this.targetPositions = targetPositions;
-	}
+    public void setTargetPositions(ArrayList<Point> targetPositions)
+    {
+        this.targetPositions = targetPositions;
+    }
 }

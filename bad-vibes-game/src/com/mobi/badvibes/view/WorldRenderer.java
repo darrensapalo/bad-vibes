@@ -2,10 +2,13 @@ package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
 
 /**
@@ -17,10 +20,6 @@ import com.mobi.badvibes.model.world.World;
  */
 public class WorldRenderer
 {
-    public static WorldRenderer             Instance;
-
-    private World                           world;
-
     public World getWorld()
     {
         return world;
@@ -128,6 +127,7 @@ public class WorldRenderer
         }
     }
 
+    @SuppressWarnings("unused")
     private void drawTiles(ShapeRenderer shapeRenderer)
     {
         shapeRenderer.begin(ShapeType.Rectangle);

@@ -1,7 +1,5 @@
 package com.mobi.badvibes.model.people.logic;
 
-import java.util.ArrayList;
-
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
