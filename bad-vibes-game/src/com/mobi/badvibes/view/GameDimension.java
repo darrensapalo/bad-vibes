@@ -21,6 +21,13 @@ public class GameDimension {
 	public static Vector2 Person;
 	
 	/**
+	 * This determines the dimension of the train asset with 
+	 * respect to the viewport.
+	 */
+	public static Vector2 Train;
+	
+	
+	/**
 	 * This determines the dimension of the railway asset with
 	 * respect to the viewport.
 	 */
@@ -70,6 +77,11 @@ public class GameDimension {
 		_w = width / 800f * PersonView.WIDTH;
 		_h = height / 480f * PersonView.HEIGHT;
 		Person = new Vector2(_w, _h);
+		
+		// TrainView dimensions
+		/*
+		 * Do things here *_*
+		 */
 				
 		// Railview dimensions
 		_w = width / 800f * WorldRenderer.RAIL_WIDTH;

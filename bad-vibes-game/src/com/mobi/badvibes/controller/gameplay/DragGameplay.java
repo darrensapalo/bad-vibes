@@ -69,7 +69,7 @@ public class DragGameplay extends GameplayStrategy
                 state = DragState.Held;
                 MediaPlayer.sfx("drop");
 
-                Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
+                Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
                 {
                     @Override
                     public void onEvent(int arg0, BaseTween<?> arg1)
