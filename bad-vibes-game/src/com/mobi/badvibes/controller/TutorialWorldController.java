@@ -67,15 +67,27 @@ public class TutorialWorldController extends WorldController
 	    shapeRenderer.end();    
 	    
         spriteBatch.begin();
-        spriteBatch.draw(sprites, railPosition.x, railPosition.y, railPosition.width, railPosition.height, 0, 0, 800, 120, true, true);
-        spriteBatch.draw(sprites, platformPosition.x, platformPosition.y, platformPosition.width, platformPosition.height, 0, 120, 800, 400, true, true);
+            spriteBatch.draw(
+                    sprites,
+                    railPosition.x, railPosition.y,
+                    railPosition.width, railPosition.height,
+                    0, 0,
+                    800, 120,
+                    true, true
+                    );
+            spriteBatch.draw(
+                    sprites,
+                    platformPosition.x, platformPosition.y,
+                    platformPosition.width, platformPosition.height,
+                    0, 120,
+                    800, 400,
+                    true, true
+                    );
         spriteBatch.end();
         
         shapeRenderer.begin(ShapeType.FilledRectangle);
-        	renderDestinations(spriteBatch, shapeRenderer);
+            renderDestinations(spriteBatch, shapeRenderer);
         shapeRenderer.end();
-        
-        
         
         renderer.render(spriteBatch, shapeRenderer, delta);
     }
