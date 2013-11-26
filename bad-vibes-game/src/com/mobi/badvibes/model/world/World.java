@@ -43,8 +43,8 @@ public abstract class World
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
-    protected ArrayList<Person>   peopleList;
-    protected ArrayList<Person>   peopleInTrainList;
+    protected ArrayList<Person>   peopleList        = new ArrayList<Person>();
+    protected ArrayList<Person>   peopleInTrainList = new ArrayList<Person>();
 
     /**
      * This array contains the destinations that persons will aim to go to.
@@ -57,8 +57,8 @@ public abstract class World
 
     protected WorldState          currentState;
 
-    public static final int       GRID_WIDTH  = 20;
-    public static final int       GRID_HEIGHT = 9;
+    public static final int       GRID_WIDTH        = 20;
+    public static final int       GRID_HEIGHT       = 9;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -76,8 +76,8 @@ public abstract class World
         {
             p.initialize(this, false);
         }
-        
-        for (Person p: peopleInTrainList)
+
+        for (Person p : peopleInTrainList)
         {
             p.initialize(this, true);
         }
@@ -91,7 +91,6 @@ public abstract class World
         personPositions = new HashMap<Person, Point>();
 
         setPeopleList(createPeople());
-        setPeopleInTrainList(createPeopleInTrain());
     }
 
     /**
@@ -178,7 +177,7 @@ public abstract class World
     {
         return peopleInTrainList;
     }
-    
+
     public Train getTrain()
     {
         return train;
@@ -193,7 +192,7 @@ public abstract class World
     {
         peopleInTrainList = peopleList;
     }
-    
+
     /**
      * This method runs a certain kind of event in the world.
      * 
