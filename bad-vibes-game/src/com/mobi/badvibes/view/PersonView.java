@@ -249,6 +249,7 @@ public class PersonView
 
     public synchronized void setPosition(Vector2 position)
     {
+    	
         Position = position;
         Bounds = new Rectangle(position.x + (GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, position.y - (GameDimension.Cell.y), GameDimension.Person.x, GameDimension.Person.y);
 
@@ -267,7 +268,7 @@ public class PersonView
         float finalPosition = position.y - GameDimension.PlatformOffset + GameDimension.Cell.y / 2;
         
         // from -1 for the people in the train
-        int clamp = MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, 0, World.GRID_HEIGHT);
+        int clamp = MathHelper.Clamp((int) finalPosition / (int) GameDimension.MiniCell.y, 0, World.GRID_HEIGHT - 1);
         return clamp;
     }
 
@@ -292,7 +293,7 @@ public class PersonView
         spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
         spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
         /** Draw the person **/
-        spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
+        spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), opacity);
         spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 0f);
         /** Draw the emotion **/
         spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
@@ -313,6 +314,10 @@ public class PersonView
 
     public Vector2 getComputedPosition()
     {
+    	if (Position == null) System.out.println("1");
+    	if (pickupOffset == null) System.out.println("2");
+    	if (GameDimension.Person == null) System.out.println("3");
+    	if (GameDimension.Cell == null) System.out.println("4");
         return Position.cpy().add((GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, 0).sub(0, GameDimension.Cell.y).add(pickupOffset);
     }
 

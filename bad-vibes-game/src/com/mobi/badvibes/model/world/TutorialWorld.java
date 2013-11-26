@@ -1,11 +1,15 @@
 package com.mobi.badvibes.model.world;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.NormanTheNormal;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ExploreLogic;
+import com.mobi.badvibes.model.people.logic.LeavingTrainLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.TrainView.TrainState;
 
 public class TutorialWorld extends World
@@ -58,6 +62,14 @@ public class TutorialWorld extends World
             {
                 p.setLogic(new RushLogic(p));
             }
+		case ALIGHT:
+			System.out.println("Alighting the train!");
+			for (Person p : peopleInTrainList){
+				Random r = new Random();
+				Point newPoint = (r.nextBoolean()) ? new Point(9, 0): new Point(10, 0);
+				p.getView().setPosition(GameUtil.getPlatformVectorCentered(newPoint));
+				p.setLogic(new LeavingTrainLogic(p));
+			}
             break;
         case EXPLORE:
             System.out.println("Explore!");
@@ -65,6 +77,8 @@ public class TutorialWorld extends World
             {
                 p.setLogic(new ExploreLogic(p));
             }
+		default:
+			break;
         }
     }
 

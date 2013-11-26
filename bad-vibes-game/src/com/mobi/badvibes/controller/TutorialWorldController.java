@@ -22,7 +22,6 @@ public class TutorialWorldController extends WorldController
     private Texture   sprites;
     private Rectangle railPosition;
     private Rectangle platformPosition;
-	private PrepareGameplay prepareGameplay;
 
     public TutorialWorldController()
     {
@@ -33,7 +32,7 @@ public class TutorialWorldController extends WorldController
     {        
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
-        gameplay.push(prepareGameplay = new PrepareGameplay(world));
+        gameplay.push(new PrepareGameplay(world));
         gameplay.push(new RushGameplay(world));
 
         world.initialize();

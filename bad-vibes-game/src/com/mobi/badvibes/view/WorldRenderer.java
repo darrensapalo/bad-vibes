@@ -79,8 +79,9 @@ public class WorldRenderer
 		train.trainView.renderTrain(spriteBatch, delta);
 		train.trainView.renderDoors(spriteBatch, delta);
 
-        renderDestinations(spriteBatch, shapeRenderer);
+        // renderDestinations(spriteBatch, shapeRenderer);
         
+		
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {
             for (PersonView p : masterBucket.get(i))
@@ -135,11 +136,13 @@ public class WorldRenderer
     {
         removeFromList(p);
 
-        if (masterBucketContains(p) == false)
+        if (masterBucketContains(p) == false && bucketID < World.GRID_HEIGHT)
             masterBucket.get(bucketID).add(p);
+        else 
+        	masterBucket.get(World.GRID_HEIGHT - 1).add(p);
     }
 
-    private void removeFromList(PersonView p)
+    public void removeFromList(PersonView p)
     {
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {

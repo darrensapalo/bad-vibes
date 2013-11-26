@@ -29,10 +29,10 @@ public abstract class Person
 
     /**
      * This value shows how responsive the person is when picked up with the
-     * drag-and-drop gesture. It is set to 4 by default. The lowest value is 1.
+     * drag-and-drop gesture. It is set to 2 by default. The lowest value is 1.
      * The heaviest weight is 16.
      */
-    protected float           weight        = 4;
+    protected float           weight        = 2;
 
     /**
      * This value ranges between 0 to 1, which represents how much patience he

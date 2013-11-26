@@ -20,7 +20,7 @@ public class MediaPlayer {
 	private static Music currentMusic;
 	
 	private MediaPlayer(){
-		IsEnabled = false;
+		IsEnabled = true;
 		
 		backgroundMusicLibrary = new HashMap<String, Music>();
 		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
@@ -33,7 +33,7 @@ public class MediaPlayer {
 		loadSoundToLibrary("closing", "closinglrt.wav");
 		
 		loadSoundToLibrary("drop", "dropsfx.wav");
-		loadSoundToLibrary("entered", "enteredTrain.wav");
+		loadSoundToLibrary("success", "enteredTrain.wav");
 	}
 	
 	/**
