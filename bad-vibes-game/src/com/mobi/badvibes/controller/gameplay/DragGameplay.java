@@ -64,7 +64,7 @@ public class DragGameplay extends GameplayStrategy
                 if (selectedPerson.walkingTween != null)
                     selectedPerson.walkingTween.kill();
 
-                selectedPerson.setLogic(new StillLogic(selectedPerson));
+                
                 selectedPerson.getView().setCurrentState(State.PICKED_UP);
 
                 state = DragState.Held;
@@ -128,6 +128,7 @@ public class DragGameplay extends GameplayStrategy
 
                 if (selectedPerson != null)
                 {
+                	selectedPerson.setLogic(new StillLogic(selectedPerson));
                     selectedPerson.getView().setCurrentState(State.IDLE);
                     selectedPerson = null;
                     startPoint = null;

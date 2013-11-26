@@ -72,6 +72,12 @@ public class GameDimension {
 	 * This determines the position of the shadow of the player.
 	 */
 	public static Vector2 Shadow;
+
+	/**
+	 * This determines the dimensions of the emotions depending on the
+	 * viewport of the device.
+	 */
+	public static Vector2 Emotions;
 	
 	/**
 	 * This method is called when the viewport dimensions are 
@@ -87,10 +93,11 @@ public class GameDimension {
 		_h = height / 480f * PersonView.HEIGHT;
 		Person = new Vector2(_w, _h);
 		
-		// TrainView dimensions
-		/*
-		 * Do things here *_*
-		 */
+		
+		// Emotions dimensions
+		_w = width / 800f * PersonView.EMOTION_WIDTH;
+		_h = height / 480f * PersonView.EMOTION_HEIGHT;
+		Emotions = new Vector2(_w, _h);
 				
 		// Railview dimensions
 		_w = width / 800f * WorldRenderer.RAIL_WIDTH;
@@ -118,6 +125,7 @@ public class GameDimension {
 		_h = height / 480f * PersonView.SHADOW_HEIGHT;
 		Shadow = new Vector2(_w, _h);
 		
+		// TrainView dimensions
 		TrainPartA = new Vector2(width / 800.0f * TrainView.TrainLeftSide, height / 480.0f * TrainView.TrainHeight);
 		TrainPartB = new Vector2(width / 800.0f * TrainView.TrainRightSide, height / 480.0f * TrainView.TrainHeight);
 		

@@ -11,6 +11,7 @@ public class PersonAccessor implements TweenAccessor<Person>
 	public static final int OPACITY = 1;
 	public static final int POSITION = 2;
 	public static final int PICKUP_OFFSET = 3;
+	public static final int EMOTION_OPACITY = 4;
     
 	@Override
 	public int getValues(Person target, int tweenType, float[] returnValues) {
@@ -28,6 +29,9 @@ public class PersonAccessor implements TweenAccessor<Person>
         	returnValues[0] = view.getPickupOffset().x;
         	returnValues[1] = view.getPickupOffset().y;
         	return 2;
+        case EMOTION_OPACITY:
+        	returnValues[0] = view.getEmotionOpacity();
+        	return 1;
         }
 
 		return 0;
@@ -49,6 +53,9 @@ public class PersonAccessor implements TweenAccessor<Person>
         case PICKUP_OFFSET:
         	Vector2 newPickupPosition = new Vector2(newValues[0], newValues[1]);
         	view.setPickupOffset(newPickupPosition);
+        	break;
+        case EMOTION_OPACITY:
+        	target.getView().setEmotionOpacity(newValues[0]);
         	break;
         }
 	}

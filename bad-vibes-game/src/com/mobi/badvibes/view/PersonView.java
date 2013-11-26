@@ -2,6 +2,12 @@ package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.equations.Cubic;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,7 +15,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
+import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.MathHelper;
 
 public class PersonView
@@ -34,6 +44,13 @@ public class PersonView
     	FORWARD,
     	BACKWARD
     }
+    
+    public enum Emotions {
+    	NONE,
+    	HAPPY,
+    	NAUGHTY,
+    	ANGRY
+    }
 
     public enum Character
     {
@@ -52,6 +69,9 @@ public class PersonView
 
     public static final float               SHADOW_WIDTH  = 52;
     public static final float               SHADOW_HEIGHT = 9;
+
+    public static final int 				EMOTION_WIDTH  = 45;
+    public static final int 				EMOTION_HEIGHT = 36;
 
     protected static ArrayList<PersonEntry> DarrenTheDapaen;
     protected static ArrayList<PersonEntry> NormanTheNormal;
@@ -76,12 +96,17 @@ public class PersonView
     protected Rectangle                     Bounds;
     protected State                         currentState;
     protected Facing						currentFacing;
+    protected Emotions 						currentEmotion;
     
     protected int                           currentBucketID;
     protected float                         stateTime;
     protected float                         opacity;
 
-	private Texture emoticons;
+	private TextureRegion[][] emotions;
+
+	private float emotionOpacity;
+
+	
 
 		
 
@@ -192,8 +217,18 @@ public class PersonView
         animationWalkingBackward    = new Animation(frameDuration, region[2]);
         animationPickedUp   		= new Animation(frameDuration, region[3][0]);
         
-        emoticons = new Texture(Gdx.files.internal("data/game/emotions.png"));
+        /** Load the emotions properly **/
+        Texture emoticonSheet = new Texture(Gdx.files.internal("data/game/emotions.png"));
+        emotions = TextureRegion.split(emoticonSheet, EMOTION_WIDTH, EMOTION_HEIGHT);
         
+        for (int y = 0; y < emotions.length; y++)
+        {
+            for (int x = 0; x < emotions[y].length; x++)
+            {
+            	emotions[y][x].flip(false, true);
+            }
+        }
+        currentEmotion = Emotions.HAPPY;
         
         setCurrentState(State.IDLE);
         setCurrentFacing(Facing.FORWARD);
@@ -262,11 +297,11 @@ public class PersonView
         currentAnimation = getCurrentAnimation();
         
         TextureRegion region = currentAnimation.getKeyFrame(stateTime, true);
-
+        TextureRegion emotionRegion = getCurrentEmotion(currentEmotion);
         spriteBatch.begin();
         
         Vector2 computedPosition = getComputedPosition();
-        
+        /** Draw the person **/
         spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), 1f);
         spriteBatch.draw(region,
                          computedPosition.x, computedPosition.y,
@@ -274,14 +309,44 @@ public class PersonView
                          GameDimension.Person.x, GameDimension.Person.y,
                          1.0f, 1.0f,
                          0f);
-
+        /** Draw the shadow **/
         Vector2 shadowPosition = getShadowPosition();
         spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
         spriteBatch.draw(shadowfeet,
                          shadowPosition.x, shadowPosition.y,
                          GameDimension.Shadow.x, GameDimension.Shadow.y);
         
+        /** Draw the emotion **/
+        Vector2 emotionPosition = getEmotionPosition();
+        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
+        if (emotionRegion != null)
+        	spriteBatch.draw(emotionRegion, 
+        					 emotionPosition.x, emotionPosition.y,
+        					 0, 0,
+        					 GameDimension.Emotions.x, GameDimension.Emotions.y,
+        					 1.0f, 1.0f,
+        					 0f);
         spriteBatch.end();
+    }
+    
+    public void setEmotion(Person person, Emotions e){
+    	Timeline.createSequence().push(
+    	Tween.to(person, PersonAccessor.EMOTION_OPACITY, 0.3f)
+    		 .target(1f)
+    		 .ease(Cubic.INOUT)
+		 ).push(Tween.to(person, PersonAccessor.EMOTION_OPACITY, 0.3f)
+	    		 .target(0f)
+	    		 .ease(Cubic.INOUT)
+	    		 .delay(1f)
+		 ).start(BadVibes.tweenManager);
+    }
+    
+    public Vector2 getEmotionPosition()
+    {
+        return Position.cpy()
+                .add((GameDimension.Cell.x - GameDimension.Emotions.x) / 2.0f, 0)
+                .sub(0, GameDimension.Cell.y + GameDimension.Emotions.y)
+                .add(pickupOffset);
     }
 
     public Vector2 getComputedPosition()
@@ -297,6 +362,15 @@ public class PersonView
         return Position.cpy()
                 .add((GameDimension.Cell.x - GameDimension.Shadow.x) / 2.0f, 0)
                 .add(0, GameDimension.Cell.y);
+    }
+    
+    private TextureRegion getCurrentEmotion(Emotions e){
+    	switch (e){
+	    	case HAPPY: 	return emotions[0][0];
+	    	case NAUGHTY: 	return emotions[0][1];
+	    	case ANGRY: 	return emotions[0][2];
+		default:			return null;
+    	}
     }
 
     private Animation getCurrentAnimation()
@@ -371,5 +445,13 @@ public class PersonView
 
 	public void setCurrentFacing(Facing currentFacing) {
 		this.currentFacing = currentFacing;
+	}
+
+	public float getEmotionOpacity() {
+		return emotionOpacity;
+	}
+
+	public void setEmotionOpacity(float emotionOpacity) {
+		this.emotionOpacity = emotionOpacity;
 	}
 }
