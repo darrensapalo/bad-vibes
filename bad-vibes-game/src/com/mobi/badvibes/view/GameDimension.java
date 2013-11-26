@@ -1,7 +1,10 @@
 package com.mobi.badvibes.view;
 
+import sun.applet.Main;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.MainMenuScreen;
 
 /**
  * This class handles the resizing of the game dimensions depending
@@ -12,6 +15,8 @@ import com.mobi.badvibes.BadVibes;
  *
  */
 public class GameDimension {
+	
+
 	
 
 	/**
@@ -52,6 +57,12 @@ public class GameDimension {
 	public static Vector2 TrainPartDoorLeft;
 	public static Vector2 TrainPartDoorRight;
 	
+	/**
+	 * This determines the dimensions of the logo in the main menu
+	 * screen.
+	 */
+	public static Vector2 Logo;
+	
 	
 	
 	/**
@@ -78,6 +89,18 @@ public class GameDimension {
 	 * viewport of the device.
 	 */
 	public static Vector2 Emotions;
+
+	/**
+	 * This determines the dimensions of the tap to play button on the
+	 * main menu screen.
+	 */
+	public static Vector2 TapToPlay;
+	
+	/**
+	 * This determines the dimensions of the menu buttons on the
+	 * main menu screen.
+	 */
+	public static Vector2 MenuButton;
 	
 	/**
 	 * This method is called when the viewport dimensions are 
@@ -133,5 +156,11 @@ public class GameDimension {
 		
 		TrainPartDoorLeft = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
 		TrainPartDoorRight = new Vector2(width / 800.0f * TrainView.TrainDoorWidth, height / 480.0f * TrainView.TrainDoorHeight);
+		
+		Logo = new Vector2(width / 800.f * MainMenuScreen.LOGO_WIDTH, height / 480.0f * MainMenuScreen.LOGO_HEIGHT);
+		
+		TapToPlay = new Vector2(width / 800f * MainMenuScreen.TAP_PLAY_WIDTH, height / 480f * MainMenuScreen.TAP_PLAY_HEIGHT);
+		
+		MenuButton = new Vector2(width / 800f * MainMenuScreen.MENU_BUTTON_WIDTH, height / 480f * MainMenuScreen.MENU_BUTTON_HEIGHT);
 	}
 }

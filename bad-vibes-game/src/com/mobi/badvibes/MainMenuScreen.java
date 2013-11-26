@@ -8,69 +8,53 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.view.GameDimension;
 
 public class MainMenuScreen extends BadVibesScreen
 {
-    // For debugging purposes
-    private BitmapFont      titleFont;
-    private BitmapFont      defaultFont;
-    private Point           titlePos;
-    private Point           subtitlePos;
-    private Texture         walkSheet;
-    private TextureRegion[] walkFrames;
-    private Animation       walkAnimation;
-    private TextureRegion   currentFrame;
-    private Point           guyPosition;
-    private boolean         toTheLeft;
-    private float           stateTime;
+	public static final int LOGO_WIDTH = 674;
+	public static final int LOGO_HEIGHT = 137;
+	public static final int TAP_PLAY_WIDTH = 233;
+	public static final int TAP_PLAY_HEIGHT = 20;
+	
+	public static final int MENU_BUTTON_WIDTH = 46;
+	public static final int MENU_BUTTON_HEIGHT = 43;
+	
+    private Texture background;
+	private Texture logo;
+	private Texture buttons;
+	private Vector2 logoPosition;
+	private Vector2 buttonsPosition;
+	private Vector2 musicPosition;
+	private Vector2 HighScoresPosition;
+	private Vector2 InformationPosition;
 
-    @Override
+	@Override
     protected void initialize()
     {
+    	
+    	buttons = new Texture(Gdx.files.internal("data/mainmenu/buttons.png"));
+    	logo = new Texture(Gdx.files.internal("data/mainmenu/logo.png"));
+    	background = new Texture(Gdx.files.internal("data/mainmenu/mainpage.png"));
+    	
+    	
         // non-power of two images
         Texture.setEnforcePotImages(false);
-
-        // create fonts
-        titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
-        titleFont.setColor(0f, 0f, 0f, 1f);
-
-        defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
-        defaultFont.setColor(0f, 0f, 0f, 1f);
-
-        // setup frame animation for the dude
-        int FRAME_COLS = 3;
-        int FRAME_ROWS = 1;
-
-        walkSheet = new Texture(Gdx.files.internal("data/RunAround.png")); // #9
-
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight() / FRAME_ROWS); // #10
-        walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-
-        int index = 0;
-
-        for (int i = 0; i < FRAME_ROWS; i++)
-        {
-            for (int j = 0; j < FRAME_COLS; j++)
-            {
-                walkFrames[index++] = tmp[i][j];
-            }
-        }
-
-        walkAnimation = new Animation(0.1f, walkFrames);
-
-        updatePosition();
-
         Tween.registerAccessor(MainMenuScreen.class, new BadVibesScreenAccessor());
-
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(BadVibes.tweenManager);
         
+        logoPosition = new Vector2((Gdx.graphics.getWidth() - logo.getWidth()) / 2, (Gdx.graphics.getHeight() - logo.getHeight()) / 4);
+        buttonsPosition = new Vector2((Gdx.graphics.getWidth() - TAP_PLAY_WIDTH) / 2, (Gdx.graphics.getHeight() - TAP_PLAY_HEIGHT) / 1.5f);
+        
+        musicPosition = new Vector2(MENU_BUTTON_WIDTH / 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
+        HighScoresPosition = new Vector2(MENU_BUTTON_WIDTH * 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
+        InformationPosition = new Vector2(Gdx.graphics.getWidth() - MENU_BUTTON_WIDTH * 3 / 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
     }
 
     @Override
@@ -79,58 +63,42 @@ public class MainMenuScreen extends BadVibesScreen
         spriteBatch.setProjectionMatrix(camera.projection);
         spriteBatch.setTransformMatrix(camera.view);
 
-        if (toTheLeft)
-        {
-            guyPosition.x -= 5;
-
-            if (guyPosition.x <= 0)
-                toTheLeft = false;
-        } else
-        {
-            guyPosition.x += 5;
-
-            if (guyPosition.x >= Gdx.graphics.getWidth() - 200)
-                toTheLeft = true;
-        }
-
-        stateTime += Gdx.graphics.getDeltaTime();
-        currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-
         spriteBatch.begin();
-        titleFont.draw(spriteBatch, "Bad Vibes", titlePos.x, titlePos.y);
-        defaultFont.draw(spriteBatch, "TAP SCREEN TO START", subtitlePos.x, subtitlePos.y);
-        spriteBatch.draw(currentFrame, guyPosition.x, guyPosition.y, 100, 100, currentFrame.getRegionWidth(), currentFrame.getRegionHeight(), (toTheLeft == false) ? 1.0f : -1.0f, 1.0f, 180f);
+        spriteBatch.draw(background,
+        				 0, 0,
+        				 Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+        				 0, 0,
+        				 background.getWidth(), background.getHeight(),
+        				 false, true);
+        spriteBatch.draw(logo,
+        				 logoPosition.x, logoPosition.y,
+        				 GameDimension.Logo.x, GameDimension.Logo.y,
+        				 0, 0, 
+        				 logo.getWidth(), logo.getHeight(),
+        				 false, true);
+        spriteBatch.draw(buttons, buttonsPosition.x, buttonsPosition.y,
+        				 GameDimension.TapToPlay.x, GameDimension.TapToPlay.y,  
+        				 0, 86, 
+        				 233, 20,
+        				 false, true);
+        
+        drawMenuButton(spriteBatch, 0, musicPosition, false);
+        drawMenuButton(spriteBatch, 1, HighScoresPosition, false);
+        drawMenuButton(spriteBatch, 2, InformationPosition, false);
         spriteBatch.end();
     }
 
-    private void updatePosition()
-    {
-        float textWidth = 0;
-        int x = 0;
-        int y = 0;
 
-        textWidth = titleFont.getBounds("Bad Vibes").width;
-        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        y = 200;
+    private void drawMenuButton(SpriteBatch spriteBatch, int buttonID, Vector2 position, boolean isPressed) {
+		spriteBatch.draw(buttons,
+						 position.x, position.y, 
+						 GameDimension.MenuButton.x, GameDimension.MenuButton.y, 
+						 buttonID * 46, ((isPressed) ? 43 : 0), 
+						 MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT,
+						 false, true);
+	}
 
-        titlePos = new Point(x, y);
-
-        textWidth = defaultFont.getBounds("TAP SCREEN TO START").width;
-        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        y = 260;
-
-        subtitlePos = new Point(x, y);
-
-        if (guyPosition == null)
-        {
-            guyPosition = new Point(10, Gdx.graphics.getHeight() - 200);
-        } else
-        {
-            guyPosition.y = Gdx.graphics.getHeight() - 200;
-        }
-    }
-
-    @Override
+	@Override
     public void show()
     {
         Gdx.input.setInputProcessor(this);
