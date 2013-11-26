@@ -2,13 +2,10 @@ package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
 
 /**
@@ -20,6 +17,15 @@ import com.mobi.badvibes.model.world.World;
  */
 public class WorldRenderer
 {
+    public static WorldRenderer             Instance;
+
+    private World                           world;
+
+    public World getWorld()
+    {
+        return world;
+    }
+    
     public static final float               RAIL_WIDTH        = 800;
     public static final float               RAIL_HEIGHT       = 120;
 
@@ -33,7 +39,6 @@ public class WorldRenderer
     public static float                     PLATFORM_Y_OFFSET = 85;
 
     public static float                     RAIL_Y_OFFSET     = 25;
-
     public static WorldRenderer             Instance;
 
     private World                           world;
@@ -49,39 +54,31 @@ public class WorldRenderer
 
     public ArrayList<ArrayList<PersonView>> masterBucket;
 
-    public World getWorld()
-    {
-        return world;
-    }
-
     public WorldRenderer(World theWorld)
     {
-        Instance = this;
-        world = theWorld;
+        Instance    = this;
+        world       = theWorld;
 
         // initialize the buckets
         masterBucket = new ArrayList<ArrayList<PersonView>>();
-
+        
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {
-            masterBucket.add(new ArrayList<PersonView>());
+            masterBucket.add(new ArrayList<PersonView>());   
         }
-
-        // intialize info text
-        infoText = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
         // drawTiles(shapeRenderer);
-
+        
         world.getTrain().trainView.render(spriteBatch, delta);
-
+        
         for (int i = 0; i < World.GRID_HEIGHT; i++)
         {
             for (PersonView p : masterBucket.get(i))
             {
-                p.render(spriteBatch, delta);
+                p.render(spriteBatch, delta);   
             }
         }
 
@@ -131,17 +128,20 @@ public class WorldRenderer
         }
     }
 
-    @SuppressWarnings("unused")
     private void drawTiles(ShapeRenderer shapeRenderer)
     {
         shapeRenderer.begin(ShapeType.Rectangle);
-
-        shapeRenderer.setColor(Color.RED);
-
-        for (int y = 0; y < World.GRID_HEIGHT; y++)
-            for (int x = 0; x < World.GRID_WIDTH; x++)
-                shapeRenderer.rect(GameDimension.X_OFFSET + x * GameDimension.MiniCell.x, GameDimension.PlatformOffset + y * GameDimension.MiniCell.y, GameDimension.MiniCell.x, GameDimension.MiniCell.y);
-
+            
+            shapeRenderer.setColor(Color.RED);
+    
+            for (int y = 0; y < World.GRID_HEIGHT; y++)
+                for (int x = 0; x < World.GRID_WIDTH; x++)
+                    shapeRenderer.rect(
+                            GameDimension.X_OFFSET + x * GameDimension.MiniCell.x,
+                            GameDimension.PlatformOffset + y * GameDimension.MiniCell.y,
+                            GameDimension.MiniCell.x,
+                            GameDimension.MiniCell.y);
+            
         shapeRenderer.end();
     }
 }
