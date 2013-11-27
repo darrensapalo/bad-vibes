@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.model.people.NormanTheNormal;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ExploreLogic;
 import com.mobi.badvibes.model.people.logic.LeavingTrainLogic;
+import com.mobi.badvibes.model.people.logic.ObedientLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.TrainView.TrainState;
@@ -23,11 +25,16 @@ public class TutorialWorld extends World
     /**
      * The train allows people to board for 7 seconds.
      */
-    private static final float BoardingTime  = 7;
+    private static final float BoardingTime  = 12;
     /**
      * The next train arrives in 10 seconds.
      */
     private static final float NextTrainTime = 10;
+
+    /**
+     * It takes 5 seconds to go back to the main menu screen. 
+     */
+	private static final float BackToMenuDelay = 5;
 
     private float              Timer         = 0;
 
@@ -60,7 +67,8 @@ public class TutorialWorld extends World
             System.out.println("Rush!");
             for (Person p : peopleList)
             {
-                p.setLogic(new RushLogic(p));
+            	if (p.getLogic() instanceof ObedientLogic == false)
+            		p.setLogic(new RushLogic(p));
             }
 		case ALIGHT:
 			System.out.println("Alighting the train!");
@@ -86,7 +94,12 @@ public class TutorialWorld extends World
     public void update(float delta)
     {
         Timer += delta;
-
+        if (peopleInTrainList.size() == 0){
+        	if (peopleList.size() == 0){
+        		setInfoText("Level success!", 2);
+        		currentState = WorldState.END_GAME;
+        	}
+        }
         switch (currentState)
         {
         case ENTERING:
@@ -123,6 +136,11 @@ public class TutorialWorld extends World
                 currentState = WorldState.ENTERING;
             }
             break;
+        case END_GAME:
+        	if (Timer >= BackToMenuDelay){
+        		GameMaster.endGame();
+        	}
+        	break;
 
         default:
             break;

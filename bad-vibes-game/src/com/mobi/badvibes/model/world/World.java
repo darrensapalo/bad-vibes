@@ -36,7 +36,7 @@ public abstract class World
      */
     public enum WorldState
     {
-        ENTERING, ARRIVAL, BOARDING, DEPARTURE
+        ENTERING, ARRIVAL, BOARDING, DEPARTURE, END_GAME
     }
 
     /**

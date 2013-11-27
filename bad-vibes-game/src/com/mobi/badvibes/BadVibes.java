@@ -9,12 +9,14 @@ import com.mobi.badvibes.view.GameDimension;
 
 public class BadVibes extends Game
 {
-    public static SplashScreen   splashScreen;
-    public static MainMenuScreen mainMenuScreen;
+    public static SplashScreen   		splashScreen;
+    public static MainMenuScreen 		mainMenuScreen;
     
     
-    public static PreGameScreen  preGameScreen;
-    public static GameScreen     gameScreen;
+    public static PreGameScreen  		preGameScreen;
+    public static GameScreen     		gameScreen;
+    
+    public static StatisticsScreen		statisticsScreen;
     
     public static TweenManager   tweenManager  = new TweenManager();
     
@@ -40,6 +42,7 @@ public class BadVibes extends Game
     	splashScreen = new SplashScreen();
         mainMenuScreen = new MainMenuScreen();
         gameScreen = new GameScreen();
+        statisticsScreen = new StatisticsScreen();
         
         setScreen(splashScreen);
     }

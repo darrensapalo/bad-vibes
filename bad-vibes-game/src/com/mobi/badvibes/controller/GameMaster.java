@@ -1,6 +1,9 @@
 package com.mobi.badvibes.controller;
 
+import javax.management.BadBinaryOpValueExpException;
+
 import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.BadVibesScreen;
 import com.mobi.badvibes.GameScreen;
 import com.mobi.badvibes.PreGameScreen;
 
@@ -24,7 +27,7 @@ public class GameMaster
      */
     public static void prepareGame()
     {
-        BadVibes.preGameScreen.setInformation("Post-lunch travel", "Easy! Just make sure everyone rides the train!");
+        BadVibes.preGameScreen.setInformation("8 o'clock rush", "Get to school on time!");
         BadVibes.getInstance().setScreen(BadVibes.preGameScreen);
     }
 
@@ -37,4 +40,9 @@ public class GameMaster
     {
         BadVibes.getInstance().setScreen(BadVibes.gameScreen);
     }
+
+	public static void endGame() {
+		BadVibes.statisticsScreen.setInformation("Your score was over 9000!", "I have this desire to burn the people who get in the way.");
+		BadVibes.getInstance().setScreen(BadVibes.statisticsScreen);
+	}
 }

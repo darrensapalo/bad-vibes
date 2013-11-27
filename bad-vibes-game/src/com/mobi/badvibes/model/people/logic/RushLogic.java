@@ -11,6 +11,7 @@ import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.model.world.World.WorldState;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
@@ -26,11 +27,16 @@ public class RushLogic extends PersonLogic
     public RushLogic(Person person)
     {
         super(person);
-        Point newPoint;
-        if (person.getCellPoint() != null) {
-        	newPoint = person.getCellPoint();
-        }else{
-        	newPoint = getFreePosition();
+        Point newPoint = null;
+        if (World.Instance.getCurrentState() == WorldState.BOARDING)
+        { /* boarding */
+        	newPoint = new Point(9, 0);
+        }else{ /* Non boarding */
+	        if (person.getCellPoint() != null) {
+	        	newPoint = person.getCellPoint();
+	        }else{
+	        	newPoint = getFreePosition();
+	        }
         }
         
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
@@ -58,8 +64,12 @@ public class RushLogic extends PersonLogic
                 {
                     if (arg0 == TweenCallback.COMPLETE)
                     {
-                        RushLogic.this.person.setLogic(new StillLogic(RushLogic.this.person));
-                        RushLogic.this.person.walkingTween = null;
+                    	if (World.Instance.getCurrentState() == WorldState.BOARDING){ /** boarding logic */
+                    		RushLogic.this.person.setLogic(new HappyLogic(RushLogic.this.person));
+                    	}else{ /** Non boarding logic */
+	                        RushLogic.this.person.setLogic(new StillLogic(RushLogic.this.person));
+	                        RushLogic.this.person.walkingTween = null;
+                    	}
                     }
                 }
             }).start(BadVibes.tweenManager);
