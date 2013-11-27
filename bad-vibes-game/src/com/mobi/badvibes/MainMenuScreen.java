@@ -155,6 +155,7 @@ public class MainMenuScreen extends BadVibesScreen
             {
                 if (type == TweenCallback.END)
                 {
+                	GameMaster.rounds = 2;
                 	GameMaster.prepareGame();
                 }
             }

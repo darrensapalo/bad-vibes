@@ -1,5 +1,7 @@
 package com.mobi.badvibes.controller;
 
+import java.util.ArrayList;
+
 import javax.management.BadBinaryOpValueExpException;
 
 import com.mobi.badvibes.BadVibes;
@@ -16,6 +18,8 @@ import com.mobi.badvibes.PreGameScreen;
  */
 public class GameMaster
 {
+	public static int rounds = 2;
+	
     /**
      * This method handles the calling of the level design depending on the
      * level of the user.
@@ -27,7 +31,17 @@ public class GameMaster
      */
     public static void prepareGame()
     {
-        BadVibes.preGameScreen.setInformation("8 o'clock rush", "Get to school on time!");
+    	ArrayList<String> titles = new ArrayList<String>();
+    	ArrayList<String> captions = new ArrayList<String>();
+    	titles.add("Evening peak rush");
+    	captions.add("Just try to get home safely!");
+    	
+    	titles.add("Noon break dismissal");
+    	captions.add("Try to get to the mall for a quick lunch!");
+    	
+    	titles.add("8 o'clock rush");
+    	captions.add("Get on school on time!");
+        BadVibes.preGameScreen.setInformation(titles.get(rounds), captions.get(rounds));
         BadVibes.getInstance().setScreen(BadVibes.preGameScreen);
     }
 
@@ -42,7 +56,18 @@ public class GameMaster
     }
 
 	public static void endGame() {
-		BadVibes.statisticsScreen.setInformation("Your score was over 9000!", "I have this desire to burn the people who get in the way.");
+    	ArrayList<String> titles = new ArrayList<String>();
+    	ArrayList<String> captions = new ArrayList<String>();
+    	titles.add("You arrived at your station!");
+    	captions.add("The demo is over, please wait for our game to finish!");
+    	
+    	titles.add("You reached the mall");
+    	captions.add("However, you are sweaty, tired, and pissed off with the train crowd.");
+    	
+    	titles.add("You got to school in time");
+    	captions.add("... to take a departmental examination for a three hours.");
+		BadVibes.statisticsScreen.setInformation(titles.get(rounds), captions.get(rounds));
 		BadVibes.getInstance().setScreen(BadVibes.statisticsScreen);
+		--rounds;
 	}
 }

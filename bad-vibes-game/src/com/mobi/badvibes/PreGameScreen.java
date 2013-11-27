@@ -51,7 +51,7 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
 
         Timeline.createSequence()
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0).ease(TweenEquations.easeInCubic).delay(0.5f)
+        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0).ease(TweenEquations.easeInCubic).delay(1.8f)
     															  .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback() {
 																	@Override
 																	public void onEvent(int arg0, BaseTween<?> arg1) {

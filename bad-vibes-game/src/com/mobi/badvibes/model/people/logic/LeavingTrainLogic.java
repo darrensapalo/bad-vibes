@@ -40,7 +40,7 @@ public class LeavingTrainLogic extends PersonLogic
         
         
         Random r = new Random();
-        Point   newPoint        = new Point(r.nextInt(World.GRID_WIDTH), 9);
+        Point   newPoint        = new Point(6 + r.nextInt(4), World.GRID_HEIGHT);
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		
         person.getView().setDestination(nextDestination);
@@ -85,7 +85,7 @@ public class LeavingTrainLogic extends PersonLogic
     		
     	for (Person p : World.Instance.getPeopleList()){
     		PersonView view = p.getView();
-    		if ((touchedPeople.contains(p) == false) && (view.getBounds().overlaps(person.getView().getBounds())))
+    		if ((touchedPeople.contains(p) == false) && (view.getBounds().overlaps(person.getView().getBounds())) && view.getCurrentBucketID() == person.getView().getCurrentBucketID())
     		{
     			person.displease();
 				touchedPeople.add(p);

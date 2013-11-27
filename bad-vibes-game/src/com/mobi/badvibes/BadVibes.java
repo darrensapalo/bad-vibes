@@ -37,7 +37,7 @@ public class BadVibes extends Game
     {
     	GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     	MediaPlayer.Initialize();
-    	
+    	Gdx.graphics.setDisplayMode(800, 480, false);
     	preGameScreen = new PreGameScreen();
     	splashScreen = new SplashScreen();
         mainMenuScreen = new MainMenuScreen();

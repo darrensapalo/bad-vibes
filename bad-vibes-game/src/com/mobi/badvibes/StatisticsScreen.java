@@ -56,8 +56,12 @@ public class StatisticsScreen extends BadVibesScreen implements TweenCallback
     															  .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback() {
 																	@Override
 																	public void onEvent(int arg0, BaseTween<?> arg1) {
-																		BadVibes.getInstance().setScreen(BadVibes.mainMenuScreen);
-																		MediaPlayer.bgm("mainmenu");
+																		if (GameMaster.rounds >= 0){
+																			GameMaster.prepareGame();
+																		}else{
+																			BadVibes.getInstance().setScreen(BadVibes.mainMenuScreen);
+																			MediaPlayer.bgm("mainmenu");
+																		}
 																	}
 																}))
         .start(BadVibes.tweenManager);

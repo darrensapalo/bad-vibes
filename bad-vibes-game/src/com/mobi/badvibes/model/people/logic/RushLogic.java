@@ -1,6 +1,7 @@
 package com.mobi.badvibes.model.people.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -28,9 +29,10 @@ public class RushLogic extends PersonLogic
     {
         super(person);
         Point newPoint = null;
+        Random random = new Random();
         if (World.Instance.getCurrentState() == WorldState.BOARDING)
         { /* boarding */
-        	newPoint = new Point(9, 0);
+        	newPoint = new Point(9 + random.nextInt(2), 0);
         }else{ /* Non boarding */
 	        if (person.getCellPoint() != null) {
 	        	newPoint = person.getCellPoint();

@@ -427,4 +427,8 @@ public class PersonView
     {
         this.emotionOpacity = emotionOpacity;
     }
+
+	public int getCurrentBucketID() {
+		return currentBucketID;
+	}
 }
