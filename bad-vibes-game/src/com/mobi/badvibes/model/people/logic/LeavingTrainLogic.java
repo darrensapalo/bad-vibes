@@ -1,5 +1,6 @@
 package com.mobi.badvibes.model.people.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -16,6 +17,8 @@ import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
+import com.mobi.badvibes.view.PersonView;
+import com.mobi.badvibes.view.PersonView.Emotions;
 
 /**
  * This class will determine where the a person should go next.
@@ -25,9 +28,17 @@ import com.mobi.badvibes.view.GameDimension;
  */
 public class LeavingTrainLogic extends PersonLogic
 {
+	ArrayList<Person> touchedPeople;
+	private float counter;
+	private float delay = 2.5f;
+	
     public LeavingTrainLogic(Person person)
     {
         super(person);
+        touchedPeople = new ArrayList<Person>();
+        counter = 0;
+        
+        
         Random r = new Random();
         Point   newPoint        = new Point(r.nextInt(World.GRID_WIDTH), 9);
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
@@ -66,6 +77,20 @@ public class LeavingTrainLogic extends PersonLogic
     @Override
     public void think(float delta)
     {
-        
+    	counter += delta;
+    	if (counter > delay){
+    		touchedPeople.clear();
+    		counter = 0;
+    	}
+    		
+    	for (Person p : World.Instance.getPeopleList()){
+    		PersonView view = p.getView();
+    		if ((touchedPeople.contains(p) == false) && (view.getBounds().overlaps(person.getView().getBounds())))
+    		{
+    			person.displease();
+				touchedPeople.add(p);
+				view.setEmotion(p, Emotions.NAUGHTY);
+    		}
+    	}
     }
 }

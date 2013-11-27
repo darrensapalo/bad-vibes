@@ -9,6 +9,7 @@ import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.PersonView;
+import com.mobi.badvibes.view.PersonView.Emotions;
 import com.mobi.badvibes.view.PersonView.State;
 
 /**
@@ -23,7 +24,7 @@ import com.mobi.badvibes.view.PersonView.State;
 public abstract class Person
 {
     public static final int   MAX_IDLE_TIME = 10;
-    public static final int   MIN_IDLE_TIME = 20;
+    public static final int   MIN_IDLE_TIME = 5;
 
     public static final float VELOCITY      = 0.5f;
 
@@ -163,4 +164,9 @@ public abstract class Person
     {
         personCellPosition = newPoint;
     }
+
+	public void displease() {
+		happiness -= 0.02f;
+		view.setEmotion(this, Emotions.ANGRY);
+	}
 }

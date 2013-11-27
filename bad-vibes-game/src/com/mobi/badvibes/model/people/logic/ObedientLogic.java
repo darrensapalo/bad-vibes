@@ -13,12 +13,12 @@ import com.mobi.badvibes.view.PersonView.State;
  * @author micha_000
  * 
  */
-public class StillLogic extends PersonLogic
+public class ObedientLogic extends PersonLogic
 {
     public float idleTime = 0;
     public float currTime = 0;
 
-    public StillLogic(Person person)
+    public ObedientLogic(Person person)
     {
         super(person);
 
@@ -26,8 +26,8 @@ public class StillLogic extends PersonLogic
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.HAPPY);
         
-        // set a random time to be idle
-        idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat() * Person.MAX_IDLE_TIME;
+        // Wait for 30 seconds
+        idleTime = 30;
         currTime = 0;
     }
 

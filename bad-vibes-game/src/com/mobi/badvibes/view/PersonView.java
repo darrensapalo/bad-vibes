@@ -304,6 +304,7 @@ public class PersonView
 
     public void setEmotion(Person person, Emotions e)
     {
+    	currentEmotion = e;
         Timeline.createSequence().push(Tween.to(person, PersonAccessor.EMOTION_OPACITY, 0.3f).target(1f).ease(Cubic.INOUT)).push(Tween.to(person, PersonAccessor.EMOTION_OPACITY, 0.3f).target(0f).ease(Cubic.INOUT).delay(1f)).start(BadVibes.tweenManager);
     }
 
@@ -314,10 +315,6 @@ public class PersonView
 
     public Vector2 getComputedPosition()
     {
-    	if (Position == null) System.out.println("1");
-    	if (pickupOffset == null) System.out.println("2");
-    	if (GameDimension.Person == null) System.out.println("3");
-    	if (GameDimension.Cell == null) System.out.println("4");
         return Position.cpy().add((GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, 0).sub(0, GameDimension.Cell.y).add(pickupOffset);
     }
 

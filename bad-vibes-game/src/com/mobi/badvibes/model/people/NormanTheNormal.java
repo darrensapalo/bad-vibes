@@ -12,7 +12,7 @@ public class NormanTheNormal extends Person
 
     public void update(float delta)
     {
-
+    	
     }
 
     @Override
