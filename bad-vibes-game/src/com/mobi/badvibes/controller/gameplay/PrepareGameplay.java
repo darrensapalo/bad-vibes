@@ -8,7 +8,7 @@ import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.model.world.World.WorldState;
 import com.mobi.badvibes.view.GameDimension;
 
-public class PrepareGameplay extends GameplayStrategy
+public class PrepareGameplay extends Gameplay
 {
     public static Vector2 destination;
     public ArrayList<Point> positions;

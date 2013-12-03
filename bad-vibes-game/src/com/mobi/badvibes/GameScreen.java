@@ -15,6 +15,8 @@ import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.nimators.TrainAccessor;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
 import com.mobi.badvibes.util.MediaPlayer;
+import com.mobi.badvibes.util.TouchCollection;
+import com.mobi.badvibes.util.TouchLocation;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -30,7 +32,7 @@ public class GameScreen extends BadVibesScreen
     {
         // BGM
         MediaPlayer.bgm("game");
-
+        TouchCollection touchCollection = new TouchCollection();
         /* Instantiation */
         
         controller      = new TutorialWorldController();
@@ -77,6 +79,7 @@ public class GameScreen extends BadVibesScreen
         shapeRenderer.setTransformMatrix(camera.view);
 
         // Update and draw
+        TouchCollection.Instance.Update(delta);
         controller.update(delta);
         controller.draw(spriteBatch, shapeRenderer, delta);
     }

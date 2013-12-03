@@ -2,11 +2,12 @@ package com.mobi.badvibes.controller.gameplay;
 
 import com.mobi.badvibes.model.world.World;
 
-public abstract class GameplayStrategy
+public abstract class Gameplay
 {
+
     protected World world;
 
-    public GameplayStrategy(World world)
+    public Gameplay(World world)
     {
         this.world = world;
     }

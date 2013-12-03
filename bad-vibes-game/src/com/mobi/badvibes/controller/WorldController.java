@@ -5,7 +5,7 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.mobi.badvibes.controller.gameplay.GameplayStrategy;
+import com.mobi.badvibes.controller.gameplay.Gameplay;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.view.WorldRenderer;
 
@@ -14,7 +14,7 @@ public abstract class WorldController
     protected World                   world;
     protected WorldRenderer           renderer;
 
-    protected Stack<GameplayStrategy> gameplay;
+    protected Stack<Gameplay> gameplay;
 
     protected int                     width;
     protected int                     height;
@@ -23,7 +23,7 @@ public abstract class WorldController
     {
         this.world = world;
 
-        gameplay = new Stack<GameplayStrategy>();
+        gameplay = new Stack<Gameplay>();
 
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
@@ -55,7 +55,7 @@ public abstract class WorldController
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         boolean value = false;
-        for (GameplayStrategy gs : gameplay)
+        for (Gameplay gs : gameplay)
         {
             if (value = gs.touchDown(screenX, screenY, pointer, button) || value)
                 return value;
@@ -67,7 +67,7 @@ public abstract class WorldController
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
         boolean value = false;
-        for (GameplayStrategy gs : gameplay)
+        for (Gameplay gs : gameplay)
         {
             if (value = gs.touchUp(screenX, screenY, pointer, button) || value)
                 return value;
@@ -78,7 +78,7 @@ public abstract class WorldController
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
         boolean value = false;
-        for (GameplayStrategy gs : gameplay)
+        for (Gameplay gs : gameplay)
         {
             if (value = gs.touchDragged(screenX, screenY, pointer) || value)
                 return value;

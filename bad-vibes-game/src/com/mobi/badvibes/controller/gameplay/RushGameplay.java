@@ -3,7 +3,7 @@ package com.mobi.badvibes.controller.gameplay;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
 
-public class RushGameplay extends GameplayStrategy
+public class RushGameplay extends Gameplay
 {
     public static Vector2 destination;
 

@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
@@ -22,7 +23,7 @@ import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.State;
 
-public class DragGameplay extends GameplayStrategy
+public class DragGameplay extends Gameplay
 {
     public enum DragState
     {
@@ -53,6 +54,7 @@ public class DragGameplay extends GameplayStrategy
             return false;
         }
 
+        
         Vector2 p = new Vector2(screenX, screenY);
 
         for (Person person : personsReference)
