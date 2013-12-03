@@ -85,7 +85,7 @@ public class LeavingTrainLogic extends PersonLogic
     		
     	for (Person p : World.Instance.getPeopleList()){
     		PersonView view = p.getView();
-    		if ((touchedPeople.contains(p) == false) && (view.getBounds().overlaps(person.getView().getBounds())) && view.getCurrentBucketID() == person.getView().getCurrentBucketID())
+    		if ((touchedPeople.contains(p) == false) && (view.getHitBounds().overlaps(person.getView().getHitBounds())) && view.getCurrentBucketID() == person.getView().getCurrentBucketID())
     		{
     			person.displease();
 				touchedPeople.add(p);

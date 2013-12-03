@@ -2,10 +2,8 @@ package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
 
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
 import com.badlogic.gdx.Gdx;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
-import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
@@ -90,6 +87,8 @@ public class PersonView
     protected Vector2                       Position;
     protected Vector2                       pickupOffset;
     protected Rectangle                     Bounds;
+    protected Rectangle                     HitBounds;
+    
     protected State                         currentState;
     protected Facing                        currentFacing;
     protected Emotions                      currentEmotion;
@@ -252,7 +251,17 @@ public class PersonView
     	
         Position = position;
         Bounds = new Rectangle(position.x + (GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, position.y - (GameDimension.Cell.y), GameDimension.Person.x, GameDimension.Person.y);
-
+        HitBounds = new Rectangle(Bounds);
+        float newWidth = HitBounds.getWidth() * 0.6F;
+        float newHeight = HitBounds.getHeight() * 0.6F;
+        
+        float diffWidth = HitBounds.getWidth() - newWidth;
+        float diffHeight = HitBounds.getHeight() - newHeight;
+        
+        HitBounds.setWidth(newWidth);
+        HitBounds.setHeight(newHeight);
+        HitBounds.x += diffWidth / 2;
+        HitBounds.y += diffHeight / 2;
         if (WorldRenderer.Instance != null)
         {
             int bucketID = computeBucketID(position);
@@ -431,4 +440,12 @@ public class PersonView
 	public int getCurrentBucketID() {
 		return currentBucketID;
 	}
+
+    public Rectangle getHitBounds() {
+        return HitBounds;
+    }
+
+    public void setHitBounds(Rectangle hitBounds) {
+        HitBounds = hitBounds;
+    }
 }

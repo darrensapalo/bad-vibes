@@ -100,9 +100,7 @@ public abstract class Person
         if (inTrain)
         {
             // TODO: update value to match the train's door.
-
             getView().setPosition(theWorld.getTrain().trainView.Position);
-
             // we don't set a logic for them yet.
             
             return;
