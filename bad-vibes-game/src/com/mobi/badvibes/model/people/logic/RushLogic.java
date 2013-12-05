@@ -25,72 +25,80 @@ import com.mobi.badvibes.view.GameDimension;
  */
 public class RushLogic extends PersonLogic
 {
-    public RushLogic(Person person)
-    {
-        super(person);
-        Point newPoint = null;
-        Random random = new Random();
-        if (World.Instance.getCurrentState() == WorldState.BOARDING)
-        { /* boarding */
-        	newPoint = new Point(9 + random.nextInt(2), 0);
-        }else{ /* Non boarding */
-	        if (person.getCellPoint() != null) {
-	        	newPoint = person.getCellPoint();
-	        }else{
-	        	newPoint = getFreePosition();
-	        }
-        }
-        
-        Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
-        		
-        person.getView().setDestination(nextDestination);
-        person.setCellPoint(newPoint);
-                
-        // compute the time it will take for the person to move from its current position to
-        // the new position
-        Vector2 curPosition = person.getView().getPosition();
-        Vector2 newPosition = nextDestination;
-        
-        float distance  = curPosition.dst(newPosition);
-        float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY;
-        
-        if (person.walkingTween != null)
-        	person.walkingTween.free();
-        
-        // animate to that location
-        person.walkingTween = Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)
-            .setCallback(new TweenCallback()
-            {
-                @Override
-                public void onEvent(int arg0, BaseTween<?> arg1)
-                {
-                    if (arg0 == TweenCallback.COMPLETE)
-                    {
-                    	if (World.Instance.getCurrentState() == WorldState.BOARDING){ /** boarding logic */
-                    		RushLogic.this.person.setLogic(new HappyLogic(RushLogic.this.person));
-                    	}else{ /** Non boarding logic */
-	                        RushLogic.this.person.setLogic(new StillLogic(RushLogic.this.person));
-	                        RushLogic.this.person.walkingTween = null;
-                    	}
-                    }
-                }
-            }).start(BadVibes.tweenManager);
-    }
+	public RushLogic(Person person)
+	{
+		super(person);
+		Point destination = null;
+		WorldState worldState = World.Instance.getCurrentState();
+		
+		
+		switch(worldState){
+		case BOARDING:
+			if (person.getCellPoint().equals(World.Instance.destination)){
+				person.setLogic(new HappyLogic(person));
+				System.out.println("Boarding!");
+				return;
+			}else{
+				destination = World.Instance.destination;
+			}
+			break;
+		default:
+			destination = (person.getCellPoint() != null) ? person.getCellPoint() : getFreePosition();
+			break;
+		}
+		ComputeDestination(destination);
+	}
 
-    private Point getFreePosition() {
-    	for (Point p : person.getWorld().getTargetPositions())
-    	{
-    		if (World.Instance.checkIfPersonIsOccupying(p) == false){
-    			person.setCellPoint(p);
-    			return p;
-    		}
-    	}
+	private void ComputeDestination(Point destination){
+		if (destination == null){
+			person.setLogic(new StillLogic(person));
+			return;
+		}
+		// If this is null, it means people are all around him
+		// therefore stand still and wait.
+		Vector2 nextDestination = GameUtil.getPlatformVectorCentered(destination); 
+
+		person.getView().setDestination(nextDestination);
+		person.setCellPoint(destination);
+
+		// compute the time it will take for the person to move from its current position to
+		// the new position
+		Vector2 curPosition = person.getView().getPosition();
+		Vector2 newPosition = nextDestination;
+
+		float distance  = curPosition.dst(newPosition);
+		float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY;
+
+		if (person.walkingTween != null)
+			person.walkingTween.free();
+
+		// animate to that location
+		person.walkingTween = Tween.to(person, PersonAccessor.POSITION, time).target(nextDestination.x, nextDestination.y)
+				.setCallback(new TweenCallback()
+				{
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1)
+					{
+						if (arg0 == TweenCallback.COMPLETE)
+						{
+							WorldState worldState = World.Instance.getCurrentState();
+							if (worldState == WorldState.BOARDING){ /* logic, go to the next step */
+								RushLogic.this.person.setLogic(new HappyLogic(RushLogic.this.person));
+							}else{ /** Non boarding logic */
+								RushLogic.this.person.setLogic(new StillLogic(RushLogic.this.person));
+								RushLogic.this.person.walkingTween = null;
+							}
+						}
+					}
+				}).start(BadVibes.tweenManager);
+	}
+
+	private Point getFreePosition() {
 		return World.Instance.getRandomCellCoordinate();
 	}
 
 	@Override
-    public void think(float delta)
-    {
-        
-    }
+	public void think(float delta)
+	{
+	}
 }

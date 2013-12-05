@@ -2,6 +2,7 @@ package com.mobi.badvibes.model.people;
 
 import aurelienribon.tweenengine.Tween;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
@@ -113,17 +114,19 @@ public abstract class Person
             // TODO: update value to match the train's door.
             getView().setPosition(theWorld.getTrain().trainView.Position);
             // we don't set a logic for them yet.
-            
+            view.setColor(Color.RED);
             return;
         }
 
-        Point newPoint = theWorld.getRandomCellCoordinate();
-        Vector2 personLocation = GameUtil.getPlatformVectorCentered(newPoint);
+
+        // Find n
+        Point n = theWorld.getRandomCellCoordinate();
+        Vector2 personLocation = GameUtil.getPlatformVectorCentered(n);
 
         getView().setPosition(personLocation);
         getView().setCurrentState(State.WALKING);
 
-        setCellPoint(newPoint);
+        setCellPoint(n);
         setLogic(new StillLogic(this));
     }
 

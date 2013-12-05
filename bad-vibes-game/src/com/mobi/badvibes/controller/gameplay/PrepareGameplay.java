@@ -17,7 +17,6 @@ public class PrepareGameplay extends Gameplay
     {
         super(world);
         destination = new Vector2();
-        positions = world.getTargetPositions();
     }
         
     private Point getPoint(float screenX, float screenY){

@@ -11,7 +11,9 @@ import com.mobi.badvibes.view.WorldRenderer;
 
 public abstract class WorldController
 {
-    protected World                   world;
+
+	
+	protected World                   world;
     protected WorldRenderer           renderer;
 
     protected Stack<Gameplay> gameplay;

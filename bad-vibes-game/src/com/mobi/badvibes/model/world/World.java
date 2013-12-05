@@ -10,6 +10,7 @@ import aurelienribon.tweenengine.Tween;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.people.logic.Pathing;
 import com.mobi.badvibes.model.train.Train;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -46,19 +47,17 @@ public abstract class World
     protected ArrayList<Person>   peopleList        = new ArrayList<Person>();
     protected ArrayList<Person>   peopleInTrainList = new ArrayList<Person>();
 
-    /**
-     * This array contains the destinations that persons will aim to go to.
-     */
-    protected ArrayList<Point>    targetPositions;
-
-    public HashMap<Person, Point> personPositions;
-
     protected Train               train;
 
     protected WorldState          currentState;
+	public Point destination;
 
     public static final int       GRID_WIDTH  = 20;
     public static final int       GRID_HEIGHT = 10;
+    
+
+    
+    
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -71,7 +70,7 @@ public abstract class World
     public void initialize()
     {
         currentState = WorldState.ENTERING;
-
+        
         for (Person p : peopleList)
         {
             p.initialize(this, false);
@@ -82,17 +81,16 @@ public abstract class World
             p.initialize(this, true);
         }
     }
-
+    
     public World()
     {
         Instance = this;
         train = new Train();
-        targetPositions = new ArrayList<Point>();
-        personPositions = new HashMap<Person, Point>();
-
         setPeopleList(createPeople());
         setPeopleInTrainList(createPeopleInTrain());
+        destination = new Point(9, 0);
     }
+    
 
     /**
      * Returns a random value for the grid.
@@ -108,7 +106,7 @@ public abstract class World
         // get the list of available spaces
         for (Person person : peopleList)
         {
-            if (!person.getCellPoint().equals(new Point(-1, -1)))
+            if (!person.getCellPoint().equals(Point.Negative))
             {
                 notAvailableCells.add(person.getCellPoint());
             }
@@ -214,37 +212,4 @@ public abstract class World
         return currentState;
     }
 
-    /**
-     * These are the target positions for people to stay at,
-     * for them to wait in while the passengers leave the 
-     * train.
-     * @return
-     */
-    public ArrayList<Point> getTargetPositions()
-    {
-        return targetPositions;
-    }
-
-    public void setTargetPositions(ArrayList<Point> targetPositions)
-    {
-        this.targetPositions = targetPositions;
-    }
-
-    public void removeTargetPosition(Person selectedPerson)
-    {
-        if (personPositions.containsKey(selectedPerson))
-        {
-            Point point = personPositions.get(selectedPerson);
-            personPositions.remove(selectedPerson);
-            targetPositions.remove(point);
-        }
-    }
-
-    public void addTargetPosition(Person person, Point newPoint)
-    {
-        if (targetPositions.contains(newPoint) == false)
-            targetPositions.add(newPoint);
-        personPositions.put(person, newPoint);
-        person.setCellPoint(newPoint);
-    }
 }

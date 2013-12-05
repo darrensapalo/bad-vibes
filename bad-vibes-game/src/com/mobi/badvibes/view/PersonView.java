@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.equations.Cubic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -100,6 +101,8 @@ public class PersonView
     private TextureRegion[][]               emotions;
 
     private float                           emotionOpacity;
+
+	private Color tint;
 
     public static void Initialize()
     {
@@ -297,17 +300,22 @@ public class PersonView
         Vector2 emotionPosition = getEmotionPosition();
 
         spriteBatch.begin();
-        /** Draw the shadow **/
-        Vector2 shadowPosition = getShadowPosition();
-        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-        spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
-        /** Draw the person **/
-        spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), opacity);
-        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 0f);
-        /** Draw the emotion **/
-        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
-        if (emotionRegion != null)
-            spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
+	        /** Draw the shadow **/
+	        Vector2 shadowPosition = getShadowPosition();
+	        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+	        spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
+	        
+	        /** Draw the person **/
+	        if (tint == null)
+	        	spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), opacity);
+	        else
+	        	spriteBatch.setColor(tint);
+	        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 0f);
+	        
+	        /** Draw the emotion **/
+	        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
+	        if (emotionRegion != null)
+	            spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
         spriteBatch.end();
     }
 
@@ -448,4 +456,8 @@ public class PersonView
     public void setHitBounds(Rectangle hitBounds) {
         HitBounds = hitBounds;
     }
+
+	public void setColor(Color red) {
+		tint = red;
+	}
 }

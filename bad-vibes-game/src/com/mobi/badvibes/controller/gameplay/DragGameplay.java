@@ -63,13 +63,11 @@ public class DragGameplay extends Gameplay
                 if (person.walkingTween != null)
                     person.walkingTween.kill();
 
-                
+                person.setLogic(null);
                 person.getView().setCurrentState(State.PICKED_UP);
 
                 person.state = DragState.Held;
                 MediaPlayer.sfx("drop");
-                
-                world.removeTargetPosition(person);
 
                 Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
                 {
@@ -98,46 +96,42 @@ public class DragGameplay extends Gameplay
         {
             if (person.touchID == pointer)
             {
+            	/** Get the position of the touch minus the platform */
                 int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
                 int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-
+                
+                /** Get the point of the cell's location */
                 Point newPoint = new Point(cellXPosition, cellYPosition);
-                /** Adds this spot as one of the desirable ones */
-                world.addTargetPosition(person, newPoint);
+                
                 PersonView view = person.getView();
                 view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
 
                 person.state = DragState.FallingDown;
 
-                endTouch(person);
+                person.getView().setCurrentState(State.IDLE);
+                Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
+                {
+                    @Override
+                    public void onEvent(int arg0, BaseTween<?> arg1)
+                    {
+                        person.state = DragState.Free;
+
+                        if (person != null)
+                        {
+                            person.touchID = -1;
+                            
+                        	person.setLogic(new ObedientLogic(person));
+                            person.getView().setCurrentState(State.IDLE);
+                            person.startPoint = null;
+                        }
+                    }
+                }).start(BadVibes.tweenManager);
 
                 return true;                
             }
         }
 
         return false;
-    }
-
-    public void endTouch(final Person person)
-    {
-        person.getView().setCurrentState(State.IDLE);
-        Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
-        {
-            @Override
-            public void onEvent(int arg0, BaseTween<?> arg1)
-            {
-                person.state = DragState.Free;
-
-                if (person != null)
-                {
-                    person.touchID = -1;
-                    
-                	person.setLogic(new ObedientLogic(person));
-                    person.getView().setCurrentState(State.IDLE);
-                    person.startPoint = null;
-                }
-            }
-        }).start(BadVibes.tweenManager);
     }
 
     @Override

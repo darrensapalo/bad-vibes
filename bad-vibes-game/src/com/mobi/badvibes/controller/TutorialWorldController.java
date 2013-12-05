@@ -1,12 +1,13 @@
 package com.mobi.badvibes.controller;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
-import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
 import com.mobi.badvibes.controller.gameplay.PrepareGameplay;
 import com.mobi.badvibes.controller.gameplay.RushGameplay;
@@ -22,6 +23,7 @@ public class TutorialWorldController extends WorldController
     private Texture   sprites;
     private Rectangle railPosition;
     private Rectangle platformPosition;
+    
 
     public TutorialWorldController()
     {
@@ -32,7 +34,7 @@ public class TutorialWorldController extends WorldController
     {        
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
-        gameplay.push(new PrepareGameplay(world));
+        // gameplay.push(new PrepareGameplay(world));
         gameplay.push(new RushGameplay(world));
 
         world.initialize();
@@ -48,6 +50,10 @@ public class TutorialWorldController extends WorldController
         float heightOfPlatform = 400;
         float platformHeight = width / 800f * heightOfPlatform;
         platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
+        
+        Random random = new Random();
+		
+        
     }
 
     public void update(float delta)
@@ -95,17 +101,20 @@ public class TutorialWorldController extends WorldController
     {
         return world;
     }
+	
+	/*
+	 * 
+	 */
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public void onPause()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onResume()
-    {
-
-    }
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		
+	}
 }

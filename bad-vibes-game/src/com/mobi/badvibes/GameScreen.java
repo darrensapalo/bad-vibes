@@ -16,7 +16,6 @@ import com.mobi.badvibes.nimators.TrainAccessor;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
 import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.util.TouchCollection;
-import com.mobi.badvibes.util.TouchLocation;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -47,7 +46,9 @@ public class GameScreen extends BadVibesScreen
 
         Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
 
-        if (LocalStorage.IsAvailable())
+        // TODO: Finish local storage
+        boolean isBugTestingLocalStorage = false;
+        if (isBugTestingLocalStorage && LocalStorage.IsAvailable())
         {
             System.out.println("Local storage is available.");
             System.out.println("Local path is: " + LocalStorage.getLocalPath());
