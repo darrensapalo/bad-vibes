@@ -28,7 +28,7 @@ public class ExploreLogic extends PersonLogic
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		
         person.getView().setDestination(nextDestination);
-        person.setCellPoint(newPoint);
+        person.setDestinationCell(newPoint);
                 
         // compute the time it will take for the person to move from its current position to
         // the new position

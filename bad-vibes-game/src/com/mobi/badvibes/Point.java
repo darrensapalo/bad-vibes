@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Point
 {
-    public static final Object Negative = new Point(-1, -1);
+    public static final Point Negative = new Point(-1, -1);
 	public int x, y;
 
     public Point(int x, int y)

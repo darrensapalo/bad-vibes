@@ -106,9 +106,9 @@ public abstract class World
         // get the list of available spaces
         for (Person person : peopleList)
         {
-            if (!person.getCellPoint().equals(Point.Negative))
+            if (!person.getDestinationCell().equals(Point.Negative))
             {
-                notAvailableCells.add(person.getCellPoint());
+                notAvailableCells.add(person.getDestinationCell());
             }
         }
 
@@ -136,7 +136,7 @@ public abstract class World
     {
         for (Person person : peopleList)
         {
-            if (person.getCellPoint().equals(point))
+            if (person.getDestinationCell().equals(point))
             {
                 return true;
             }

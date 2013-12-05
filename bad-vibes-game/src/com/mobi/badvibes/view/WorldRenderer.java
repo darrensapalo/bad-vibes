@@ -86,7 +86,7 @@ public class WorldRenderer
         {
             for (PersonView p : masterBucket.get(i))
             {
-                p.render(spriteBatch, delta);   
+                p.render(spriteBatch, shapeRenderer, delta);   
             }
         }
 

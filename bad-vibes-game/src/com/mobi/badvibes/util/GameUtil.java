@@ -14,4 +14,13 @@ public class GameUtil {
 		return new Vector2(newPoint.x * GameDimension.Cell.x, 
 						   newPoint.y * GameDimension.Cell.y + GameDimension.PlatformOffset).sub(0, GameDimension.Cell.y / 2);
 	}
+	
+	public static Point getPlatformPoint(Vector2 position) {
+		int x, y;
+		x = y = 0;
+		x = (int)position.x / (int)GameDimension.Cell.x;
+		y = (int)position.y / (int)(GameDimension.Cell.y - GameDimension.PlatformOffset);
+		Point result = new Point(x, y);
+		return result;
+	}
 }

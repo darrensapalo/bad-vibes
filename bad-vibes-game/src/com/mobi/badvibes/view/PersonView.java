@@ -12,12 +12,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
+import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.people.logic.PauseLogic;
+import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
 
 public class PersonView
@@ -74,7 +79,11 @@ public class PersonView
     /*
      * Attributes
      */
-
+    protected Person						person;
+    
+    protected Animation 					animationIdleLookingBackward;
+    protected Animation 					animationIdleLookingForward;
+    
     protected Animation                     animationIdleBackward;
     protected Animation                     animationIdleForward;
 
@@ -204,7 +213,8 @@ public class PersonView
             }
         }
 
-        animationIdleForward = new Animation(frameDuration, region[0]);
+        animationIdleLookingForward = new Animation(frameDuration, region[0]);
+        animationIdleForward = new Animation(frameDuration, region[0][2]);
         animationWalkingForward = new Animation(frameDuration, region[1]);
         animationWalkingBackward = new Animation(frameDuration, region[2]);
         animationPickedUp = new Animation(frameDuration, region[3][0]);
@@ -251,12 +261,15 @@ public class PersonView
 
     public void setPosition(Vector2 position)
     {
+//    	Vector2 _Position = Position;
+//    	Rectangle _Bounds = Bounds;
+//    	Rectangle _HitBounds = HitBounds;
     	
         Position = position;
         Bounds = new Rectangle(position.x + (GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, position.y - (GameDimension.Cell.y), GameDimension.Person.x, GameDimension.Person.y);
         HitBounds = new Rectangle(Bounds);
         float newWidth = HitBounds.getWidth() * 0.6F;
-        float newHeight = HitBounds.getHeight() * 0.6F;
+        float newHeight = HitBounds.getHeight() * 0.4F;
         
         float diffWidth = HitBounds.getWidth() - newWidth;
         float diffHeight = HitBounds.getHeight() - newHeight;
@@ -264,13 +277,33 @@ public class PersonView
         HitBounds.setWidth(newWidth);
         HitBounds.setHeight(newHeight);
         HitBounds.x += diffWidth / 2;
-        HitBounds.y += diffHeight / 2;
+        HitBounds.y += diffHeight * 2 / 3;
+//        
+//        boolean shouldRollBack = false;
+//        for (Person p : World.Instance.getPeopleList()) {
+//			if (p.equals(person)) continue;
+//			if (p.intersects(person)){
+//				shouldRollBack = true;
+//				break;
+//			}
+//		}
+//        /* Almost intersected with a person! Stop. */
+//        if (shouldRollBack){
+//        	Position = _Position;
+//        	Bounds = _Bounds;
+//        	HitBounds = _HitBounds;
+//        	person.setLogic(new PauseLogic(person, null, 0.1f, Emotions.NONE));
+//        	return;
+//        }
+//        
+        
         if (WorldRenderer.Instance != null)
         {
             int bucketID = computeBucketID(position);
         	
             if (currentBucketID != bucketID){
-                WorldRenderer.Instance.addToList(this, bucketID);
+            	currentBucketID = bucketID;
+            	WorldRenderer.Instance.addToList(this, bucketID);
             }
         }
     }
@@ -289,7 +322,7 @@ public class PersonView
         return animationIdleForward;
     }
 
-    public void render(SpriteBatch spriteBatch, float delta)
+    public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
     {
         stateTime += delta;
         currentAnimation = getCurrentAnimation();
@@ -316,7 +349,13 @@ public class PersonView
 	        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
 	        if (emotionRegion != null)
 	            spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
-        spriteBatch.end();
+	    spriteBatch.end();
+
+        /** Draw hitbox for debugging */
+//	    shapeRenderer.setColor(Color.BLACK);
+//	    shapeRenderer.begin(ShapeType.FilledRectangle);
+//	    shapeRenderer.filledRect(Bounds.x, Bounds.y, Bounds.width, Bounds.height);
+//	    shapeRenderer.end();
     }
 
     public void setEmotion(Person person, Emotions e)
@@ -459,5 +498,17 @@ public class PersonView
 
 	public void setColor(Color red) {
 		tint = red;
+	}
+
+	public Point getCellLocation() {
+		return GameUtil.getPlatformPoint(Position);
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 }

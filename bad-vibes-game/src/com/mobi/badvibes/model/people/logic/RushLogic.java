@@ -16,6 +16,8 @@ import com.mobi.badvibes.model.world.World.WorldState;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
+import com.mobi.badvibes.view.PersonView;
+import com.mobi.badvibes.view.PersonView.Emotions;
 
 /**
  * This class will determine where the a person should go next.
@@ -30,26 +32,25 @@ public class RushLogic extends PersonLogic
 		super(person);
 		Point destination = null;
 		WorldState worldState = World.Instance.getCurrentState();
-		
-		
+
+
 		switch(worldState){
 		case BOARDING:
-			if (person.getCellPoint().equals(World.Instance.destination)){
+			if (person.getCurrentCell().equals(World.Instance.destination)){
 				person.setLogic(new HappyLogic(person));
-				System.out.println("Boarding!");
 				return;
 			}else{
 				destination = World.Instance.destination;
 			}
 			break;
 		default:
-			destination = (person.getCellPoint() != null) ? person.getCellPoint() : getFreePosition();
+			destination = (person.getDestinationCell() != null) ? person.getDestinationCell() : getFreePosition();
 			break;
 		}
 		ComputeDestination(destination);
 	}
 
-	private void ComputeDestination(Point destination){
+	protected void ComputeDestination(Point destination){
 		if (destination == null){
 			person.setLogic(new StillLogic(person));
 			return;
@@ -59,7 +60,7 @@ public class RushLogic extends PersonLogic
 		Vector2 nextDestination = GameUtil.getPlatformVectorCentered(destination); 
 
 		person.getView().setDestination(nextDestination);
-		person.setCellPoint(destination);
+		person.setDestinationCell(destination);
 
 		// compute the time it will take for the person to move from its current position to
 		// the new position
@@ -100,5 +101,15 @@ public class RushLogic extends PersonLogic
 	@Override
 	public void think(float delta)
 	{
+//		for (Person p : World.Instance.getPeopleList()){
+//			if (p.equals(person)) continue;
+//			if (p.getLogic() instanceof PauseLogic) continue;
+//			PersonView view = p.getView();
+//			if ((view.getHitBounds().overlaps(person.getView().getHitBounds())) && view.getCurrentBucketID() == person.getView().getCurrentBucketID())
+//			{
+//				person.displease();
+//				person.setLogic(new PauseLogic(person, this, new Random().nextFloat() * 3f, Emotions.NAUGHTY));
+//			}
+//		}
 	}
 }

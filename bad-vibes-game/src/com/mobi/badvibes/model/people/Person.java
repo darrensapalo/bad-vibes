@@ -62,7 +62,7 @@ public abstract class Person
      */
     protected PersonLogic     logic;
 
-    protected Point           personCellPosition;
+    protected Point           destinationCell;
 
     private World             parent;
 
@@ -85,7 +85,8 @@ public abstract class Person
     public Person(PersonView view)
     {
         this.view = view;
-        this.personCellPosition = new Point(-1, -1);
+        this.view.setPerson(this);
+        this.destinationCell = Point.Negative;
         this.touchID = -1;
         this.state = DragState.Free;
     }
@@ -126,7 +127,7 @@ public abstract class Person
         getView().setPosition(personLocation);
         getView().setCurrentState(State.WALKING);
 
-        setCellPoint(n);
+        setDestinationCell(n);
         setLogic(new StillLogic(this));
     }
 
@@ -152,9 +153,9 @@ public abstract class Person
         return happiness;
     }
 
-    public Point getCellPoint()
+    public Point getDestinationCell()
     {
-        return personCellPosition;
+        return destinationCell;
     }
 
     public PersonView getView()
@@ -172,13 +173,27 @@ public abstract class Person
         this.logic = logic;
     }
 
-    public void setCellPoint(Point newPoint)
+    public void setDestinationCell(Point newPoint)
     {
-        personCellPosition = newPoint;
+        destinationCell = newPoint;
+    }
+    
+    public Point getCurrentCell(){
+    	return view.getCellLocation();
     }
 
 	public void displease() {
 		happiness -= 0.02f;
 		view.setEmotion(this, Emotions.ANGRY);
+	}
+	
+	public String toString(){
+		return "Person " + hashCode();
+	}
+	
+	public boolean intersects(Person p){
+		if (view.getHitBounds() == null) return false;
+		if (p.view.getHitBounds() == null) return false;
+		return view.getHitBounds().overlaps(p.view.getHitBounds());
 	}
 }

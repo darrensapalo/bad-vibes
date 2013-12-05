@@ -32,7 +32,7 @@ public class LeavingTrainLogic extends PersonLogic
 	private float counter;
 	private float delay = 2.5f;
 	
-    public LeavingTrainLogic(Person person)
+    public LeavingTrainLogic(final Person person)
     {
         super(person);
         touchedPeople = new ArrayList<Person>();
@@ -44,7 +44,7 @@ public class LeavingTrainLogic extends PersonLogic
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		
         person.getView().setDestination(nextDestination);
-        person.setCellPoint(newPoint);
+        person.setDestinationCell(newPoint);
                 
         // compute the time it will take for the person to move from its current position to
         // the new position
@@ -67,6 +67,7 @@ public class LeavingTrainLogic extends PersonLogic
                     if (arg0 == TweenCallback.COMPLETE)
                     {
                     	World.Instance.getPeopleInTrainList().remove(this);
+                    	World.Instance.getPeopleList().add(person);
                         LeavingTrainLogic.this.person.setLogic(new HappyLogic(LeavingTrainLogic.this.person));
                         LeavingTrainLogic.this.person.walkingTween = null;
                     }
@@ -89,7 +90,6 @@ public class LeavingTrainLogic extends PersonLogic
     		{
     			person.displease();
 				touchedPeople.add(p);
-				view.setEmotion(p, Emotions.NAUGHTY);
     		}
     	}
     }
