@@ -246,7 +246,7 @@ public class PersonView
 
     // Getters and setters
 
-    public synchronized void setPosition(Vector2 position)
+    public void setPosition(Vector2 position)
     {
     	
         Position = position;
