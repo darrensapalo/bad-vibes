@@ -79,7 +79,6 @@ public class GameScreen extends BadVibesScreen
         shapeRenderer.setTransformMatrix(camera.view);
 
         // Update and draw
-        TouchCollection.Instance.Update(delta);
         controller.update(delta);
         controller.draw(spriteBatch, shapeRenderer, delta);
     }

@@ -18,16 +18,16 @@ public class TutorialWorld extends World
 {
 
     /**
-     * People have 4 seconds to enter the train station.
+     * This dictates the number of seconds before the train arrives.
      */
     private static final float ArrivalTime   = 12;
 
     /**
-     * The train allows people to board for 7 seconds.
+     * This dictates how much time is allocated for boarding, including the opening and closing of doors.
      */
     private static final float BoardingTime  = 12;
     /**
-     * The next train arrives in 10 seconds.
+     * The delay before the next train arrives.
      */
     private static final float NextTrainTime = 10;
 

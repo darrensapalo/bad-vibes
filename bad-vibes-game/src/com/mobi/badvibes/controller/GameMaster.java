@@ -33,11 +33,11 @@ public class GameMaster
     {
     	ArrayList<String> titles = new ArrayList<String>();
     	ArrayList<String> captions = new ArrayList<String>();
-    	titles.add("Evening peak rush");
-    	captions.add("Just try to get home safely!");
+    	titles.add("EDSA Station");
+    	captions.add("The morning rush on the way to school!");
     	
-    	titles.add("Noon break dismissal");
-    	captions.add("Try to get to the mall for a quick lunch!");
+    	titles.add("Vito Cruz Station");
+    	captions.add("All ");
     	
     	titles.add("8 o'clock rush");
     	captions.add("Get on school on time!");

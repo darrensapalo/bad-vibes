@@ -4,6 +4,7 @@ import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.StillLogic;
 import com.mobi.badvibes.model.world.World;
@@ -65,6 +66,14 @@ public abstract class Person
     private World             parent;
 
     public Tween              walkingTween;
+    
+    
+    /* Touch / drag variables */
+    public int                touchID;
+    
+    public DragState          state;
+    
+    public Vector2             startPoint, offset;
 
     /**
      * Constructor that requires the logic and the view of the person
@@ -76,6 +85,8 @@ public abstract class Person
     {
         this.view = view;
         this.personCellPosition = new Point(-1, -1);
+        this.touchID = -1;
+        this.state = DragState.Free;
     }
 
     /**
