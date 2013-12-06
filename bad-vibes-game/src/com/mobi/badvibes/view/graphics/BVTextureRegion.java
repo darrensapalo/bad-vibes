@@ -21,20 +21,18 @@ public class BVTextureRegion extends TextureRegion {
 	}
 	
 	public int getWidth(){
-		return (int)source.width;
+		return (int)scaledDimensions.x;
 	}
 	
 	public int getHeight(){
-		return (int)source.height;
+		return (int)scaledDimensions.y;
 	}
 	
 	public void draw(SpriteBatch spriteBatch, Vector2 pos){
         spriteBatch.draw(this,
 				 pos.x, pos.y,
-				 source.x, source.y,
-				 source.width, source.height,
-				 scale.x, -scale.y,
-				 0f);
+				 scaledDimensions.x, -scaledDimensions.y
+    			);
 	}
 	
 	public Vector2 centerAt(Vector2 pos){

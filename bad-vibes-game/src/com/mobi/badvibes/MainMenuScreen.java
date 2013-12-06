@@ -80,9 +80,13 @@ public class MainMenuScreen extends BadVibesScreen
     	tapScreenToPlayPosition = tapScreenToPlay.centerAt(GameDimension.CenterOfViewport().mul(2));
     	
     	Vector2 viewport = GameDimension.Viewport();
-    	musicPosition = new Vector2(musicOn.getWidth() / 2f, viewport.y - musicOn.getHeight() / 2f);
-        HighScoresPosition = new Vector2(viewport.x - highScore.getWidth() * 3f / 2f, viewport.y - highScore.getHeight() / 2f);
-        InformationPosition = new Vector2(musicPosition.x + MENU_BUTTON_WIDTH * 3 / 2, musicPosition.y);
+    	Vector2 icon = new Vector2(musicOn.getWidth(), musicOn.getHeight());
+    	Vector2 halfIcon = icon.cpy().div(2f);
+    	
+    	musicPosition = new Vector2(halfIcon.x, viewport.y - halfIcon.y);
+        InformationPosition = new Vector2(icon.cpy().mul(2).x, musicPosition.y);
+        
+        HighScoresPosition = new Vector2(viewport.x - icon.x - halfIcon.x, musicPosition.y);
         
     	
         // non-power of two images
