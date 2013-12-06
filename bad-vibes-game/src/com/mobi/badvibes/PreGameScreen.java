@@ -18,6 +18,7 @@ import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PreGameScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.WorldRenderer;
 
@@ -52,6 +53,8 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
     protected void initialize()
     {
         // non-power of two images
+
+        MediaPlayer.bgm("game");
         Texture.setEnforcePotImages(false);
 
         shapeRenderer   = new ShapeRenderer();

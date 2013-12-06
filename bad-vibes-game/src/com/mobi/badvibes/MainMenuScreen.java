@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
 import com.mobi.badvibes.view.graphics.BVTexture;
@@ -50,7 +51,10 @@ public class MainMenuScreen extends BadVibesScreen
 	private BVTextureRegion highScorePressed;
 	private BVTextureRegion infoPressed;
 	private BVTextureRegion info;
-	
+	private Rectangle boundsMusic;
+	private Rectangle boundsInfo;
+	private Rectangle boundsHighScore;
+	private Rectangle tapToPlay;
 
 	@Override
     protected void initialize()
@@ -83,11 +87,17 @@ public class MainMenuScreen extends BadVibesScreen
     	Vector2 icon = new Vector2(musicOn.getWidth(), musicOn.getHeight());
     	Vector2 halfIcon = icon.cpy().div(2f);
     	
-    	musicPosition = new Vector2(halfIcon.x, viewport.y - halfIcon.y);
+    	musicPosition = new Vector2(halfIcon.x, viewport.y - icon.cpy().add(halfIcon).y);
+    	
         InformationPosition = new Vector2(icon.cpy().mul(2).x, musicPosition.y);
         
         HighScoresPosition = new Vector2(viewport.x - icon.x - halfIcon.x, musicPosition.y);
         
+        tapToPlay = new Rectangle(0, 0, viewport.x, viewport.y * 0.8f);
+        
+        boundsMusic = new Rectangle(musicPosition.x, musicPosition.y, icon.x, icon.y);
+        boundsInfo = new Rectangle(InformationPosition.x, InformationPosition.y, icon.x, icon.y);
+        boundsHighScore = new Rectangle(HighScoresPosition.x, HighScoresPosition.y, icon.x, icon.y);
     	
         // non-power of two images
         
@@ -114,7 +124,11 @@ public class MainMenuScreen extends BadVibesScreen
         logo.draw(spriteBatch, logoPosition);
         tapScreenToPlay.draw(spriteBatch, tapScreenToPlayPosition);
         
-        musicOn.draw(spriteBatch, musicPosition);
+        if (MediaPlayer.isPlaying())
+        	musicOn.draw(spriteBatch, musicPosition);
+        else
+        	musicOff.draw(spriteBatch, musicPosition);
+        
         highScore.draw(spriteBatch, HighScoresPosition);
         info.draw(spriteBatch, InformationPosition);
         
@@ -169,21 +183,32 @@ public class MainMenuScreen extends BadVibesScreen
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        Timeline.createSequence()
-        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic))
-        .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback()
-        {
-            @Override
-            public void onEvent(int type, BaseTween<?> source)
-            {
-                if (type == TweenCallback.END)
-                {
-                	GameMaster.rounds = 2;
-                	GameMaster.prepareGame();
-                }
-            }
-        }).start(BadVibes.tweenManager);
-
+    	if (boundsMusic.contains(screenX, screenY)){
+    		if (MediaPlayer.isPlaying())
+    			MediaPlayer.pause();
+    		else
+    			MediaPlayer.resume();
+    		return true;
+    	}else if (boundsInfo.contains(screenX, screenY)){
+    		return true;
+    	}else if (boundsHighScore.contains(screenX, screenY)){
+    		return true;
+    	}else if (tapToPlay.contains(screenX, screenY)){
+	        Timeline.createSequence()
+	        .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(0.0f).ease(TweenEquations.easeInCubic))
+	        .setCallbackTriggers(TweenCallback.END).setCallback(new TweenCallback()
+	        {
+	            @Override
+	            public void onEvent(int type, BaseTween<?> source)
+	            {
+	                if (type == TweenCallback.END)
+	                {
+	                	GameMaster.rounds = 2;
+	                	GameMaster.prepareGame();
+	                }
+	            }
+	        }).start(BadVibes.tweenManager);
+    	}
         return false;
     }
 

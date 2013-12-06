@@ -20,7 +20,7 @@ public class MediaPlayer {
 	private static Music currentMusic;
 	
 	private MediaPlayer(){
-		IsEnabled = !true;
+		IsEnabled = true;
 		
 		backgroundMusicLibrary = new HashMap<String, Music>();
 		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
@@ -53,6 +53,7 @@ public class MediaPlayer {
 	}
 
 	public static void bgm(String bgm){
+		if (IsEnabled == false) return;
 		Music music = Instance.backgroundMusicLibrary.get(bgm);
 		if (music != null){
 			if (currentMusic != null){
@@ -101,6 +102,19 @@ public class MediaPlayer {
 		return Gdx.audio.newSound(Gdx.files.internal("audio/sfx/" + path));
 	}
 	
+	public static void pause(){
+		IsEnabled = false;
+		currentMusic.pause();
+	}
+	
+	public static void resume(){
+		IsEnabled = true;
+		currentMusic.play();
+	}
+	
+	public static boolean isPlaying(){
+		return currentMusic.isPlaying();
+	}
 	
 	
 }

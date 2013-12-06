@@ -30,7 +30,7 @@ public class BVTextureRegion extends TextureRegion {
 	
 	public void draw(SpriteBatch spriteBatch, Vector2 pos){
         spriteBatch.draw(this,
-				 pos.x, pos.y,
+				 pos.x, pos.y + scaledDimensions.y,
 				 scaledDimensions.x, -scaledDimensions.y
     			);
 	}

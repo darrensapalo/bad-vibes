@@ -30,7 +30,6 @@ public class GameScreen extends BadVibesScreen
     protected void initialize()
     {
         // BGM
-        MediaPlayer.bgm("game");
         /* Instantiation */
         
         controller      = new TutorialWorldController();
