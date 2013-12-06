@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
-import com.mobi.badvibes.controller.gameplay.PrepareGameplay;
-import com.mobi.badvibes.controller.gameplay.RushGameplay;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.model.world.World;
@@ -35,7 +33,6 @@ public class TutorialWorldController extends WorldController
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
         // gameplay.push(new PrepareGameplay(world));
-        gameplay.push(new RushGameplay(world));
 
         world.initialize();
 

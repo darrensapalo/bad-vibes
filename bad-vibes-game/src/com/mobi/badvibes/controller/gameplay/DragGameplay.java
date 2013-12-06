@@ -106,9 +106,7 @@ public class DragGameplay extends Gameplay
 				view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
 
 				person.state = DragState.FallingDown;
-
-				person.getView().setCurrentState(State.IDLE);
-				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
+				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.1f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
 				{
 					@Override
 					public void onEvent(int arg0, BaseTween<?> arg1)
@@ -122,6 +120,7 @@ public class DragGameplay extends Gameplay
 							if (person.getLogic() instanceof RushLogic == false){
 								person.setLogic(new ObedientLogic(person));
 								person.getView().setCurrentState(State.IDLE);
+								person.state = DragState.Free;
 							}
 							person.startPoint = null;
 						}

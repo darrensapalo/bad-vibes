@@ -1,5 +1,7 @@
 package com.mobi.badvibes.model.people;
 
+import java.util.Random;
+
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.graphics.Color;
@@ -25,8 +27,8 @@ import com.mobi.badvibes.view.PersonView.State;
  */
 public abstract class Person
 {
-    public static final int   MAX_IDLE_TIME = 10;
-    public static final int   MIN_IDLE_TIME = 5;
+    public static final int   MAX_IDLE_TIME = 7;
+    public static final int   MIN_IDLE_TIME = 3;
 
     public static final float VELOCITY      = 0.5f;
 
@@ -89,6 +91,7 @@ public abstract class Person
         this.destinationCell = Point.Negative;
         this.touchID = -1;
         this.state = DragState.Free;
+        weight = 1 + new Random().nextFloat() * 5f;
     }
 
     /**
@@ -110,19 +113,12 @@ public abstract class Person
     {
         parent = theWorld;
 
-        if (inTrain)
-        {
-            // TODO: update value to match the train's door.
-            getView().setPosition(theWorld.getTrain().trainView.Position);
-            // we don't set a logic for them yet.
-            view.setColor(Color.RED);
-            return;
-        }
+        if (inTrain) return;
 
 
         // Find n
         Point n = theWorld.getRandomCellCoordinate();
-        Vector2 personLocation = GameUtil.getPlatformVectorCentered(n);
+        Vector2 personLocation = GameUtil.getOffPlatformVectorCentered(n);
 
         getView().setPosition(personLocation);
         getView().setCurrentState(State.WALKING);
