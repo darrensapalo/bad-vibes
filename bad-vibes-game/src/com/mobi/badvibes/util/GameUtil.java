@@ -25,7 +25,7 @@ public class GameUtil {
 		return result;
 	}
 	public static Vector2 getOffPlatformVectorCentered(Point n) {
-		n.y += World.GRID_HEIGHT;
+		n.y += World.GRID_HEIGHT + 2;
 		return getPlatformVectorCentered(n);
 	}
 }

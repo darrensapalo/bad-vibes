@@ -51,7 +51,7 @@ public class LeavingTrainLogic extends PersonLogic
 
 		float distance  = curPosition.dst(newPosition);
 		Random random = new Random();
-		float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY * (1 + person.getWeight() * random.nextFloat());
+		float time      = (distance / GameDimension.Cell.x) * Person.VELOCITY * (1 + person.getWeight() / 2 * random.nextFloat());
 
 		// animate to that location
 		person.walkingTween = Tween.to(person, PersonAccessor.POSITION, time)

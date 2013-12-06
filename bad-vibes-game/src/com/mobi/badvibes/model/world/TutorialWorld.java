@@ -69,6 +69,7 @@ public class TutorialWorld extends World
             	if (p.getLogic() instanceof ObedientLogic == false)
             		p.setLogic(new RushLogic(p));
             }
+            break;
 		case ALIGHT:
 			for (Person p : peopleInTrainList){
 				Random r = new Random();
