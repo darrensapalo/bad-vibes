@@ -34,7 +34,7 @@ public class TutorialWorld extends World
     /**
      * It takes 5 seconds to go back to the main menu screen. 
      */
-	private static final float BackToMenuDelay = 5;
+	private static final float BackToMenuDelay = 7;
 
     private float              Timer         = 0;
 
@@ -64,14 +64,12 @@ public class TutorialWorld extends World
         switch (type)
         {
         case RUSH:
-            System.out.println("Rush!");
             for (Person p : peopleList)
             {
             	if (p.getLogic() instanceof ObedientLogic == false)
             		p.setLogic(new RushLogic(p));
             }
 		case ALIGHT:
-			System.out.println("Alighting the train!");
 			for (Person p : peopleInTrainList){
 				Random r = new Random();
 				Point newPoint = (r.nextBoolean()) ? new Point(9, 0): new Point(10, 0);
@@ -80,7 +78,6 @@ public class TutorialWorld extends World
 			}
             break;
         case EXPLORE:
-            System.out.println("Explore!");
             for (Person p : peopleList)
             {
                 p.setLogic(new ExploreLogic(p));

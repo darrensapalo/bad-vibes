@@ -2,10 +2,7 @@ package com.mobi.badvibes.controller;
 
 import java.util.ArrayList;
 
-import javax.management.BadBinaryOpValueExpException;
-
 import com.mobi.badvibes.BadVibes;
-import com.mobi.badvibes.BadVibesScreen;
 import com.mobi.badvibes.GameScreen;
 import com.mobi.badvibes.PreGameScreen;
 
@@ -33,14 +30,15 @@ public class GameMaster
     {
     	ArrayList<String> titles = new ArrayList<String>();
     	ArrayList<String> captions = new ArrayList<String>();
-    	titles.add("EDSA Station");
-    	captions.add("The morning rush on the way to school!");
+    	titles.add("Buendia Station");
+    	captions.add("A horde of bus and jeep riders appeared!");
     	
     	titles.add("Vito Cruz Station");
-    	captions.add("All ");
+    	captions.add("Lunch break madness!");
     	
-    	titles.add("8 o'clock rush");
-    	captions.add("Get on school on time!");
+    	
+    	titles.add("EDSA Station");
+    	captions.add("The morning rush on the way to school!");
         BadVibes.preGameScreen.setInformation(titles.get(rounds), captions.get(rounds));
         BadVibes.getInstance().setScreen(BadVibes.preGameScreen);
     }

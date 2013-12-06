@@ -1,8 +1,5 @@
 package com.mobi.badvibes.model.people.logic;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -10,14 +7,13 @@ import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.model.world.World.WorldState;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
-import com.mobi.badvibes.view.PersonView;
-import com.mobi.badvibes.view.PersonView.Emotions;
 
 /**
  * This class will determine where the a person should go next.
@@ -91,7 +87,9 @@ public class RushLogic extends PersonLogic
 							}
 						}
 					}
-				}).start(BadVibes.tweenManager);
+				});
+		
+		
 	}
 
 	private Point getFreePosition() {
@@ -101,6 +99,9 @@ public class RushLogic extends PersonLogic
 	@Override
 	public void think(float delta)
 	{
+		if (person.state == DragState.Free && person.walkingTween.isStarted() == false){
+			person.walkingTween.start(BadVibes.tweenManager);
+		}
 //		for (Person p : World.Instance.getPeopleList()){
 //			if (p.equals(person)) continue;
 //			if (p.getLogic() instanceof PauseLogic) continue;

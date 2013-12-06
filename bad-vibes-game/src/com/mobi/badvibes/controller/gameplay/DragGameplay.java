@@ -7,13 +7,12 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.equations.Cubic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ObedientLogic;
-import com.mobi.badvibes.model.people.logic.StillLogic;
+import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.GameUtil;
@@ -25,128 +24,130 @@ import com.mobi.badvibes.view.PersonView.State;
 
 public class DragGameplay extends Gameplay
 {
-    public enum DragState
-    {
-        Free, Held, FallingDown,
-    }
+	public enum DragState
+	{
+		Free, Held, FallingDown,
+	}
 
-    public ArrayList<Person>   personsReference;
-    
-    private static final float PICKUP_OFFSET = 15f;
+	public ArrayList<Person>   personsReference;
 
-    public DragGameplay(World world)
-    {
-        super(world);
-        personsReference = world.getPeopleList();
+	private static final float PICKUP_OFFSET = 15f;
 
-        Tween.registerAccessor(Person.class, new PersonAccessor());
-    }
+	public DragGameplay(World world)
+	{
+		super(world);
+		personsReference = world.getPeopleList();
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button)
-    {
-        Vector2 p = new Vector2(screenX, screenY);
-        
-        for (final Person person : personsReference)
-        {
-            if (person.state != DragState.Free)
-            {
-                continue;
-            }
-            
-            PersonView view = person.getView();
+		Tween.registerAccessor(Person.class, new PersonAccessor());
+	}
 
-            if (view.getBounds().contains(p.x, p.y))
-            {
-                person.touchID = pointer;
-                
-                if (person.walkingTween != null)
-                    person.walkingTween.kill();
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button)
+	{
+		Vector2 p = new Vector2(screenX, screenY);
 
-                person.setLogic(null);
-                person.getView().setCurrentState(State.PICKED_UP);
+		for (final Person person : personsReference)
+		{
+			if (person.state != DragState.Free)
+			{
+				continue;
+			}
 
-                person.state = DragState.Held;
-                MediaPlayer.sfx("drop");
+			PersonView view = person.getView();
 
-                Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
-                {
-                    @Override
-                    public void onEvent(int arg0, BaseTween<?> arg1)
-                    {
-                        if (person != null)
-                            person.startPoint = person.getView().getPosition().cpy();
-                    }
-                }).start(BadVibes.tweenManager);
+			if (view.getBounds().contains(p.x, p.y))
+			{
+				person.touchID = pointer;
 
-                person.offset = view.getPosition().cpy().sub(p);
-                view.setCurrentState(State.PICKED_UP);
+				if (person.walkingTween != null)
+					person.walkingTween.kill();
 
-                return true;
-            }
-        }
+				person.setLogic(null);
+				person.getView().setCurrentState(State.PICKED_UP);
 
-        return false;
-    }
+				person.state = DragState.Held;
+				MediaPlayer.sfx("drop");
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button)
-    {
-        for (final Person person : personsReference)
-        {
-            if (person.touchID == pointer)
-            {
-            	/** Get the position of the touch minus the platform */
-                int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-                int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-                
-                /** Get the point of the cell's location */
-                Point newPoint = new Point(cellXPosition, cellYPosition);
-                
-                PersonView view = person.getView();
-                view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
+				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
+				{
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1)
+					{
+						if (person != null)
+							person.startPoint = person.getView().getPosition().cpy();
+					}
+				}).start(BadVibes.tweenManager);
 
-                person.state = DragState.FallingDown;
+				person.offset = view.getPosition().cpy().sub(p);
+				view.setCurrentState(State.PICKED_UP);
 
-                person.getView().setCurrentState(State.IDLE);
-                Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
-                {
-                    @Override
-                    public void onEvent(int arg0, BaseTween<?> arg1)
-                    {
-                        person.state = DragState.Free;
+				return true;
+			}
+		}
 
-                        if (person != null)
-                        {
-                            person.touchID = -1;
-                            
-                        	person.setLogic(new ObedientLogic(person));
-                            person.getView().setCurrentState(State.IDLE);
-                            person.startPoint = null;
-                        }
-                    }
-                }).start(BadVibes.tweenManager);
+		return false;
+	}
 
-                return true;                
-            }
-        }
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button)
+	{
+		for (final Person person : personsReference)
+		{
+			if (person.touchID == pointer)
+			{
+				/** Get the position of the touch minus the platform */
+				int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
+				int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
 
-        return false;
-    }
+				/** Get the point of the cell's location */
+				Point newPoint = new Point(cellXPosition, cellYPosition);
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer)
-    {
-        for (final Person person : personsReference)
-        {
-            if (person.touchID != pointer)
-                continue;
-            int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-            int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
+				PersonView view = person.getView();
+				view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
 
-            PersonView view = person.getView();
-            view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));                
-        }
-        return false;
-    }
+				person.state = DragState.FallingDown;
+
+				person.getView().setCurrentState(State.IDLE);
+				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.2f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
+				{
+					@Override
+					public void onEvent(int arg0, BaseTween<?> arg1)
+					{
+						person.state = DragState.Free;
+
+						if (person != null)
+						{
+							person.touchID = -1;
+
+							if (person.getLogic() instanceof RushLogic == false){
+								person.setLogic(new ObedientLogic(person));
+								person.getView().setCurrentState(State.IDLE);
+							}
+							person.startPoint = null;
+						}
+					}
+				}).start(BadVibes.tweenManager);
+
+				return true;                
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer)
+	{
+		for (final Person person : personsReference)
+		{
+			if (person.touchID != pointer)
+				continue;
+			int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
+			int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
+
+			PersonView view = person.getView();
+			view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));                
+		}
+		return false;
+	}
 }
