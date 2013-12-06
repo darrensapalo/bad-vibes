@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
 
 public class MainMenuScreen extends BadVibesScreen
@@ -32,6 +33,8 @@ public class MainMenuScreen extends BadVibesScreen
 	private Vector2 musicPosition;
 	private Vector2 HighScoresPosition;
 	private Vector2 InformationPosition;
+	private Point backgroundSize;
+	private Point logoSize;
 
 	@Override
     protected void initialize()
@@ -49,12 +52,25 @@ public class MainMenuScreen extends BadVibesScreen
         .push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic))
         .start(BadVibes.tweenManager);
         
-        logoPosition = new Vector2((Gdx.graphics.getWidth() - logo.getWidth()) / 2, (Gdx.graphics.getHeight() - logo.getHeight()) / 4);
+        Vector2 scale;
+        
+        scale = GameDimension.Scale();
+        logoSize = new Point(new Vector2(GameUtil.getTextureSize(logo)).mul(scale.x, scale.y));
+        
+        scale = GameDimension.Scale();
+        backgroundSize = new Point(new Vector2(GameUtil.getTextureSize(background)).mul(scale.x, scale.y));
+        
+        
+        
+        
+        logoPosition = new Vector2((Gdx.graphics.getWidth() - logoSize.x) / 2, (Gdx.graphics.getHeight() - logoSize.y) / 4);
         buttonsPosition = new Vector2((Gdx.graphics.getWidth() - TAP_PLAY_WIDTH) / 2, (Gdx.graphics.getHeight() - TAP_PLAY_HEIGHT) / 1.5f);
         
         musicPosition = new Vector2(MENU_BUTTON_WIDTH / 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
         HighScoresPosition = new Vector2(MENU_BUTTON_WIDTH * 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
         InformationPosition = new Vector2(Gdx.graphics.getWidth() - MENU_BUTTON_WIDTH * 3 / 2, Gdx.graphics.getHeight() - MENU_BUTTON_HEIGHT * 3 / 2);
+        
+        
     }
 
     @Override
@@ -68,13 +84,13 @@ public class MainMenuScreen extends BadVibesScreen
         				 0, 0,
         				 Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
         				 0, 0,
-        				 background.getWidth(), background.getHeight(),
+        				 backgroundSize.x, backgroundSize.y,
         				 false, true);
         spriteBatch.draw(logo,
         				 logoPosition.x, logoPosition.y,
         				 GameDimension.Logo.x, GameDimension.Logo.y,
         				 0, 0, 
-        				 logo.getWidth(), logo.getHeight(),
+        				 logoSize.x, logoSize.y,
         				 false, true);
         spriteBatch.draw(buttons, buttonsPosition.x, buttonsPosition.y,
         				 GameDimension.TapToPlay.x, GameDimension.TapToPlay.y,  

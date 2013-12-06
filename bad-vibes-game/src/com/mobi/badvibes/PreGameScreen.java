@@ -80,12 +80,9 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
         
-        System.out.println("Viewport is: " + width + " and " + height);
-        System.out.println("Target viewport is: " + GameDimension.TargetDimension.x + " and " + GameDimension.TargetDimension.y);
-        float scaleX = width / GameDimension.TargetDimension.x;
-        float scaleY = height / GameDimension.TargetDimension.y;
-        System.out.println("Scales are: " + scaleX + " and " + scaleY);
-		titleFont.setScale(scaleX, scaleY);
+        float scaleX = width / GameDimension.TargetDimension().x;
+        float scaleY = height / GameDimension.TargetDimension().y;
+        titleFont.setScale(scaleX, scaleY);
         defaultFont.setScale(scaleX, scaleY);
 
         updatePosition();
@@ -154,18 +151,13 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
     	int x = 0;
     	int y = 0;
 
-    	Vector2 title = new Vector2(titleFont.getBounds(titleHeader).width * titleFont.getScaleX(), titleFont.getBounds(titleHeader).height * titleFont.getScaleY());
-    	Vector2 subtitle = new Vector2(defaultFont.getBounds(subtitleHeader).width * defaultFont.getScaleX(), defaultFont.getBounds(subtitleHeader).height * defaultFont.getScaleY());
-    	System.out.println("Title size is: " + title.x + " and " + title.y);
-    	System.out.println("Subtitle size is: " + subtitle.x + " and " + subtitle.y);
+    	Vector2 title = new Vector2(titleFont.getBounds(titleHeader).width, titleFont.getBounds(titleHeader).height);
+    	Vector2 subtitle = new Vector2(defaultFont.getBounds(subtitleHeader).width, defaultFont.getBounds(subtitleHeader).height);
     	Vector2 target;
     	target = GameDimension.Viewport();
     	titlePos = new Point(target.div(2).sub(title.div(2)));
     	target = GameDimension.Viewport();
     	subtitlePos = new Point(target.div(2).sub(subtitle.div(2)).add(0, title.y * 2f));
-    	
-    	System.out.println("Title pos is: " + titlePos.x + " and " + titlePos.y);
-    	System.out.println("Subtitle pos is: " + subtitlePos.x + " and " + subtitlePos.y);
     }
 
     @Override

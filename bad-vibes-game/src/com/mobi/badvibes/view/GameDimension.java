@@ -17,10 +17,16 @@ import com.mobi.badvibes.MainMenuScreen;
  */
 public class GameDimension {
 
-	public static final Vector2 TargetDimension = new Vector2(800, 480);
+	public static final Vector2 TargetDimension(){ 
+		return new Vector2(800, 480);
+	}
 	
 	public static final Vector2 Viewport(){
 		return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
+	
+	public static final Vector2 Scale(){
+		return GameDimension.Viewport().div(GameDimension.TargetDimension());
 	}
 	/**
 	 * This determines the dimension of the PersonView with

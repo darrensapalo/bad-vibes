@@ -1,5 +1,6 @@
 package com.mobi.badvibes.util;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
@@ -27,5 +28,8 @@ public class GameUtil {
 	public static Vector2 getOffPlatformVectorCentered(Point n) {
 		n.y += World.GRID_HEIGHT + 2;
 		return getPlatformVectorCentered(n);
+	}
+	public static Vector2 getTextureSize(Texture background) {
+		return new Vector2(background.getWidth(), background.getHeight());
 	}
 }
