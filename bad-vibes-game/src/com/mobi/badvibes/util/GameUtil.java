@@ -29,7 +29,4 @@ public class GameUtil {
 		n.y += World.GRID_HEIGHT + 2;
 		return getPlatformVectorCentered(n);
 	}
-	public static Vector2 getTextureSize(Texture background) {
-		return new Vector2(background.getWidth(), background.getHeight());
-	}
 }

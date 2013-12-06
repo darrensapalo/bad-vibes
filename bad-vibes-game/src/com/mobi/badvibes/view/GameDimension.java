@@ -3,6 +3,7 @@ package com.mobi.badvibes.view;
 import sun.applet.Main;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.MainMenuScreen;
@@ -179,5 +180,9 @@ public class GameDimension {
 		TapToPlay = new Vector2(width / 800f * MainMenuScreen.TAP_PLAY_WIDTH, height / 480f * MainMenuScreen.TAP_PLAY_HEIGHT);
 		
 		MenuButton = new Vector2(width / 800f * MainMenuScreen.MENU_BUTTON_WIDTH, height / 480f * MainMenuScreen.MENU_BUTTON_HEIGHT);
+	}
+
+	public static Vector2 CenterOfViewport() {
+		return Viewport().div(2);
 	}
 }
