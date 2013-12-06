@@ -39,9 +39,9 @@ public class BVTexture extends Texture {
 	public void draw(SpriteBatch spriteBatch, Vector2 pos){
         spriteBatch.draw(this,
 				 pos.x, pos.y,
-				 scaledDimensions.x, scaledDimensions.y,
+				 (int)scaledDimensions.x, (int)scaledDimensions.y,
 				 0, 0,
-				 (int)textureDimensions.x, (int)textureDimensions.y,
+				 (int)scaledDimensions.x, (int)scaledDimensions.y,
 				 false, true);
 	}
 }
