@@ -88,10 +88,6 @@ public class TrainView
     public float                 TrainDoorOffset    = 0;
     
     public float 				 Timer = 0;
-
-	public Vector2 doorLeftPosition;
-
-	public Vector2 doorRightPosition;
     
     public TrainView()
     {
@@ -190,9 +186,6 @@ public class TrainView
     public void renderDoors(SpriteBatch spriteBatch, float delta)
     {
         spriteBatch.begin();
-        doorLeftPosition = new Vector2(Position.x + GameDimension.TrainPartA.x, Position.y);
-        doorRightPosition = new Vector2(Position.x + GameDimension.TrainPartA.x + GameDimension.TrainPartDoorLeft.x, Position.y);
-        
         spriteBatch.draw(trainDoorLeft,
                          Position.x + GameDimension.TrainPartA.x - TrainDoorOffset, Position.y,
                          0.0f, 0.0f,
