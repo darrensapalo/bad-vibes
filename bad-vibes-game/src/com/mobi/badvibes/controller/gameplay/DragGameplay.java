@@ -119,9 +119,11 @@ public class DragGameplay extends Gameplay
 
 							if (person.getLogic() instanceof RushLogic == false){
 								person.setLogic(new ObedientLogic(person));
-								person.getView().setCurrentState(State.IDLE);
-								person.state = DragState.Free;
+							}else{
+								person.setLogic(new RushLogic(person));
 							}
+							person.getView().setCurrentState(State.IDLE);
+							person.state = DragState.Free;
 							person.startPoint = null;
 						}
 					}

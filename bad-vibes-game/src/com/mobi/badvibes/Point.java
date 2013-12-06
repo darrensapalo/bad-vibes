@@ -13,6 +13,11 @@ public class Point
         this.x = x;
         this.y = y;
     }
+    
+    public Point (Vector2 v){
+    	this.x = (int)v.x;
+    	this.y = (int)v.y;
+    }
 
     @Override
     public String toString()

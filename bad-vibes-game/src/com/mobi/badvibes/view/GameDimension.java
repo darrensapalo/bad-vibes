@@ -2,6 +2,7 @@ package com.mobi.badvibes.view;
 
 import sun.applet.Main;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.MainMenuScreen;
@@ -16,6 +17,11 @@ import com.mobi.badvibes.MainMenuScreen;
  */
 public class GameDimension {
 
+	public static final Vector2 TargetDimension = new Vector2(800, 480);
+	
+	public static final Vector2 Viewport(){
+		return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
 	/**
 	 * This determines the dimension of the PersonView with
 	 * respect to the viewport.

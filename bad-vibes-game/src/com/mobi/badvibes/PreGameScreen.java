@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PreGameScreenAccessor;
@@ -78,6 +79,14 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
 
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
+        
+        System.out.println("Viewport is: " + width + " and " + height);
+        System.out.println("Target viewport is: " + GameDimension.TargetDimension.x + " and " + GameDimension.TargetDimension.y);
+        float scaleX = width / GameDimension.TargetDimension.x;
+        float scaleY = height / GameDimension.TargetDimension.y;
+        System.out.println("Scales are: " + scaleX + " and " + scaleY);
+		titleFont.setScale(scaleX, scaleY);
+        defaultFont.setScale(scaleX, scaleY);
 
         updatePosition();
         Tween.registerAccessor(PreGameScreen.class, new PreGameScreenAccessor());
@@ -141,21 +150,22 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
 
     private void updatePosition()
     {
-        float textWidth = 0;
-        int x = 0;
-        int y = 0;
+    	float textWidth = 0;
+    	int x = 0;
+    	int y = 0;
 
-        textWidth = titleFont.getBounds(titleHeader).width;
-        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        y = 200;
-
-        titlePos = new Point(x, y);
-
-        textWidth = defaultFont.getBounds(subtitleHeader).width;
-        x = (int) ((Gdx.graphics.getWidth() - textWidth) / 2);
-        y = 260;
-
-        subtitlePos = new Point(x, y);
+    	Vector2 title = new Vector2(titleFont.getBounds(titleHeader).width * titleFont.getScaleX(), titleFont.getBounds(titleHeader).height * titleFont.getScaleY());
+    	Vector2 subtitle = new Vector2(defaultFont.getBounds(subtitleHeader).width * defaultFont.getScaleX(), defaultFont.getBounds(subtitleHeader).height * defaultFont.getScaleY());
+    	System.out.println("Title size is: " + title.x + " and " + title.y);
+    	System.out.println("Subtitle size is: " + subtitle.x + " and " + subtitle.y);
+    	Vector2 target;
+    	target = GameDimension.Viewport();
+    	titlePos = new Point(target.div(2).sub(title.div(2)));
+    	target = GameDimension.Viewport();
+    	subtitlePos = new Point(target.div(2).sub(subtitle.div(2)).add(0, title.y * 2f));
+    	
+    	System.out.println("Title pos is: " + titlePos.x + " and " + titlePos.y);
+    	System.out.println("Subtitle pos is: " + subtitlePos.x + " and " + subtitlePos.y);
     }
 
     @Override
