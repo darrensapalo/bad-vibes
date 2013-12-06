@@ -31,7 +31,6 @@ public class GameScreen extends BadVibesScreen
     {
         // BGM
         MediaPlayer.bgm("game");
-        TouchCollection touchCollection = new TouchCollection();
         /* Instantiation */
         
         controller      = new TutorialWorldController();
@@ -44,7 +43,8 @@ public class GameScreen extends BadVibesScreen
         Tween.registerAccessor(TrainView.class, new TrainAccessor());
         Tween.registerAccessor(WorldRenderer.class, new WorldRendererAccessor());
 
-        Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
+        setScreenOpacity(1.0f);
+        // Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
 
         // TODO: Finish local storage
         boolean isBugTestingLocalStorage = false;
