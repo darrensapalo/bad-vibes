@@ -102,6 +102,7 @@ public class TutorialWorld extends World
     public void update(float delta)
     {
         Timer += delta;
+
         if (peopleInTrainList.size() == 0)
         {
             if (peopleList.size() == 0)
@@ -135,10 +136,16 @@ public class TutorialWorld extends World
             }
             break;
         case BOARDING:
+
+            // TODO: trigger per-bucket rush in runEvent, when all buckets are iterated
+            // then change state to DEPARTURE
+            
+            // maybe we add additional time for boarding time (just in case)
             if (Timer >= BoardingTime)
             {
-                Timer = 0;
-                currentState = WorldState.DEPARTURE;
+                Timer           = 0;
+                currentState    = WorldState.DEPARTURE;
+                
                 train.trainView.departTrain();
             }
             break;
