@@ -20,23 +20,29 @@ public class TutorialWorld extends World
     /**
      * This dictates the number of seconds before the train arrives.
      */
-    private static final float ArrivalTime   = 12;
+    private static final float ArrivalTime         = 12;
 
     /**
-     * This dictates how much time is allocated for boarding, including the opening and closing of doors.
+     * This dictates how much time is allocated for boarding, including the
+     * opening and closing of doors.
      */
-    private static final float BoardingTime  = 12;
+    private static final float BoardingTime        = 12;
     /**
      * The delay before the next train arrives.
      */
-    private static final float NextTrainTime = 10;
+    private static final float NextTrainTime       = 10;
 
     /**
-     * It takes 5 seconds to go back to the main menu screen. 
+     * It takes 5 seconds to go back to the main menu screen.
      */
-	private static final float BackToMenuDelay = 7;
+    private static final float BackToMenuDelay     = 7;
 
-    private float              Timer         = 0;
+    /**
+     * There is 2 second delay per bucket when people will board.
+     */
+    private static final float BoardDelayPerBucket = 5;
+
+    private float              Timer               = 0;
 
     public ArrayList<Person> createPeople()
     {
@@ -51,10 +57,10 @@ public class TutorialWorld extends World
     public ArrayList<Person> createPeopleInTrain()
     {
         ArrayList<Person> list = new ArrayList<Person>();
-        
+
         for (int i = 0; i < 5; i++)
             list.add(new NormanTheNormal());
-        
+
         return list;
     }
 
@@ -64,27 +70,31 @@ public class TutorialWorld extends World
         switch (type)
         {
         case RUSH:
+
+            // TODO: change this to per-bucket rush
+            
             for (Person p : peopleList)
             {
-            	if (p.getLogic() instanceof ObedientLogic == false)
-            		p.setLogic(new RushLogic(p));
+                if (p.getLogic() instanceof ObedientLogic == false)
+                    p.setLogic(new RushLogic(p));
             }
             break;
-		case ALIGHT:
-			for (Person p : peopleInTrainList){
-				Random r = new Random();
-				Point newPoint = (r.nextBoolean()) ? new Point(9, 0): new Point(10, 0);
-				p.getView().setPosition(GameUtil.getPlatformVectorCentered(newPoint));
-				p.setLogic(new LeavingTrainLogic(p));
-			}
+        case ALIGHT:
+            for (Person p : peopleInTrainList)
+            {
+                Random r = new Random();
+                Point newPoint = (r.nextBoolean()) ? new Point(9, 0) : new Point(10, 0);
+                p.getView().setPosition(GameUtil.getPlatformVectorCentered(newPoint));
+                p.setLogic(new LeavingTrainLogic(p));
+            }
             break;
         case EXPLORE:
             for (Person p : peopleList)
             {
                 p.setLogic(new ExploreLogic(p));
             }
-		default:
-			break;
+        default:
+            break;
         }
     }
 
@@ -92,11 +102,13 @@ public class TutorialWorld extends World
     public void update(float delta)
     {
         Timer += delta;
-        if (peopleInTrainList.size() == 0){
-        	if (peopleList.size() == 0){
-        		setInfoText("Level success!", 2);
-        		currentState = WorldState.END_GAME;
-        	}
+        if (peopleInTrainList.size() == 0)
+        {
+            if (peopleList.size() == 0)
+            {
+                setInfoText("Level success!", 2);
+                currentState = WorldState.END_GAME;
+            }
         }
         switch (currentState)
         {
@@ -115,8 +127,11 @@ public class TutorialWorld extends World
             if (train.trainView.currentState == TrainState.BOARDING)
             {
                 Timer = 0;
+                
+                // TODO: manually let the player switch to this state
                 currentState = WorldState.BOARDING;
-                runEvent(EventType.RUSH);
+                
+                // runEvent(EventType.RUSH);
             }
             break;
         case BOARDING:
@@ -135,10 +150,11 @@ public class TutorialWorld extends World
             }
             break;
         case END_GAME:
-        	if (Timer >= BackToMenuDelay){
-        		GameMaster.endGame();
-        	}
-        	break;
+            if (Timer >= BackToMenuDelay)
+            {
+                GameMaster.endGame();
+            }
+            break;
 
         default:
             break;
