@@ -44,48 +44,79 @@ public class DragGameplay extends Gameplay
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		Vector2 p = new Vector2(screenX, screenY);
+		Vector2 pressPosition = new Vector2(screenX, screenY);
 
 		for (final Person person : personsReference)
 		{
 			if (person.state != DragState.Free)
-			{
 				continue;
-			}
 
 			PersonView view = person.getView();
-
-			if (view.getBounds().contains(p.x, p.y))
+			
+			if (view.getBounds().contains(pressPosition.x, pressPosition.y))
 			{
-				person.touchID = pointer;
-
-				if (person.walkingTween != null)
-					person.walkingTween.kill();
-
-				person.setLogic(null);
-				person.getView().setCurrentState(State.PICKED_UP);
-
-				person.state = DragState.Held;
-				MediaPlayer.sfx("drop");
-
-				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
-				{
-					@Override
-					public void onEvent(int arg0, BaseTween<?> arg1)
-					{
-						if (person != null)
-							person.startPoint = person.getView().getPosition().cpy();
-					}
-				}).start(BadVibes.tweenManager);
-
-				person.offset = view.getPosition().cpy().sub(p);
-				view.setCurrentState(State.PICKED_UP);
-
+				initTouch(person, pointer, pressPosition);
+				initTouchDownTween(person);
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * This code creates a tween for the person to be picked up.
+	 * This animation lasts for a short 50ms.
+	 * @param person - the person to be picked up
+	 */
+	private void initTouchDownTween(final Person person) {
+		Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.05f).target(0, -PICKUP_OFFSET).ease(Cubic.INOUT).setCallback(new TweenCallback()
+		{
+			@Override
+			public void onEvent(int arg0, BaseTween<?> arg1)
+			{
+				if (person != null)
+					person.startPoint = person.getView().getPosition().cpy();
+			}
+		}).start(BadVibes.tweenManager);
+	}
+
+	/**
+	 * This prepares the person to be picked up. 
+	 * (1) recognizes the touch pointer used to pick up the person, 
+	 * (2) removes any tweens the person currently has, 
+	 * (3) removes any logic it is currently running, 
+	 * (4) makes the art of the person look picked up,
+	 * (5) sets the offset of the person. 
+	 * @param person - the person to be initialized
+	 * @param pointer - the touch pointer id 
+	 * @param p - the point where the person was clicked
+	 */
+	private void initTouch(Person person, int pointer, Vector2 p) {
+		PersonView view = person.getView();
+		/* Set the pointer of the person */
+		person.touchID = pointer;
+
+		/* If the person has a tween, kill it and set it to null */
+		if (person.walkingTween != null){
+			person.walkingTween.kill();
+			person.walkingTween = null;
+		}
+
+		/* Remove the person's logic */
+		person.setLogic(null);
+		
+		/* You are now picked up */
+		view.setCurrentState(State.PICKED_UP);
+		person.state = DragState.Held;
+		
+		/* sound effects */
+		MediaPlayer.sfx("drop");
+		
+		/* set the offset of the person */
+		person.offset = person.getView().getPosition().cpy().sub(p);
+		person.getView().setPickupCell(GameUtil.getPlatformPoint(p));
+
 	}
 
 	@Override
@@ -95,40 +126,10 @@ public class DragGameplay extends Gameplay
 		{
 			if (person.touchID == pointer)
 			{
-				/** Get the position of the touch minus the platform */
-				int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-				int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-
-				/** Get the point of the cell's location */
-				Point newPoint = new Point(cellXPosition, cellYPosition);
-
-				PersonView view = person.getView();
-				view.setPosition(GameUtil.getPlatformVectorCentered(newPoint));
-
-				person.state = DragState.FallingDown;
-				Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.1f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
-				{
-					@Override
-					public void onEvent(int arg0, BaseTween<?> arg1)
-					{
-						person.state = DragState.Free;
-
-						if (person != null)
-						{
-							person.touchID = -1;
-
-							if (person.getLogic() instanceof RushLogic == false){
-								person.setLogic(new ObedientLogic(person));
-							}else{
-								person.setLogic(new RushLogic(person));
-							}
-							person.getView().setCurrentState(State.IDLE);
-							person.state = DragState.Free;
-							person.startPoint = null;
-						}
-					}
-				}).start(BadVibes.tweenManager);
-
+				Point testPoint = ensureFallValidity(person, GameUtil.getPlatformPoint(new Vector2(screenX, screenY)));
+				
+				initFall(person, testPoint);
+				initFallTween(person);
 				return true;                
 			}
 		}
@@ -136,6 +137,77 @@ public class DragGameplay extends Gameplay
 		return false;
 	}
 
+	private Point ensureFallValidity(Person person, Point testPoint) {
+		if (World.Instance.checkIfPersonIsOccupying(person, testPoint))
+		{
+			ArrayList<Point> points = GameUtil.getSurroundingPoints(testPoint);
+			for (Point p : points){
+				if (World.Instance.checkIfPersonIsOccupying(person, p) == false){
+					person.setDestinationCell(p);
+					return p;
+				}
+			}
+			testPoint = person.getView().getPickupCell();
+		}
+		person.setDestinationCell(testPoint);
+		return testPoint;
+		/* return the player to the previous place he was in */
+	}
+
+	/**
+	 * This method prepares the falling tween for the person.
+	 * After the tween is finished, 
+	 * (1) the person's touch reference, state, and press start point is reset, 
+	 * (2) the logic is replaced depending on the previous logic,
+	 * (3) and the art of the person is set to idle
+	 * @param person - the person to initialize falling
+	 */
+	private void initFallTween(final Person person) {
+		Tween.to(person, PersonAccessor.PICKUP_OFFSET, 0.1f).target(0, 0).ease(Cubic.INOUT).setCallback(new TweenCallback()
+		{
+			@Override
+			public void onEvent(int arg0, BaseTween<?> arg1)
+			{
+				person.state = DragState.Free;
+
+				if (person != null)
+				{
+					person.touchID = -1;
+
+					if (person.getLogic() instanceof RushLogic == false){
+						person.setLogic(new ObedientLogic(person));
+					}else{
+						person.setLogic(new RushLogic(person));
+					}
+					person.getView().setCurrentState(State.IDLE);
+					person.state = DragState.Free;
+					person.startPoint = null;
+				}
+			}
+		}).start(BadVibes.tweenManager);
+
+
+	}
+
+	/**
+	 * This prepares the person to fall. It 
+	 * (1) finds out which cell you are planning to drop the person, 
+	 * (2) sets the person's position there,
+	 * (3) and makes the person's art look like he is falling. 
+	 * @param person - the person to fall down
+	 * @param screenX - the press event's x position
+	 * @param screenY - the press event's y position
+	 */
+	private void initFall(Person person, Point testPoint) {
+		/** Get the point of the cell's location */
+		person.getView().setPosition(GameUtil.getPlatformVectorCentered(testPoint));
+		person.state = DragState.FallingDown;
+	}
+
+	/**
+	 * This finds out which person is being dragged, and updates
+	 * that persons' cell position accordingly.
+	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
@@ -143,11 +215,8 @@ public class DragGameplay extends Gameplay
 		{
 			if (person.touchID != pointer)
 				continue;
-			int cellXPosition = MathHelper.Clamp((int) (screenX / GameDimension.Cell.x), 0, World.GRID_WIDTH - 1);
-			int cellYPosition = MathHelper.Clamp((int) ((screenY - GameDimension.PlatformOffset) / GameDimension.Cell.y), 0, World.GRID_HEIGHT - 1);
-
-			PersonView view = person.getView();
-			view.setPosition(GameUtil.getPlatformVectorCentered(new Point(cellXPosition, cellYPosition)));                
+			Point newPoint = GameUtil.getPlatformPoint(new Vector2(screenX, screenY));
+			person.getView().setPosition(GameUtil.getPlatformVectorCentered(newPoint));                
 		}
 		return false;
 	}

@@ -3,7 +3,6 @@ package com.mobi.badvibes.model.world;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.model.people.NormanTheNormal;

@@ -132,11 +132,19 @@ public abstract class World
         return availableCells.get(randomizer.nextInt(availableCells.size()));
     }
 
-    public boolean checkIfPersonIsOccupying(Point point)
+    /** 
+     * Checks if the parameter is the same as the 
+     * person's current cell.
+     * @param myself 
+     * @param point
+     * @return
+     */
+    public boolean checkIfPersonIsOccupying(Person myself, Point point)
     {
         for (Person person : peopleList)
         {
-            if (person.getDestinationCell().equals(point))
+        	if (myself.equals(person)) continue;
+            if (person.getCurrentCell().equals(point))
             {
                 return true;
             }

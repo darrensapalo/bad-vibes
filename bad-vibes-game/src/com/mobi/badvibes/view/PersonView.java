@@ -113,6 +113,8 @@ public class PersonView
 
 	private Color tint;
 
+	private Point pickupCell;
+
     public static void Initialize()
     {
         DarrenTheDapaen = new ArrayList<PersonEntry>();
@@ -501,7 +503,9 @@ public class PersonView
 	}
 
 	public Point getCellLocation() {
-		return GameUtil.getPlatformPoint(Position);
+		Point p = GameUtil.getPlatformPoint(Position);
+		p.y += 1; // point found uses Position, but position is the place of the head, so offset by one.
+		return p;
 	}
 
 	public Person getPerson() {
@@ -510,5 +514,13 @@ public class PersonView
 
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	public void setPickupCell(Point platformPoint) {
+		this.pickupCell = platformPoint;
+	}
+
+	public Point getPickupCell() {
+		return pickupCell;
 	}
 }
