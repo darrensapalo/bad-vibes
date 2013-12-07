@@ -3,6 +3,7 @@ package com.mobi.badvibes.model.world;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.model.people.NormanTheNormal;
@@ -12,7 +13,9 @@ import com.mobi.badvibes.model.people.logic.LeavingTrainLogic;
 import com.mobi.badvibes.model.people.logic.ObedientLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.util.GameUtil;
+import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView.TrainState;
+import com.mobi.badvibes.view.WorldRenderer;
 
 public class TutorialWorld extends World
 {
@@ -40,10 +43,12 @@ public class TutorialWorld extends World
     /**
      * There is 2 second delay per bucket when people will board.
      */
-    private static final float BoardDelayPerBucket = 5;
+    private static final float BoardDelayPerBucket = 1;
 
     private float              Timer               = 0;
 
+    private int                BucketIndex         = 0;
+    
     public ArrayList<Person> createPeople()
     {
         ArrayList<Person> list = new ArrayList<Person>();
@@ -73,13 +78,19 @@ public class TutorialWorld extends World
 
             // TODO: change this to per-bucket rush
             
-            for (Person p : peopleList)
+            for (PersonView p : WorldRenderer.Instance.masterBucket.get(BucketIndex))
             {
-                if (p.getLogic() instanceof ObedientLogic == false)
-                    p.setLogic(new RushLogic(p));
+                Person px = p.getPerson();
+
+                if (this.peopleList.contains(px) == false)
+                    continue;
+                
+                if (px.getLogic() instanceof ObedientLogic == false)
+                    px.setLogic(new RushLogic(px));
             }
             break;
         case ALIGHT:
+            
             for (Person p : peopleInTrainList)
             {
                 Random r = new Random();
@@ -89,11 +100,11 @@ public class TutorialWorld extends World
             }
             break;
         case EXPLORE:
+            
             for (Person p : peopleList)
             {
                 p.setLogic(new ExploreLogic(p));
             }
-        default:
             break;
         }
     }
@@ -128,25 +139,35 @@ public class TutorialWorld extends World
             if (train.trainView.currentState == TrainState.BOARDING)
             {
                 Timer = 0;
-                
-                // TODO: manually let the player switch to this state
+
+                // TODO: manually let the player switch to this state, ie: showing the button, etc.
                 currentState = WorldState.BOARDING;
                 
-                // runEvent(EventType.RUSH);
+
+                // we immediately do the first rushing, para less wait :3
+                runEvent(EventType.RUSH);
+                BucketIndex++;
             }
             break;
         case BOARDING:
 
             // TODO: trigger per-bucket rush in runEvent, when all buckets are iterated
             // then change state to DEPARTURE
-            
-            // maybe we add additional time for boarding time (just in case)
-            if (Timer >= BoardingTime)
+            if (Timer >= BoardDelayPerBucket)
             {
-                Timer           = 0;
-                currentState    = WorldState.DEPARTURE;
+                Timer = 0;
                 
-                train.trainView.departTrain();
+                runEvent(EventType.RUSH);
+                BucketIndex++;
+
+                if (BucketIndex >= WorldRenderer.Instance.masterBucket.size())
+                {
+                    BucketIndex = 0;
+                    
+                    currentState    = WorldState.DEPARTURE;
+                    
+                    train.trainView.departTrain();
+                }
             }
             break;
         case DEPARTURE:
