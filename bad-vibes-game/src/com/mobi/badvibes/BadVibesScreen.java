@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -39,6 +40,8 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
 
     public BadVibesScreen()
     {
+        Texture.setEnforcePotImages(false);
+
         // Initialize camera
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
