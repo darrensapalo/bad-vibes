@@ -8,7 +8,6 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -43,20 +42,21 @@ public class MainMenuScreen extends BadVibesScreen
         BVTexture       mainMenuLogoTexture     = new BVTexture(Gdx.files.internal("data/mainmenu/logo.png"));
         BVTexture       mainMenuButtonsTexture  = new BVTexture(Gdx.files.internal("data/mainmenu/buttons.png"));
         
-        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0,  0,  46, 43));
-        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0, 43,  46, 43));
+        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 90,  69,  45, 45));
+        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 90, 114,  45, 45));
         
-        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 46,  0,  46, 43));
-        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 46, 43,  46, 43));
+        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135,  69,  45, 45));
+        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 114,  45, 45));
         
-        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 92,  0,  46, 43));
-        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 92, 43,  46, 43));
+        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0,  69,  45, 45));
+        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0, 114,  45, 45));
 
-        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(138,  0,  46, 43));
-        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(138, 43,  46, 43));
+        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 45,  69,  45, 45));
+        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 45, 114,  45, 45));
         
-        BVTextureRegion tapScreenToPlay         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0, 86, 233, 20));
-
+        BVTextureRegion tapScreenToPlayUp       = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0,   0, 135, 69));
+        BVTextureRegion tapScreenToPlayPressed  = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135,   0, 135, 69));
+        
         // Button styles
         
         ButtonStyle musicButtonStyleOn          = new ButtonStyle();
@@ -79,45 +79,50 @@ public class MainMenuScreen extends BadVibesScreen
                     aboutStyle.up               = new TextureRegionDrawable(aboutUp);
                     aboutStyle.down             = new TextureRegionDrawable(aboutPressed);
 
+        ButtonStyle tapScreenToPlayStyle        = new ButtonStyle();
+        
+                    tapScreenToPlayStyle.up     = new TextureRegionDrawable(tapScreenToPlayUp);
+                    tapScreenToPlayStyle.down   = new TextureRegionDrawable(tapScreenToPlayPressed);
+
+        // Button set-up
         final Image     backgroundImage         = new Image(mainMenuBackground);
         
         mainMenuStage.addActor(backgroundImage);
         
-        // Button set-up
         final Button    musicOnButton           = new Button(musicButtonStyleOn);
         
-                        musicOnButton.setPosition   ( 15,  15);
+                        musicOnButton.setPosition   ( 20,  20);
         
         mainMenuStage.addActor(musicOnButton);
         
         final Button    musicOffButton          = new Button(musicButtonStyleOff);
 
                         musicOffButton.setVisible   (false);
-                        musicOffButton.setPosition  ( 15,  15);
+                        musicOffButton.setPosition  ( 20,  20);
         
         mainMenuStage.addActor(musicOffButton);
         
         final Button    highScoreButton         = new Button(highScoreStyle);
         
-                        highScoreButton.setPosition (685,  15);
+                        highScoreButton.setPosition (680,  20);
         
         mainMenuStage.addActor(highScoreButton);
         
         final Button    aboutButton             = new Button(aboutStyle);
 
-                        aboutButton.setPosition     (740,  15);
+                        aboutButton.setPosition     (735,  20);
         
         mainMenuStage.addActor(aboutButton);
         
-        final Image     tapToPlayImage          = new Image(tapScreenToPlay);
+        final Button    tapToPlayImage          = new Button(tapScreenToPlayStyle);
         
-                        tapToPlayImage.setPosition  (290, 160);
+                        tapToPlayImage.setPosition  (345, 30);
         
         mainMenuStage.addActor(tapToPlayImage);
 
         final Image     logoImage               = new Image(mainMenuLogoTexture);
         
-                        logoImage.setPosition       ( 65, 250);
+                        logoImage.setPosition       (150, 90);
         
         mainMenuStage.addActor(logoImage);
 
@@ -134,13 +139,18 @@ public class MainMenuScreen extends BadVibesScreen
                         GameMaster.prepareGame();
                 }
             }
-
         };
 
-        final InputListener toGameEvent = new InputListener()
+        tapToPlayImage.addListener  (new InputListener()
         {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 Timeline.createSequence()
                 
@@ -150,39 +160,43 @@ public class MainMenuScreen extends BadVibesScreen
                 
                         .setCallbackTriggers(TweenCallback.END).setCallback(animationComplete)
                         .start              (BadVibes.tweenManager);
-
-                return true;
-            } 
-        };
-
-        logoImage.addListener       (toGameEvent);
-        tapToPlayImage.addListener  (toGameEvent);
-        backgroundImage.addListener (toGameEvent);
+            }
+        });
         
-        musicOnButton.addListener(new InputListener()
+        musicOnButton.addListener   (new InputListener()
         {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 musicOnButton   .setVisible(false);
                 musicOffButton  .setVisible (true);
-                
-                return true;
-            } 
+            }
         });
 
-        musicOffButton.addListener(new InputListener()
+        musicOffButton.addListener  (new InputListener()
         {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
                 musicOnButton   .setVisible (true);
                 musicOffButton  .setVisible(false);
-                
-                return true;
             }
         });
 
+        // animation
+        
         Tween.registerAccessor(MainMenuScreen.class, new BadVibesScreenAccessor());
         
         Timeline.createSequence()
