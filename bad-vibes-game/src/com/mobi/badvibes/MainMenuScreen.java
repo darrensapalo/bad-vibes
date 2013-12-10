@@ -45,51 +45,23 @@ public class MainMenuScreen extends BadVibesScreen
         
         float           scaleFactor             = GameUtil.getScalingFactor(800);
         
-        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 90),
-                                                                                                            GameUtil.convertToScaledFactor( 69),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
         
-        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 90),
-                                                                                                            GameUtil.convertToScaledFactor(114),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        
+        BVTextureRegion musicOnUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 69, 45, 45));
 
-        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
-                                                                                                            GameUtil.convertToScaledFactor( 69),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
-        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
-                                                                                                            GameUtil.convertToScaledFactor(114),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
-        
-        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
-                                                                                                            GameUtil.convertToScaledFactor( 69), 
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
-        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
-                                                                                                            GameUtil.convertToScaledFactor(114),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        BVTextureRegion musicOnPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 114, 45, 45));
 
-        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 69),
-                                                                                                            GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
-        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 45),
-                                                                                                            GameUtil.convertToScaledFactor(114),
-                                                                                                            GameUtil.convertToScaledFactor( 45), 
-                                                                                                            GameUtil.convertToScaledFactor( 45)));
-        
-        BVTextureRegion tapScreenToPlayUp       = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
-                                                                                                            GameUtil.convertToScaledFactor(  0),
-                                                                                                            GameUtil.convertToScaledFactor(135),
-                                                                                                            GameUtil.convertToScaledFactor( 69)));
-        BVTextureRegion tapScreenToPlayPressed  = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
-                                                                                                            GameUtil.convertToScaledFactor(  0),
-                                                                                                            GameUtil.convertToScaledFactor(135),
-                                                                                                            GameUtil.convertToScaledFactor( 69)));
+        BVTextureRegion musicOffUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 69, 45, 45));
+        BVTextureRegion musicOffPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 114, 45, 45));
+
+        BVTextureRegion highScoreUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 69, 45, 45));
+        BVTextureRegion highScorePressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 114, 45, 45));
+
+        BVTextureRegion aboutUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 69, 45, 45));
+        BVTextureRegion aboutPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 114, 45, 45));
+
+        BVTextureRegion tapScreenToPlayUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 0, 135, 69));
+        BVTextureRegion tapScreenToPlayPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 0, 135, 69));
         
         // Button styles
         
@@ -119,45 +91,45 @@ public class MainMenuScreen extends BadVibesScreen
                     tapScreenToPlayStyle.down   = new TextureRegionDrawable(tapScreenToPlayPressed);
 
         // Button set-up
-        final Image     backgroundImage         = new Image(mainMenuBackground);
-        
+        final Image backgroundImage = new Image(mainMenuBackground);
+
         mainMenuStage.addActor(backgroundImage);
-        
-        final Button    musicOnButton           = new Button(musicButtonStyleOn);
-        
-                        musicOnButton.setPosition   ( 20,  20);
-        
+
+        final Button musicOnButton = new Button(musicButtonStyleOn);
+
+        musicOnButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
+
         mainMenuStage.addActor(musicOnButton);
-        
-        final Button    musicOffButton          = new Button(musicButtonStyleOff);
 
-                        musicOffButton.setVisible   (false);
-                        musicOffButton.setPosition  ( 20,  20);
-        
+        final Button musicOffButton = new Button(musicButtonStyleOff);
+
+        musicOffButton.setVisible(false);
+        musicOffButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
+
         mainMenuStage.addActor(musicOffButton);
-        
-        final Button    highScoreButton         = new Button(highScoreStyle);
-        
-                        highScoreButton.setPosition (680,  20);
-        
-        mainMenuStage.addActor(highScoreButton);
-        
-        final Button    aboutButton             = new Button(aboutStyle);
 
-                        aboutButton.setPosition     (735,  20);
-        
+        final Button highScoreButton = new Button(highScoreStyle);
+
+        highScoreButton.setPosition(GameUtil.convertToScaledFactor(680), GameUtil.convertToScaledFactor(20));
+
+        mainMenuStage.addActor(highScoreButton);
+
+        final Button aboutButton = new Button(aboutStyle);
+
+        aboutButton.setPosition(GameUtil.convertToScaledFactor(735), GameUtil.convertToScaledFactor(20));
+
         mainMenuStage.addActor(aboutButton);
-        
-        final Button    tapToPlayImage          = new Button(tapScreenToPlayStyle);
-        
-                        tapToPlayImage.setPosition  (345, 30);
-        
+
+        final Button tapToPlayImage = new Button(tapScreenToPlayStyle);
+
+        tapToPlayImage.setPosition(GameUtil.convertToScaledFactor(345), GameUtil.convertToScaledFactor(30));
+
         mainMenuStage.addActor(tapToPlayImage);
 
-        final Image     logoImage               = new Image(mainMenuLogoTexture);
-        
-                        logoImage.setPosition       (150, 90);
-        
+        final Image logoImage = new Image(mainMenuLogoTexture);
+
+        logoImage.setPosition(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(90));
+
         mainMenuStage.addActor(logoImage);
 
         // event set-up

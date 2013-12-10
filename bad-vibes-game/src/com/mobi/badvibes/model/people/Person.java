@@ -175,7 +175,10 @@ public abstract class Person
     }
     
     public Point getCurrentCell(){
-    	return view.getCellLocation();
+    	Point platformPoint = GameUtil.getPlatformPoint(view.getPosition());
+    	if (platformPoint.y == 0)return platformPoint;
+    	platformPoint.y += 1;
+    	return platformPoint;
     }
 
 	public void displease() {

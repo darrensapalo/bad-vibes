@@ -3,6 +3,7 @@ package com.mobi.badvibes.util;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.world.World;
@@ -10,14 +11,14 @@ import com.mobi.badvibes.view.GameDimension;
 
 public class GameUtil
 {
-    public static int convertToScaledFactor(int origSize)
+    public static int convertToScaledFactor(float origSize)
     {
         return (int) (getScalingFactor(800) * origSize);
     }
    
     public static float getScalingFactor(int targetWidth)
     {
-        return Gdx.graphics.getWidth() / targetWidth;
+        return (float)Gdx.graphics.getWidth() / (float)targetWidth;
     }
     
     public static Vector2 getPlatformVector(Point newPoint)
@@ -77,6 +78,11 @@ public class GameUtil
         if (p.y > World.GRID_HEIGHT - 1)
             return false;
         return true;
+    }
+
+    public static Rectangle scaleRectangle(Rectangle source)
+    {
+        return new Rectangle(convertToScaledFactor(source.x), convertToScaledFactor(source.y), convertToScaledFactor(source.width), convertToScaledFactor(source.height) );
     }
 
 }

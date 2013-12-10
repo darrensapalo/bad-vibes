@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
 
 public class BVTextureRegion extends TextureRegion
@@ -16,7 +17,9 @@ public class BVTextureRegion extends TextureRegion
     public BVTextureRegion(Texture t, Rectangle source)
     {
         super(t);
-
+        
+        source = GameUtil.scaleRectangle(source);
+        
         setRegion((int) source.x,
                   (int) source.y,
                   (int) source.width,

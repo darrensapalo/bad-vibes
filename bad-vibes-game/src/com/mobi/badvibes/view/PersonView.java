@@ -502,12 +502,6 @@ public class PersonView
 		tint = red;
 	}
 
-	public Point getCellLocation() {
-		Point p = GameUtil.getPlatformPoint(Position);
-		p.y += 1; // point found uses Position, but position is the place of the head, so offset by one.
-		return p;
-	}
-
 	public Person getPerson() {
 		return person;
 	}
