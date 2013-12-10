@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.graphics.BVTexture;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
 
@@ -42,20 +43,53 @@ public class MainMenuScreen extends BadVibesScreen
         BVTexture       mainMenuLogoTexture     = new BVTexture(Gdx.files.internal("data/mainmenu/logo.png"));
         BVTexture       mainMenuButtonsTexture  = new BVTexture(Gdx.files.internal("data/mainmenu/buttons.png"));
         
-        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 90,  69,  45, 45));
-        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 90, 114,  45, 45));
+        float           scaleFactor             = GameUtil.getScalingFactor(800);
         
-        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135,  69,  45, 45));
-        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 114,  45, 45));
+        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 90),
+                                                                                                            GameUtil.convertToScaledFactor( 69),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
         
-        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0,  69,  45, 45));
-        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0, 114,  45, 45));
+        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 90),
+                                                                                                            GameUtil.convertToScaledFactor(114),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
 
-        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 45,  69,  45, 45));
-        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle( 45, 114,  45, 45));
+        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
+                                                                                                            GameUtil.convertToScaledFactor( 69),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
+                                                                                                            GameUtil.convertToScaledFactor(114),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
         
-        BVTextureRegion tapScreenToPlayUp       = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(  0,   0, 135, 69));
-        BVTextureRegion tapScreenToPlayPressed  = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135,   0, 135, 69));
+        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
+                                                                                                            GameUtil.convertToScaledFactor( 69), 
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
+                                                                                                            GameUtil.convertToScaledFactor(114),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
+
+        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 69),
+                                                                                                            GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor( 45),
+                                                                                                            GameUtil.convertToScaledFactor(114),
+                                                                                                            GameUtil.convertToScaledFactor( 45), 
+                                                                                                            GameUtil.convertToScaledFactor( 45)));
+        
+        BVTextureRegion tapScreenToPlayUp       = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(  0),
+                                                                                                            GameUtil.convertToScaledFactor(  0),
+                                                                                                            GameUtil.convertToScaledFactor(135),
+                                                                                                            GameUtil.convertToScaledFactor( 69)));
+        BVTextureRegion tapScreenToPlayPressed  = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(GameUtil.convertToScaledFactor(135),
+                                                                                                            GameUtil.convertToScaledFactor(  0),
+                                                                                                            GameUtil.convertToScaledFactor(135),
+                                                                                                            GameUtil.convertToScaledFactor( 69)));
         
         // Button styles
         

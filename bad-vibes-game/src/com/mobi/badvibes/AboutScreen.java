@@ -1,17 +1,22 @@
 package com.mobi.badvibes;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 public class AboutScreen extends BadVibesScreen
 {
+    private Stage aboutScreenStage;
+    
     @Override
     protected void initialize()
     {
-
+        aboutScreenStage = new Stage(800, 480, true);
     }
 
     @Override
     protected void renderScreen(float delta)
     {
-
+        aboutScreenStage.act(delta);
+        aboutScreenStage.draw();
     }
 
     @Override
