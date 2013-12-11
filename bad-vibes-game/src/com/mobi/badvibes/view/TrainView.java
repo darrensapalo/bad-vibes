@@ -11,11 +11,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.model.world.EventType;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.TrainAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 
 public class TrainView
 {
@@ -110,6 +110,9 @@ public class TrainView
 			public void onEvent(int arg0, BaseTween<?> arg1)
 			{
 				if (TweenCallback.COMPLETE == arg0){
+				    
+				    MediaPlayer.sfx("opendoor");
+				    
 					currentState = TrainState.BOARDING;
 					Tween.to(TrainView.this, TrainAccessor.TRAIN_DOORS, 1).target(GameDimension.TrainDoorsOffsetFull).start(BadVibes.tweenManager).setCallback(
 							new TweenCallback() {
