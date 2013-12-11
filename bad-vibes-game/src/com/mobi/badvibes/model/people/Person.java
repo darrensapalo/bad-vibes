@@ -4,7 +4,6 @@ import java.util.Random;
 
 import aurelienribon.tweenengine.Tween;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
@@ -28,7 +27,7 @@ import com.mobi.badvibes.view.PersonView.State;
 public abstract class Person
 {
     public static final int   MAX_IDLE_TIME = 7;
-    public static final int   MIN_IDLE_TIME = 3;
+    public static final int   MIN_IDLE_TIME = 5;
 
     public static final float VELOCITY      = 0.5f;
 

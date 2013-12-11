@@ -5,6 +5,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
@@ -23,7 +24,10 @@ public class ExploreLogic extends PersonLogic
     public ExploreLogic(Person person)
     {
         super(person);
-        
+        if (person == null)
+            throw new GdxRuntimeException("The logic lost access to the person.");
+        if (person.getWorld() == null)
+            throw new GdxRuntimeException("The person lost access to the world.");
         Point   newPoint        = person.getWorld().getRandomCellCoordinate();
         Vector2 nextDestination = GameUtil.getPlatformVectorCentered(newPoint); 
         		

@@ -8,8 +8,11 @@ import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.model.people.NormanTheNormal;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ExploreLogic;
+import com.mobi.badvibes.model.people.logic.HappyLogic;
 import com.mobi.badvibes.model.people.logic.LeavingTrainLogic;
 import com.mobi.badvibes.model.people.logic.ObedientLogic;
+import com.mobi.badvibes.model.people.logic.PauseLogic;
+import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.PersonView;
@@ -52,8 +55,12 @@ public class TutorialWorld extends World
     {
         ArrayList<Person> list = new ArrayList<Person>();
 
-        for (int i = 0; i < 10; i++)
-            list.add(new NormanTheNormal());
+        
+        for (int i = 0; i < 10; i++){
+            Person n = new NormanTheNormal();
+            list.add(n);
+            System.out.println("Created " + n + " in the platform");
+        }
 
         return list;
     }
@@ -83,9 +90,19 @@ public class TutorialWorld extends World
 
                 if (this.peopleList.contains(px) == false)
                     continue;
+                PersonLogic logic = px.getLogic();
+                if (logic instanceof PauseLogic)
+                    continue;
+                if (logic instanceof LeavingTrainLogic)
+                    continue;
+                if (logic instanceof HappyLogic)
+                    continue;
                 
-                if (px.getLogic() instanceof ObedientLogic == false)
+                if (peopleList.contains(px))
+                {
                     px.setLogic(new RushLogic(px));
+                    System.out.println("Rushed " + px);
+                }
             }
             break;
         case ALIGHT:

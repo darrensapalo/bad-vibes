@@ -10,9 +10,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
@@ -76,6 +79,8 @@ public class PersonView
     protected static ArrayList<PersonEntry> DarrenTheDapaen;
     protected static ArrayList<PersonEntry> NormanTheNormal;
 
+    private static BitmapFont defaultFont;
+
     /*
      * Attributes
      */
@@ -117,6 +122,9 @@ public class PersonView
 
     public static void Initialize()
     {
+        defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
+        defaultFont.setColor(0f, 0f, 0f, 1f);
+        
         DarrenTheDapaen = new ArrayList<PersonEntry>();
 
         for (int i = 0; i < 15; i++)
@@ -350,14 +358,19 @@ public class PersonView
 	        /** Draw the emotion **/
 	        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
 	        if (emotionRegion != null)
-	            spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
+                spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
+	        
+	        TextBounds bounds = defaultFont.getBounds(person.toString());
+	        Vector2 pos = new Vector2(emotionPosition);
+	        pos.sub(new Vector2(bounds.width, bounds.height).div(2));
+	        defaultFont.draw(spriteBatch, person.toString(), pos.x, pos.y);
 	    spriteBatch.end();
 
         /** Draw hitbox for debugging */
-//	    shapeRenderer.setColor(Color.BLACK);
-//	    shapeRenderer.begin(ShapeType.FilledRectangle);
-//	    shapeRenderer.filledRect(Bounds.x, Bounds.y, Bounds.width, Bounds.height);
-//	    shapeRenderer.end();
+	    shapeRenderer.setColor(Color.BLACK);
+	    shapeRenderer.begin(ShapeType.FilledRectangle);
+	    shapeRenderer.filledRect(HitBounds.x, HitBounds.y, HitBounds.width, HitBounds.height);
+	    shapeRenderer.end();
     }
 
     public void setEmotion(Person person, Emotions e)

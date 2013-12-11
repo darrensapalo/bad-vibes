@@ -20,7 +20,7 @@ public class MediaPlayer {
 	private static Music currentMusic;
 	
 	private MediaPlayer(){
-		IsEnabled = false;
+		IsEnabled = !true;
 		
 		backgroundMusicLibrary = new HashMap<String, Music>();
 		loadMusicToLibrary("game", "Game - Jaunty Gumption.mp3");
@@ -110,6 +110,16 @@ public class MediaPlayer {
 	public static void resume(){
 		IsEnabled = true;
 		currentMusic.play();
+	}
+	
+	public static boolean toggle(){
+	    if (isPlaying()){
+	        pause();
+	        return false;
+	    }else{
+	        resume();
+	        return true;
+	    }
 	}
 	
 	public static boolean isPlaying(){

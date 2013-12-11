@@ -18,7 +18,7 @@ import com.mobi.badvibes.view.PersonView.Emotions;
 public class HappyLogic extends PersonLogic {
 
 	public float timer;
-	public float delay = 1.3f;
+	public float delay = 0.1f;
 	public boolean done;
 	public HappyLogic(Person person) {
 		super(person);
@@ -36,7 +36,7 @@ public class HappyLogic extends PersonLogic {
 		if (timer > delay && done == false){
 			done = true;
 			
-	        Tween.to(person, PersonAccessor.OPACITY, 0.5f)
+	        Tween.to(person, PersonAccessor.OPACITY, 0.3f)
 	            	.ease(TweenEquations.easeInCubic)
 	        		.target(0f)
 	                .setCallback(new TweenCallback()

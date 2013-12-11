@@ -28,7 +28,7 @@ public class StillLogic extends PersonLogic
         
         // set a random time to be idle
         idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat() * Person.MAX_IDLE_TIME;
-        currTime = 0;
+        currTime = Person.MIN_IDLE_TIME;
     }
 
     @Override

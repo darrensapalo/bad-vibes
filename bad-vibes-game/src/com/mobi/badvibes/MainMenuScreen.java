@@ -22,6 +22,7 @@ import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.util.GameUtil;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.graphics.BVTexture;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
@@ -208,6 +209,7 @@ public class MainMenuScreen extends BadVibesScreen
             {
                 musicOnButton   .setVisible(false);
                 musicOffButton  .setVisible (true);
+                MediaPlayer.toggle(); 
             }
         });
 
@@ -224,6 +226,7 @@ public class MainMenuScreen extends BadVibesScreen
             {
                 musicOnButton   .setVisible (true);
                 musicOffButton  .setVisible(false);
+                MediaPlayer.toggle();
             }
         });
 
