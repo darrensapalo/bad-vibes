@@ -58,6 +58,8 @@ public class AboutScreen extends BadVibesScreen
 
         BVTexture                   aboutSprite         = new BVTexture(Gdx.files.internal("data/about/about.png"));
         
+        BVTexture                   avatarSprite        = new BVTexture(Gdx.files.internal("data/about/member.png"));
+        
         BVTextureRegion             aboutUs             = new BVTextureRegion(aboutSprite, new Rectangle(  0,   0,
                                                                                                          221,  68));
         
@@ -76,6 +78,22 @@ public class AboutScreen extends BadVibesScreen
                                                                                                           83,  45));
         BVTextureRegion             backPress           = new BVTextureRegion(aboutSprite, new Rectangle( 83, 309,
                                                                                                           83,  45));
+        
+        BVTextureRegion             avatarBervyn        = new BVTextureRegion(avatarSprite, new Rectangle(  0,   0,
+                                                                                                           54,  90));
+
+        BVTextureRegion             avatarIelle         = new BVTextureRegion(avatarSprite, new Rectangle( 54,   0,
+                                                                                                           54,  90));
+
+        BVTextureRegion             avatarMarit         = new BVTextureRegion(avatarSprite, new Rectangle(108,   0,
+                                                                                                           54,  90));
+
+        BVTextureRegion             avatarMichael       = new BVTextureRegion(avatarSprite, new Rectangle(162,   0,
+                                                                                                           54,  90));
+
+        BVTextureRegion             avatarDarren        = new BVTextureRegion(avatarSprite, new Rectangle(216,   0,
+                                                                                                           54,  90));
+        
         
         Image                       aboutUsImage        = new Image(aboutUs);
         
@@ -119,6 +137,43 @@ public class AboutScreen extends BadVibesScreen
 
         aboutScreenStage.addActor(nameDarrenImage);
 
+
+        Image                       avatBervynImage     = new Image(nameBervyn);
+
+                                    avatBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
+                                                                GameUtil.convertToScaledFactor(115));
+
+        aboutScreenStage.addActor(avatBervynImage);
+                                    
+        Image                       avatIelleImage      = new Image(nameIelle);
+
+                                    avatIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
+                                                               GameUtil.convertToScaledFactor(310));
+
+        aboutScreenStage.addActor(avatIelleImage);
+                                                                
+        Image                       avatMaritImage      = new Image(nameMarit);
+
+                                    avatMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
+                                                               GameUtil.convertToScaledFactor(115));
+
+        aboutScreenStage.addActor(avatMaritImage);
+
+        Image                       avatMichaelImage    = new Image(nameMichael);
+        
+                                    avatMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
+                                                                 GameUtil.convertToScaledFactor(260));
+        
+        aboutScreenStage.addActor(avatMichaelImage);
+
+        Image                       avatDarrenImage     = new Image(nameDarren);
+
+                                    avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
+                                                                GameUtil.convertToScaledFactor(260));
+
+        aboutScreenStage.addActor(avatDarrenImage);
+
+        
         ButtonStyle                 backStyle           = new ButtonStyle();
         
                                     backStyle.up        = new TextureRegionDrawable(backUp);
