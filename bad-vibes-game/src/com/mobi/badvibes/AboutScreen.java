@@ -58,7 +58,7 @@ public class AboutScreen extends BadVibesScreen
 
         BVTexture                   aboutSprite         = new BVTexture(Gdx.files.internal("data/about/about.png"));
         
-        BVTexture                   avatarSprite        = new BVTexture(Gdx.files.internal("data/about/member.png"));
+        BVTexture                   avatarSprite        = new BVTexture(Gdx.files.internal("data/about/members.png"));
         
         BVTextureRegion             aboutUs             = new BVTextureRegion(aboutSprite, new Rectangle(  0,   0,
                                                                                                          221,  68));
@@ -94,6 +94,7 @@ public class AboutScreen extends BadVibesScreen
         BVTextureRegion             avatarDarren        = new BVTextureRegion(avatarSprite, new Rectangle(216,   0,
                                                                                                            54,  90));
         
+        // LINE OF NOT CONFUSION ==============================================================================
         
         Image                       aboutUsImage        = new Image(aboutUs);
         
@@ -137,42 +138,44 @@ public class AboutScreen extends BadVibesScreen
 
         aboutScreenStage.addActor(nameDarrenImage);
 
+        // LINE OF NOT CONFUSION =======================================================================
 
-        Image                       avatBervynImage     = new Image(nameBervyn);
+        Image                       avatBervynImage     = new Image(avatarBervyn);
 
                                     avatBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
                                                                 GameUtil.convertToScaledFactor(115));
 
         aboutScreenStage.addActor(avatBervynImage);
                                     
-        Image                       avatIelleImage      = new Image(nameIelle);
+        Image                       avatIelleImage      = new Image(avatarIelle);
 
                                     avatIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
                                                                GameUtil.convertToScaledFactor(310));
 
         aboutScreenStage.addActor(avatIelleImage);
                                                                 
-        Image                       avatMaritImage      = new Image(nameMarit);
+        Image                       avatMaritImage      = new Image(avatarMarit);
 
                                     avatMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
                                                                GameUtil.convertToScaledFactor(115));
 
         aboutScreenStage.addActor(avatMaritImage);
 
-        Image                       avatMichaelImage    = new Image(nameMichael);
+        Image                       avatMichaelImage    = new Image(avatarMichael);
         
                                     avatMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
                                                                  GameUtil.convertToScaledFactor(260));
         
         aboutScreenStage.addActor(avatMichaelImage);
 
-        Image                       avatDarrenImage     = new Image(nameDarren);
+        Image                       avatDarrenImage     = new Image(avatarDarren);
 
                                     avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
                                                                 GameUtil.convertToScaledFactor(260));
 
         aboutScreenStage.addActor(avatDarrenImage);
 
+        // LINE OF NOT CONFUSION ==========================
         
         ButtonStyle                 backStyle           = new ButtonStyle();
         
@@ -186,6 +189,8 @@ public class AboutScreen extends BadVibesScreen
         
         aboutScreenStage.addActor(backButton);
 
+        // events
+        
         final TweenCallback animationInfoComplete = new TweenCallback()
         {
             @Override
