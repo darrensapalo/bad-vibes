@@ -142,35 +142,35 @@ public class AboutScreen extends BadVibesScreen
 
         Image                       avatBervynImage     = new Image(avatarBervyn);
 
-                                    avatBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
+                                    avatBervynImage.setPosition(GameUtil.convertToScaledFactor( 23),
                                                                 GameUtil.convertToScaledFactor(115));
 
         aboutScreenStage.addActor(avatBervynImage);
                                     
         Image                       avatIelleImage      = new Image(avatarIelle);
 
-                                    avatIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
+                                    avatIelleImage.setPosition(GameUtil.convertToScaledFactor(231),
                                                                GameUtil.convertToScaledFactor(310));
 
         aboutScreenStage.addActor(avatIelleImage);
                                                                 
         Image                       avatMaritImage      = new Image(avatarMarit);
 
-                                    avatMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
+                                    avatMaritImage.setPosition(GameUtil.convertToScaledFactor(489),
                                                                GameUtil.convertToScaledFactor(115));
 
         aboutScreenStage.addActor(avatMaritImage);
 
         Image                       avatMichaelImage    = new Image(avatarMichael);
         
-                                    avatMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
+                                    avatMichaelImage.setPosition(GameUtil.convertToScaledFactor( 77),
                                                                  GameUtil.convertToScaledFactor(260));
         
         aboutScreenStage.addActor(avatMichaelImage);
 
         Image                       avatDarrenImage     = new Image(avatarDarren);
 
-                                    avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
+                                    avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(680),
                                                                 GameUtil.convertToScaledFactor(260));
 
         aboutScreenStage.addActor(avatDarrenImage);
