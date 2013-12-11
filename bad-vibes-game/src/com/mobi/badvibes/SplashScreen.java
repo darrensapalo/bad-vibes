@@ -8,15 +8,18 @@ import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.MediaPlayer;
+import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
+import com.mobi.badvibes.view.graphics.BVTexture;
 
 public class SplashScreen extends BadVibesScreen
 {
-    private Texture splash;
-    private Point   splashPos;
+    private BVTexture splash;
+    private Vector2   splashPos;
 
     @Override
     protected void initialize()
@@ -29,11 +32,13 @@ public class SplashScreen extends BadVibesScreen
         TrainView.Initialize();
 
         // non-power of two images
-        Texture.setEnforcePotImages(false);
+        Texture.setEnforcePotImages(true);
 
-        splash = new Texture(Gdx.files.internal("data/dlsu.png"));
+        splash = new BVTexture(Gdx.files.internal("data/dlsu.png"));
+        splash.setScaleModifier(0.6f);
 
-        updatePosition();
+        splashPos = splash.centerAt(GameDimension.Viewport());
+        
 
         // Tween
         Tween.setCombinedAttributesLimit(3);
@@ -59,16 +64,8 @@ public class SplashScreen extends BadVibesScreen
         spriteBatch.setTransformMatrix(camera.view);
 
         spriteBatch.begin();
-        spriteBatch.draw(splash, splashPos.x, splashPos.y, splash.getWidth() / 2, splash.getHeight() / 2, 0, 0, splash.getWidth(), splash.getHeight(), false, true);
+        splash.draw(spriteBatch, splashPos);
         spriteBatch.end();
-    }
-
-    private void updatePosition()
-    {
-        int x = Gdx.graphics.getWidth() / 2 - splash.getWidth() / 4;
-        int y = Gdx.graphics.getHeight() / 2 - splash.getHeight() / 4;
-
-        splashPos = new Point(x, y);
     }
 
     @Override

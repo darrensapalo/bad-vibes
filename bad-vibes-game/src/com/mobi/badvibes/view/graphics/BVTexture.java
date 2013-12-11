@@ -10,6 +10,7 @@ public class BVTexture extends Texture
 {
     protected Vector2 textureDimensions;
     protected Vector2 scaledDimensions;
+    protected float scaleModifier;
 
     public BVTexture(FileHandle file)
     {
@@ -45,5 +46,17 @@ public class BVTexture extends Texture
     public void draw(SpriteBatch spriteBatch, Vector2 pos)
     {
         spriteBatch.draw(this, pos.x, pos.y, (int) scaledDimensions.x, (int) scaledDimensions.y, 0, 0, (int) scaledDimensions.x, (int) scaledDimensions.y, false, true);
+    }
+
+    public float getScaleModifier()
+    {
+        return scaleModifier;
+    }
+
+    public void setScaleModifier(float scaleModifier)
+    {
+        this.scaleModifier = scaleModifier;
+        Vector2 scale = GameDimension.Scale().mul(scaleModifier);
+        scaledDimensions = textureDimensions.cpy().mul(scale.x, scale.y);
     }
 }

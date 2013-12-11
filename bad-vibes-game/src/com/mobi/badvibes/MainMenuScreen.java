@@ -7,6 +7,9 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -17,7 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.util.GameUtil;
+import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.graphics.BVTexture;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
 
@@ -32,16 +37,37 @@ public class MainMenuScreen extends BadVibesScreen
     public static final int MENU_BUTTON_HEIGHT = 43;
 
     private final Stage     mainMenuStage      = new Stage(800, 480, true);
+    private Texture         sprites;
+    private ShapeRenderer shapeRenderer;
+    private Rectangle railPosition;
+    private Rectangle platformPosition;
 
     @Override
     protected void initialize()
     {
+        
+        sprites = ContentManager.loadImage("data/game/sprites.png");
+        shapeRenderer   = new ShapeRenderer();
         // texture set-up
 
-        BVTexture       mainMenuBackground      = new BVTexture(Gdx.files.internal("data/mainmenu/mainpage.png"));
+        // BVTexture       mainMenuBackground      = new BVTexture(Gdx.files.internal("data/mainmenu/mainpage.png"));
         
         BVTexture       mainMenuLogoTexture     = new BVTexture(Gdx.files.internal("data/mainmenu/logo.png"));
         BVTexture       mainMenuButtonsTexture  = new BVTexture(Gdx.files.internal("data/mainmenu/buttons.png"));
+        
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+        
+        float railWidth = width;
+        float heightOfRail = 120;
+        float railHeight = width / 800f * heightOfRail;
+        railPosition = new Rectangle(0, GameDimension.RailOffset, railWidth, railHeight);
+
+        float platformWidth = width;
+        float heightOfPlatform = 400;
+        float platformHeight = width / 800f * heightOfPlatform;
+        platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
+
         
         float           scaleFactor             = GameUtil.getScalingFactor(800);
         
@@ -91,9 +117,9 @@ public class MainMenuScreen extends BadVibesScreen
                     tapScreenToPlayStyle.down   = new TextureRegionDrawable(tapScreenToPlayPressed);
 
         // Button set-up
-        final Image backgroundImage = new Image(mainMenuBackground);
-
-        mainMenuStage.addActor(backgroundImage);
+//        final Image backgroundImage = new Image(mainMenuBackground);
+//
+//        mainMenuStage.addActor(backgroundImage);
 
         final Button musicOnButton = new Button(musicButtonStyleOn);
 
@@ -228,6 +254,30 @@ public class MainMenuScreen extends BadVibesScreen
         spriteBatch.setProjectionMatrix(camera.projection);
         spriteBatch.setTransformMatrix(camera.view);
 
+        shapeRenderer.begin(ShapeType.FilledRectangle);
+        shapeRenderer.setColor(54 / 255f, 52 / 255f, 50 / 255f, 1.0f);
+        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    shapeRenderer.end();    
+    
+    spriteBatch.begin();
+        spriteBatch.draw(
+                sprites,
+                railPosition.x, railPosition.y,
+                railPosition.width, railPosition.height,
+                0, 0,
+                800, 120,
+                true, true
+                );
+        spriteBatch.draw(
+                sprites,
+                platformPosition.x, platformPosition.y,
+                platformPosition.width, platformPosition.height,
+                0, 120,
+                800, 400,
+                true, true
+                );
+    spriteBatch.end();
+        
         mainMenuStage.act(delta);
         mainMenuStage.draw();
     }
