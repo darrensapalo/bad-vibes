@@ -7,6 +7,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.mobi.badvibes.model.GameData;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.util.GameUtil;
@@ -38,6 +40,8 @@ public class HighScoreScreen extends BadVibesScreen
     private BitmapFont titleFont;
 
     private BitmapFont defaultFont;
+
+    private GameData gameData;
     
     @Override
     protected void initialize()
@@ -227,6 +231,8 @@ public class HighScoreScreen extends BadVibesScreen
 
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
+        
+        gameData = new GameData();
     }
 
     @Override
@@ -257,25 +263,38 @@ public class HighScoreScreen extends BadVibesScreen
                     800, 400,
                     true, true
                     );
-        
-            Vector2 position = GameUtil.getScaledVector(new Vector2(240, 195));
-            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
-            
-            position = GameUtil.getScaledVector(new Vector2(380, 240));
-            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
-            
-            position = GameUtil.getScaledVector(new Vector2(520, 195));
-            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
-            
-            position = GameUtil.getScaledVector(new Vector2(520, 195));
-            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
-            
+      
         spriteBatch.end();
-        
-        
-            
+
         aboutScreenStage.act(delta);
         aboutScreenStage.draw();
+        
+        spriteBatch.begin();
+        
+        
+        Vector2 position;
+//        Vector2 position = GameUtil.getScaledVector(new Vector2(240, 195));
+//        defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+//        
+        
+        position = GameUtil.getScaledVector(new Vector2(380, 240));
+        defaultFont.setColor(Color.BLACK);
+        defaultFont.draw(spriteBatch, (int)(gameData.score * 100) + "%", position.x, position.y);
+//        
+//        position = GameUtil.getScaledVector(new Vector2(520, 195));
+//        defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+        
+        position = GameUtil.getScaledVector(new Vector2(450, 50));
+        titleFont.setColor(Color.WHITE);
+        titleFont.draw(spriteBatch, gameData.pickedUp + "", position.x, position.y);
+        
+        position = GameUtil.getScaledVector(new Vector2(450, 120));
+        titleFont.setColor(Color.WHITE);
+        titleFont.draw(spriteBatch, gameData.trainRiders + "", position.x, position.y);
+        
+        spriteBatch.end();
+        
+            
     }
 
     @Override
