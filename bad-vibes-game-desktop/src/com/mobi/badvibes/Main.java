@@ -9,7 +9,7 @@ public class Main
     {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
-        cfg.title       = "bad-vibes-game";
+        cfg.title       = "Bad Vibes - Train Rush";
         cfg.useGL20     = true;
         
         cfg.width       = 800;
