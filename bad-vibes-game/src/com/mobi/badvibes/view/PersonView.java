@@ -194,13 +194,17 @@ public class PersonView implements Poolable
         
         Calendar cal = Calendar.getInstance();
         
-        if      (randomPick % 11 == 0 || (cal.get(Calendar.MONTH) == 8 && cal.get(Calendar.DATE) == 1 && randomPick % 18 == 0))
+        if      (randomPick % 18 == 0 || (cal.get(Calendar.MONTH) == 8 && cal.get(Calendar.DATE) == 1 && randomPick % 5 == 0))
         {
             return new PersonEntry(Load("data/game/personcharlene.png"));
         }
         else if (randomPick % 15 == 0)
         {
             return new PersonEntry(Load("data/game/person4.png"));
+        }
+        else if (randomPick % 12 == 0)
+        {
+            return new PersonEntry(Load("data/game/person10.png"));
         }
         else if (randomPick % 10 == 0)
         {
@@ -230,14 +234,8 @@ public class PersonView implements Poolable
         {
             return new PersonEntry(Load("data/game/person2.png"));
         }
-        else if (randomPick % 2 == 0)
-        {
-            return new PersonEntry(Load("data/game/person1.png"));
-        }
         else
         {
-            System.out.println("eh.");
-            
             return new PersonEntry(Load("data/game/person1.png"));
         }
     }
