@@ -132,7 +132,7 @@ public class MediaPlayer {
 	}
 	
 	public static boolean isPlaying(){
-		return IsEnabled && currentMusic.isPlaying();
+		return IsEnabled && currentMusic != null && currentMusic.isPlaying();
 	}
 	
 	
