@@ -45,38 +45,38 @@ public class UserInterface
         
         Rectangle moodMeterRect = new Rectangle(0, 0, 64, 40);
         moodMeter = new BVTextureRegion(timers, moodMeterRect);
-        p_moodMeter = new Vector2(10, 425);
+        p_moodMeter = GameUtil.getScaledVector(new Vector2(10, 425));
         
         
         Rectangle BackgroundHappinessBar = new Rectangle(0, 114, 10, 323);
         HappinessBarBackground = new BVTextureRegion(timers, BackgroundHappinessBar);
-        p_HappinessBarBackground = new Vector2(27, 92);
+        p_HappinessBarBackground = GameUtil.getScaledVector(new Vector2(27, 92));
         
         Rectangle HappinessBarRect = new Rectangle(10, 114, 6, 0);
         HappinessBar = new BVTextureRegion(timers, HappinessBarRect);
-        p_HappinessBar = new Vector2(29, 94);
+        p_HappinessBar = GameUtil.getScaledVector(new Vector2(29, 94));
         
         Rectangle happyHeadRect = new Rectangle(0, 80, 42, 34);
         happyHead = new BVTextureRegion(timers, happyHeadRect);
-        p_happyHead = new Vector2(12, 88);
+        p_happyHead = GameUtil.getScaledVector(new Vector2(12, 88));
         
         
         
         Rectangle trainTimerRect = new Rectangle(0, 40, 64, 40);
         trainTimer = new BVTextureRegion(timers, trainTimerRect);
-        p_trainTimer = new Vector2(730, 425);
+        p_trainTimer = GameUtil.getScaledVector(new Vector2(730, 425));
         
         Rectangle timerBackgroundRect = new Rectangle(16, 114, 25, 327);
         timerBackground = new BVTextureRegion(timers, timerBackgroundRect);
-        p_timerBackground = new Vector2(750, 92);
+        p_timerBackground = GameUtil.getScaledVector(new Vector2(750, 92));
         
         Rectangle timerRect = new Rectangle(41, 125, 17, 319);
         timer = new BVTextureRegion(timers, timerRect);
-        p_timer = new Vector2(754, 96);
+        p_timer = GameUtil.getScaledVector(new Vector2(754, 96));
         
         Rectangle timerHeadRect = new Rectangle(42, 80, 40, 45);
         timerHead = new BVTextureRegion(timers, timerHeadRect);
-        p_timerHead = new Vector2(742, 88);
+        p_timerHead = GameUtil.getScaledVector(new Vector2(742, 88));
         
         setTrainTimer(World.Instance.trainProgress);
         setHappinessBar(World.Instance.happiness);

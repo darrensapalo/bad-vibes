@@ -16,13 +16,20 @@ public class BVTextureRegion extends TextureRegion
 
     public BVTextureRegion(TextureRegion r){
         super(r);
-        setSourceRect(new Rectangle(getRegionX(), getRegionY(), getRegionWidth(), getRegionHeight()));
+        setSourceRect(new Rectangle(getRegionX(), getRegionY(), 150, 38));
     }
     
     public BVTextureRegion(Texture t, Rectangle source)
     {
         super(t);
         setSourceRect(source);
+    }
+
+    public BVTextureRegion(TextureRegion textureRegion, int i, int j)
+    {
+        super(textureRegion);
+//        setSourceRect(new Rectangle(i * 150, j * 38, 150, 38));
+        setSourceRect(new Rectangle(getRegionX(), getRegionY(), getRegionWidth(), getRegionHeight()));
     }
 
     public int getWidth()

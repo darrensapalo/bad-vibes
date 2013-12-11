@@ -72,9 +72,6 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
         float heightOfPlatform = 400;
         float platformHeight = width / 800f * heightOfPlatform;
         platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
-
-        
-        
         
         // create fonts
         titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
