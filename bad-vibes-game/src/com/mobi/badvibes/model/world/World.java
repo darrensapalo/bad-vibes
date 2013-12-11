@@ -48,7 +48,8 @@ public abstract class World
     protected Train             train;
 
     protected WorldState        currentState;
-    public Point                destination;
+    public Point                destination1;
+    public Point                destination2;
 
     public static final int     GRID_WIDTH        = 20;
     public static final int     GRID_HEIGHT       = 10;
@@ -90,10 +91,11 @@ public abstract class World
 
     public World()
     {
-        Instance = this;
-        train = new Train();
+        Instance    = this;
+        train       = new Train();
 
-        destination = new Point(9, 0);
+        destination1 = new Point( 9, 0);
+        destination2 = new Point(10, 0);
     }
 
     /**

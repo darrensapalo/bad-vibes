@@ -1,6 +1,7 @@
 package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
@@ -74,16 +75,18 @@ public class PersonView implements Poolable
 
     protected static ArrayList<PersonEntry> NormanTheNormal;
 
-    private static BitmapFont defaultFont;
+    private static BitmapFont               defaultFont;
+
+    private static Random                   random         = new Random();
 
     /*
      * Attributes
      */
-    protected Person						person;
-    
-    protected Animation 					animationIdleLookingBackward;
-    protected Animation 					animationIdleLookingForward;
-    
+    protected Person                        person;
+
+    protected Animation                     animationIdleLookingBackward;
+    protected Animation                     animationIdleLookingForward;
+
     protected Animation                     animationIdleBackward;
     protected Animation                     animationIdleForward;
 
@@ -111,9 +114,9 @@ public class PersonView implements Poolable
 
     private float                           emotionOpacity;
 
-	private Color tint;
+    private Color                           tint;
 
-	private Point pickupCell;
+    private Point                           pickupCell;
 
     public static void Initialize()
     {
@@ -124,8 +127,19 @@ public class PersonView implements Poolable
 
         for (int i = 0; i < 15; i++)
         {
-            PersonEntry newPerson = new PersonEntry(Load("data/game/person1.png"));
-            NormanTheNormal.add(newPerson);
+            int         randomPick  = random.nextInt();
+            PersonEntry newView     = null;
+            
+            if      (randomPick % 2 == 0)
+            {
+                newView = new PersonEntry(Load("data/game/person1.png"));
+            }
+            else // if (randomPick % 3 == 0)
+            {
+                newView = new PersonEntry(Load("data/game/person2.png"));
+            }
+
+            NormanTheNormal.add(newView);
         }
 
         shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
@@ -148,7 +162,18 @@ public class PersonView implements Poolable
                 }
             }
 
-            PersonEntry newView = new PersonEntry(Load("data/game/person1.png"));
+            int         randomPick  = random.nextInt();
+            PersonEntry newView     = null;
+            
+            if      (randomPick % 2 == 0)
+            {
+                newView = new PersonEntry(Load("data/game/person1.png"));
+            }
+            else // if (randomPick % 3 == 0)
+            {
+                newView = new PersonEntry(Load("data/game/person2.png"));
+            }
+            
             newView.taken = true;
             NormanTheNormal.add(newView);
 
@@ -323,9 +348,11 @@ public class PersonView implements Poolable
 
         spriteBatch.begin();
 	        /** Draw the shadow **/
-	        Vector2 shadowPosition = getShadowPosition();
-	        spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-	        spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
+        
+            // Marit added shadows in the revised persons.... hrm...
+	        // Vector2 shadowPosition = getShadowPosition();
+	        // spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+	        // spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
 	        
 	        /** Draw the person **/
 	        if (tint == null)
