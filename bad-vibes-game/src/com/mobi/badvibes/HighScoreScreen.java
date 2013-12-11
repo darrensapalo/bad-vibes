@@ -48,7 +48,7 @@ public class HighScoreScreen extends BadVibesScreen
     {
         sprites                     = ContentManager.loadImage("data/game/sprites.png");
         
-        aboutScreenStage            = new Stage(800, 480, true);
+        aboutScreenStage            = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         int     width               = Gdx.graphics.getWidth();
 
@@ -228,9 +228,11 @@ public class HighScoreScreen extends BadVibesScreen
         // create fonts
         titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
         titleFont.setColor(0f, 0f, 0f, 1f);
-
+        Vector2 scale = GameDimension.Scale();
+        titleFont.setScale(scale.x, scale.y);
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
+        defaultFont.setScale(scale.x, scale.y);
         
         gameData = new GameData();
     }

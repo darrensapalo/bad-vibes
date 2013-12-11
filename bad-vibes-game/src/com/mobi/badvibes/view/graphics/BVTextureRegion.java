@@ -1,5 +1,6 @@
 package com.mobi.badvibes.view.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -51,7 +52,7 @@ public class BVTextureRegion extends TextureRegion
                   (int) source.height);
 
         this.source             = source;
-        this.scale              = GameDimension.Scale();
+        this.scale              = new Vector2(1,1);//GameDimension.Scale();
         this.scaledDimensions   = new Vector2(source.width, source.height).mul(scale.x, scale.y);
     }
     

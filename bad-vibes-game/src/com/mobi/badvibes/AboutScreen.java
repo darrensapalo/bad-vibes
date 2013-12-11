@@ -38,7 +38,7 @@ public class AboutScreen extends BadVibesScreen
     {
         sprites                     = ContentManager.loadImage("data/game/sprites.png");
         
-        aboutScreenStage            = new Stage(800, 480, true);
+        aboutScreenStage            = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         int     width               = Gdx.graphics.getWidth();
 
