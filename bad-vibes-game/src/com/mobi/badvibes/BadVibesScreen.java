@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.mobi.badvibes.util.MediaPlayer;
 
 public abstract class BadVibesScreen implements Screen, InputProcessor
 {
@@ -126,6 +127,19 @@ public abstract class BadVibesScreen implements Screen, InputProcessor
         spriteBatch.end();
     }
 
+    @Override
+    public void pause()
+    {
+        MediaPlayer.pause();
+    }
+    
+    @Override
+    public void resume()
+    {
+        MediaPlayer.resume();
+    }
+    
+    
     @Override
     public void dispose()
     {

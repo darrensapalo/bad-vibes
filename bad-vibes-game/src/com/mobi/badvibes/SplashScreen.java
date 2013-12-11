@@ -81,18 +81,6 @@ public class SplashScreen extends BadVibesScreen
     }
 
     @Override
-    public void pause()
-    {
-
-    }
-
-    @Override
-    public void resume()
-    {
-
-    }
-
-    @Override
     public boolean keyDown(int keycode)
     {
         return false;

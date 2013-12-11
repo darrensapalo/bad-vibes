@@ -173,18 +173,6 @@ public class PreGameScreen extends BadVibesScreen implements TweenCallback
     }
 
     @Override
-    public void pause()
-    {
-
-    }
-
-    @Override
-    public void resume()
-    {
-
-    }
-
-    @Override
     public boolean keyDown(int keycode)
     {
 

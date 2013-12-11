@@ -204,17 +204,6 @@ public class StatisticsScreen extends BadVibesScreen implements TweenCallback
         Gdx.input.setInputProcessor(null);
     }
 
-    @Override
-    public void pause()
-    {
-
-    }
-
-    @Override
-    public void resume()
-    {
-
-    }
 
     @Override
     public boolean keyDown(int keycode)

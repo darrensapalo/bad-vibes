@@ -54,6 +54,7 @@ public class MediaPlayer {
 	}
 
 	public static void bgm(String bgm){
+	    try {
 		if (IsEnabled == false) return;
 		Music music = Instance.backgroundMusicLibrary.get(bgm);
 		if (music != null){
@@ -66,6 +67,9 @@ public class MediaPlayer {
 		}else{
 			System.err.println("Background music not found.");
 		}
+	    }catch(Exception e){
+	        e.printStackTrace();
+	    }
 	}
 	
 	public static void Initialize(){
@@ -104,13 +108,17 @@ public class MediaPlayer {
 	}
 	
 	public static void pause(){
+	    try {
 		IsEnabled = false;
 		currentMusic.pause();
+	    }catch(Exception e){}
 	}
 	
 	public static void resume(){
+	    try {
 		IsEnabled = true;
 		currentMusic.play();
+	    }catch(Exception e){}
 	}
 	
 	public static boolean toggle(){

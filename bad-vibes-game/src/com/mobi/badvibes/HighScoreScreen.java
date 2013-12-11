@@ -24,6 +24,7 @@ import com.mobi.badvibes.model.GameData;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.util.GameUtil;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.graphics.BVTexture;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
@@ -311,17 +312,6 @@ public class HighScoreScreen extends BadVibesScreen
         Gdx.input.setInputProcessor(null);
     }
 
-    @Override
-    public void pause()
-    {
-
-    }
-
-    @Override
-    public void resume()
-    {
-
-    }
 
     @Override
     public boolean keyDown(int keycode)

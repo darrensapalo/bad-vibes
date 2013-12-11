@@ -12,6 +12,7 @@ import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.nimators.TrainAccessor;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -76,12 +77,14 @@ public class GameScreen extends BadVibesScreen
     public void pause()
     {
         controller.onPause();
+        super.pause();
     }
 
     @Override
     public void resume()
     {
         controller.onResume();
+        super.resume();
     }
 
     @Override
