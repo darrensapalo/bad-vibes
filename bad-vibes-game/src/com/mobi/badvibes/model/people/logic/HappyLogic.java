@@ -17,7 +17,7 @@ import com.mobi.badvibes.view.PersonView.State;
 public class HappyLogic extends PersonLogic {
 
 	public float timer;
-	public float delay = 0.1f;
+	public float delay = 0.05f;
 	public boolean done;
 	public HappyLogic(Person person) {
 		super(person);

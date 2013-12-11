@@ -96,6 +96,7 @@ public class UserInterface
 
     private void setHappinessBar(float f)
     {
+        f = MathHelper.ClampF(f, 0, 1f);
         Rectangle rectangle = new Rectangle(HappinessBar.getSourceRect());
         
         // Determine the current height
@@ -116,6 +117,7 @@ public class UserInterface
     
     private void setTrainTimer(float f)
     {
+        f = MathHelper.ClampF(f, 0, 1f);
         Rectangle rectangle = new Rectangle(timer.getSourceRect());
         
         // Determine the current height

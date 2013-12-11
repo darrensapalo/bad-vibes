@@ -78,12 +78,13 @@ public class RushLogic extends PersonLogic
 					{
 						if (arg0 == TweenCallback.COMPLETE)
 						{
+						    Person p = RushLogic.this.person;
 							WorldState worldState = World.Instance.getCurrentState();
 							if (worldState == WorldState.BOARDING){ /* logic, go to the next step */
-								RushLogic.this.person.setLogic(new HappyLogic(RushLogic.this.person));
+								p.setLogic(new HappyLogic(p));
 							}else{ /** Non boarding logic */
-								RushLogic.this.person.setLogic(new StillLogic(RushLogic.this.person));
-								RushLogic.this.person.walkingTween = null;
+								p.setLogic(new StillLogic(p));
+								p.walkingTween = null;
 							}
 						}
 					}
