@@ -29,7 +29,7 @@ public class LeavingTrainLogic extends PersonLogic
 {
 	ArrayList<Person> touchedPeople;
 	private float counter;
-	private float delay = 2.5f;
+	private float delay = 1.0f;
 
 	public LeavingTrainLogic(final Person person)
 	{
@@ -58,6 +58,7 @@ public class LeavingTrainLogic extends PersonLogic
 		person.walkingTween = Tween.to(person, PersonAccessor.POSITION, time)
 				.ease(TweenEquations.easeNone)
 				.target(nextDestination.x, nextDestination.y)
+				.delay(delay)
 				.setCallback(new TweenCallback()
 				{
 					@Override

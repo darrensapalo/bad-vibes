@@ -157,7 +157,7 @@ public class TutorialWorld extends World
                 Timer = 0;
                 train.trainView.arriveTrain();
                 currentState = WorldState.ARRIVAL;
-                setInfoText("!!!", 3);
+                setInfoText("Don't bump!", 3);
                 setPeopleInTrainList(createPeopleInTrain());
             }
             break;
@@ -200,8 +200,10 @@ public class TutorialWorld extends World
         case DEPARTURE:
             if (Timer >= NextTrainTime)
             {
-                currentWait = Timer = 0;
-                currentState = WorldState.ENTERING;
+                if (peopleList.size() > 0){
+                    currentWait = Timer = 0;
+                    currentState = WorldState.ENTERING;
+                }
                 
             }
             break;
