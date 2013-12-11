@@ -3,6 +3,7 @@ package com.mobi.badvibes.model.people.logic;
 import java.util.Random;
 
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.Emotions;
 import com.mobi.badvibes.view.PersonView.State;
@@ -25,6 +26,8 @@ public class PissedLogic extends PersonLogic
         PersonView view = person.getView();
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.ANGRY);
+        
+        World.Instance.happiness -= new Random().nextFloat() * 0.07f;
         
         // set a random time to be idle
         idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat();

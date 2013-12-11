@@ -68,14 +68,14 @@ public abstract class Person
     private World             parent;
 
     public Tween              walkingTween;
-    
-    
+
     /* Touch / drag variables */
     public int                touchID;
-    
+
     public DragState          state;
-    
-    public Vector2             startPoint, offset;
+
+    public Vector2            startPoint, offset;
+    public boolean            isTaught;
 
     /**
      * Constructor that requires the logic and the view of the person
@@ -90,6 +90,7 @@ public abstract class Person
         this.destinationCell = Point.Negative;
         this.touchID = -1;
         this.state = DragState.Free;
+        this.isTaught = false;
         weight = 1 + new Random().nextFloat() * 5f;
     }
 
@@ -112,8 +113,8 @@ public abstract class Person
     {
         parent = theWorld;
 
-        if (inTrain) return;
-
+        if (inTrain)
+            return;
 
         // Find n
         Point n = theWorld.getRandomCellCoordinate();
@@ -172,26 +173,33 @@ public abstract class Person
     {
         destinationCell = newPoint;
     }
-    
-    public Point getCurrentCell(){
-    	Point platformPoint = GameUtil.getPlatformPoint(view.getPosition());
-    	if (platformPoint.y == 0)return platformPoint;
-    	platformPoint.y += 1;
-    	return platformPoint;
+
+    public Point getCurrentCell()
+    {
+        Point platformPoint = GameUtil.getPlatformPoint(view.getPosition());
+        if (platformPoint.y == 0)
+            return platformPoint;
+        platformPoint.y += 1;
+        return platformPoint;
     }
 
-	public void displease() {
-		happiness -= 0.02f;
-		view.setEmotion(this, Emotions.ANGRY);
-	}
-	
-	public String toString(){
-		return "Person " + hashCode();
-	}
-	
-	public boolean intersects(Person p){
-		if (view.getHitBounds() == null) return false;
-		if (p.view.getHitBounds() == null) return false;
-		return view.getHitBounds().overlaps(p.view.getHitBounds());
-	}
+    public void displease()
+    {
+        happiness -= 0.02f;
+        view.setEmotion(this, Emotions.ANGRY);
+    }
+
+    public String toString()
+    {
+        return "Person " + hashCode();
+    }
+
+    public boolean intersects(Person p)
+    {
+        if (view.getHitBounds() == null)
+            return false;
+        if (p.view.getHitBounds() == null)
+            return false;
+        return view.getHitBounds().overlaps(p.view.getHitBounds());
+    }
 }

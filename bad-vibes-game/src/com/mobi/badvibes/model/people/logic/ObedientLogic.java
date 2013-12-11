@@ -28,6 +28,11 @@ public class ObedientLogic extends PersonLogic
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.HAPPY);
         
+        if (person.isTaught == false)
+            World.Instance.happiness += new Random().nextFloat() * 0.07f;
+        
+        person.isTaught = true;
+        
         // Wait for 30 seconds
         idleTime = 4.5f;
         currTime = 0;

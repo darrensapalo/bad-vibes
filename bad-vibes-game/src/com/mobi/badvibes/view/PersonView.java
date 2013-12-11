@@ -11,24 +11,20 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
-import com.mobi.badvibes.model.people.logic.PauseLogic;
-import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
-import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
 
-public class PersonView
+public class PersonView implements Poolable
 {
     /*
      * Static variables
@@ -76,7 +72,6 @@ public class PersonView
     public static final int                 EMOTION_WIDTH  = 45;
     public static final int                 EMOTION_HEIGHT = 36;
 
-    protected static ArrayList<PersonEntry> DarrenTheDapaen;
     protected static ArrayList<PersonEntry> NormanTheNormal;
 
     private static BitmapFont defaultFont;
@@ -124,20 +119,12 @@ public class PersonView
     {
         defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
         defaultFont.setColor(0f, 0f, 0f, 1f);
-        
-        DarrenTheDapaen = new ArrayList<PersonEntry>();
-
-        for (int i = 0; i < 15; i++)
-        {
-            PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
-            DarrenTheDapaen.add(newPerson);
-        }
 
         NormanTheNormal = new ArrayList<PersonEntry>();
 
         for (int i = 0; i < 15; i++)
         {
-            PersonEntry newPerson = new PersonEntry(Load("data/game/wireframe-people.png"));
+            PersonEntry newPerson = new PersonEntry(Load("data/game/person1.png"));
             NormanTheNormal.add(newPerson);
         }
 
@@ -161,7 +148,7 @@ public class PersonView
                 }
             }
 
-            PersonEntry newView = new PersonEntry(Load("data/game/wireframe-people.png"));
+            PersonEntry newView = new PersonEntry(Load("data/game/person1.png"));
             newView.taken = true;
             NormanTheNormal.add(newView);
 
@@ -224,7 +211,7 @@ public class PersonView
         }
 
         animationIdleLookingForward = new Animation(frameDuration, region[0]);
-        animationIdleForward = new Animation(frameDuration, region[0][2]);
+        animationIdleForward = new Animation(frameDuration, region[0][0]);
         animationWalkingForward = new Animation(frameDuration, region[1]);
         animationWalkingBackward = new Animation(frameDuration, region[2]);
         animationPickedUp = new Animation(frameDuration, region[3][0]);
@@ -240,15 +227,7 @@ public class PersonView
                 emotions[y][x].flip(false, true);
             }
         }
-        currentEmotion = Emotions.HAPPY;
-
-        setCurrentState(State.IDLE);
-        setCurrentFacing(Facing.FORWARD);
-
-        currentBucketID = -1;
-        opacity = 1f;
-
-        setPickupOffset(Vector2.Zero);
+        reset();
     }
 
     /**
@@ -530,4 +509,19 @@ public class PersonView
 	public Point getPickupCell() {
 		return pickupCell;
 	}
+
+    @Override
+    public void reset()
+    {
+        currentEmotion = Emotions.HAPPY;
+
+        setCurrentState(State.IDLE);
+        setCurrentFacing(Facing.FORWARD);
+
+        currentBucketID = -1;
+        opacity = 1f;
+
+        setPickupOffset(Vector2.Zero);        
+    }
+
 }
