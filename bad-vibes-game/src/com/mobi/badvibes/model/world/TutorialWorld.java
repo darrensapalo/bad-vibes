@@ -154,7 +154,6 @@ public class TutorialWorld extends World
         case ENTERING:
             if (Timer >= ArrivalTime)
             {
-                MediaPlayer.sfx("");
                 Timer = 0;
                 train.trainView.arriveTrain();
                 currentState = WorldState.ARRIVAL;
