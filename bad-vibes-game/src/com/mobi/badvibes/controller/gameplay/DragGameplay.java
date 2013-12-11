@@ -34,9 +34,7 @@ public class DragGameplay extends Gameplay
 	public DragGameplay(World world)
 	{
 		super(world);
-		personsReference = world.getPeopleList();
-
-		Tween.registerAccessor(Person.class, new PersonAccessor());
+		initialize();
 	}
 
 	@Override
@@ -218,4 +216,10 @@ public class DragGameplay extends Gameplay
 		}
 		return false;
 	}
+
+    @Override
+    public void initialize()
+    {
+        personsReference = world.getPeopleList();
+    }
 }

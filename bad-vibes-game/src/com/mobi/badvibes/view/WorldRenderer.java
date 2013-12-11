@@ -56,18 +56,8 @@ public class WorldRenderer
 
     public WorldRenderer(World theWorld)
     {
-        Instance    = this;
         world       = theWorld;
-
-        infoText = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
-        
-        // initialize the buckets
-        masterBucket = new ArrayList<ArrayList<PersonView>>();
-        
-        for (int i = 0; i < World.GRID_HEIGHT; i++)
-        {
-            masterBucket.add(new ArrayList<PersonView>());   
-        }
+        initialize();
     }
 
     public void render(SpriteBatch spriteBatch, ShapeRenderer shapeRenderer, float delta)
@@ -168,5 +158,20 @@ public class WorldRenderer
                             GameDimension.MiniCell.y);
             
         shapeRenderer.end();
+    }
+
+    public void initialize()
+    {
+        Instance    = this;
+
+        infoText = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
+        
+        // initialize the buckets
+        masterBucket = new ArrayList<ArrayList<PersonView>>();
+        
+        for (int i = 0; i < World.GRID_HEIGHT; i++)
+        {
+            masterBucket.add(new ArrayList<PersonView>());   
+        }        
     }
 }

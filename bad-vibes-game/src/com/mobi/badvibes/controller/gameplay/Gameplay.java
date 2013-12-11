@@ -12,6 +12,8 @@ public abstract class Gameplay
         this.world = world;
     }
 
+    public abstract void initialize();
+    
     public abstract boolean touchDown(int screenX, int screenY, int pointer, int button);
 
     public abstract boolean touchUp(int screenX, int screenY, int pointer, int button);

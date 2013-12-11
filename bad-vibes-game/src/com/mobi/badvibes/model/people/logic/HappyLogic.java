@@ -24,6 +24,7 @@ public class HappyLogic extends PersonLogic {
 		timer = 0;
 		done = false;
 		MediaPlayer.sfx("success");
+		person.pleased();
 		PersonView view = person.getView();
 		view.setEmotion(person, Emotions.HAPPY);
 		view.setCurrentState(State.IDLE);
@@ -45,6 +46,7 @@ public class HappyLogic extends PersonLogic {
 	                    {
 	                        if (arg0 == TweenCallback.COMPLETE)
 	                        {
+	                            
 	                            World.Instance.peopleToBeRemoved.add(person);
 	                        }
 	                    }

@@ -16,7 +16,7 @@ public class PrepareGameplay extends Gameplay
     public PrepareGameplay(World world)
     {
         super(world);
-        destination = new Vector2();
+        initialize();
     }
         
     private Point getPoint(float screenX, float screenY){
@@ -52,5 +52,11 @@ public class PrepareGameplay extends Gameplay
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
         return true;
+    }
+
+    @Override
+    public void initialize()
+    {
+        destination = new Vector2();        
     }
 }

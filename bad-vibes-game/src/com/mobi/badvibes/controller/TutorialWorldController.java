@@ -2,6 +2,8 @@ package com.mobi.badvibes.controller;
 
 import java.util.Random;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,9 +11,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.mobi.badvibes.controller.gameplay.DragGameplay;
+import com.mobi.badvibes.controller.gameplay.Gameplay;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.TutorialWorld;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.view.GameDimension;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -30,12 +34,17 @@ public class TutorialWorldController extends WorldController
     }
 
     protected void Prepare()
-    {        
+    {
+        Tween.registerAccessor(Person.class, new PersonAccessor());
+        
         renderer = new WorldRenderer(world);
         gameplay.push(new DragGameplay(world));
-        // gameplay.push(new PrepareGameplay(world));
-
         world.initialize();
+        renderer.initialize();
+        
+        for (Gameplay g : gameplay)
+            g.initialize();
+        
         userInterface = new UserInterface();
         sprites = ContentManager.loadImage("data/game/sprites.png");
 

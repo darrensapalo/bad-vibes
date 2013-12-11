@@ -29,7 +29,7 @@ public class ObedientLogic extends PersonLogic
         view.setEmotion(person, Emotions.HAPPY);
         
         if (person.isTaught == false)
-            World.Instance.happiness += new Random().nextFloat() * 0.07f;
+            World.Instance.happiness += 0.5f * new Random().nextFloat() / World.Instance.trainRidersCount;
         
         person.isTaught = true;
         

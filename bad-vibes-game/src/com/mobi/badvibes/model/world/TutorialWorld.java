@@ -55,11 +55,17 @@ public class TutorialWorld extends World
 
     private static final float totalWait           = 26f;
 
+    @Override
+    public void initialize()
+    {
+        super.initialize();
+    }
+
     public ArrayList<Person> createPeople()
     {
         ArrayList<Person> list = new ArrayList<Person>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < trainRidersCount; i++)
         {
             Person n = new NormanTheNormal();
             list.add(n);
@@ -72,7 +78,7 @@ public class TutorialWorld extends World
     {
         ArrayList<Person> list = new ArrayList<Person>();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < trainLeaversCount; i++)
             list.add(new NormanTheNormal());
 
         return list;

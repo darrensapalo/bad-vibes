@@ -30,7 +30,7 @@ public class StillLogic extends PersonLogic
         
         if (person.hasArrivedAtTheWorld){
             if (person.hasArrivedAtPlatform == false){
-                World.Instance.happiness += 0.03f + new Random().nextFloat() * 0.03f;
+                World.Instance.happiness += 0.03f + new Random().nextFloat() * World.Instance.trainRidersCount * 0.005;
                 person.hasArrivedAtPlatform = true;
             }
         }

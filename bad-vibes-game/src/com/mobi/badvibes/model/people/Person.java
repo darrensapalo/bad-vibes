@@ -188,7 +188,7 @@ public abstract class Person
 
     public void displease()
     {
-        World.Instance.happiness -= new Random().nextFloat() * 0.07f;
+        World.Instance.happiness -= new Random().nextFloat() * 0.01 * World.Instance.trainLeaversCount;
         happiness -= 0.02f;
         view.setEmotion(this, Emotions.ANGRY);
     }
@@ -205,5 +205,11 @@ public abstract class Person
         if (p.view.getHitBounds() == null)
             return false;
         return view.getHitBounds().overlaps(p.view.getHitBounds());
+    }
+
+    public void pleased()
+    {
+        float factor = 1 / (float)World.Instance.trainRidersCount;
+        World.Instance.happiness += new Random().nextFloat() * factor;
     }
 }

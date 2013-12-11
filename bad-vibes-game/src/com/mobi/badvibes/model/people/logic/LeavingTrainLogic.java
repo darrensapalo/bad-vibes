@@ -65,8 +65,6 @@ public class LeavingTrainLogic extends PersonLogic
 					{
 						if (arg0 == TweenCallback.COMPLETE)
 						{
-							World.Instance.getPeopleInTrainList().remove(this);
-							World.Instance.getPeopleList().add(person);
 							LeavingTrainLogic.this.person.setLogic(new HappyLogic(LeavingTrainLogic.this.person));
 							LeavingTrainLogic.this.person.walkingTween = null;
 						}

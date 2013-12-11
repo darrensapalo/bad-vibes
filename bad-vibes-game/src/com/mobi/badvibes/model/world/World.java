@@ -42,21 +42,23 @@ public abstract class World
      * This list will contain all the people in the train station, whether on
      * the train or not on the train.
      */
-    protected ArrayList<Person>   peopleList        = new ArrayList<Person>();
-    protected ArrayList<Person>   peopleInTrainList = new ArrayList<Person>();
+    protected ArrayList<Person> peopleList        = new ArrayList<Person>();
+    protected ArrayList<Person> peopleInTrainList = new ArrayList<Person>();
 
-    protected Train               train;
+    protected Train             train;
 
-    protected WorldState          currentState;
-	public Point destination;
+    protected WorldState        currentState;
+    public Point                destination;
 
-    public static final int       GRID_WIDTH  = 20;
-    public static final int       GRID_HEIGHT = 10;
-    
-    public float happiness;
-    public float trainProgress;
-    protected float currentWait;
-    public ArrayList<Person> peopleToBeRemoved;
+    public static final int     GRID_WIDTH        = 20;
+    public static final int     GRID_HEIGHT       = 10;
+
+    public float                happiness;
+    public float                trainProgress;
+    protected float             currentWait;
+    public ArrayList<Person>    peopleToBeRemoved;
+    public int                  trainRidersCount  = 2;
+    public int                  trainLeaversCount = 1;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -73,27 +75,26 @@ public abstract class World
         trainProgress = 0f;
         currentWait = 0f;
         currentState = WorldState.ENTERING;
-        
+        setPeopleList(createPeople());
+        setPeopleInTrainList(createPeopleInTrain());
         for (Person p : peopleList)
         {
             p.initialize(this, false);
         }
-        
-        for (Person p: peopleInTrainList)
+
+        for (Person p : peopleInTrainList)
         {
             p.initialize(this, true);
         }
     }
-    
+
     public World()
     {
         Instance = this;
         train = new Train();
-        setPeopleList(createPeople());
-        setPeopleInTrainList(createPeopleInTrain());
+
         destination = new Point(9, 0);
     }
-    
 
     /**
      * Returns a random value for the grid.
@@ -135,10 +136,10 @@ public abstract class World
         return availableCells.get(randomizer.nextInt(availableCells.size()));
     }
 
-    /** 
-     * Checks if the parameter is the same as the 
-     * person's current cell.
-     * @param myself 
+    /**
+     * Checks if the parameter is the same as the person's current cell.
+     * 
+     * @param myself
      * @param point
      * @return
      */
@@ -146,7 +147,8 @@ public abstract class World
     {
         for (Person person : peopleList)
         {
-        	if (myself.equals(person)) continue;
+            if (myself.equals(person))
+                continue;
             if (person.getCurrentCell().equals(point))
             {
                 return true;
@@ -202,7 +204,7 @@ public abstract class World
     {
         peopleInTrainList = peopleList;
     }
-    
+
     /**
      * This method runs a certain kind of event in the world.
      * 
