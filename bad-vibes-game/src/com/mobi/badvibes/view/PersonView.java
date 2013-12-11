@@ -59,8 +59,6 @@ public class PersonView implements Poolable
         NORMAN_THE_NORMAL, PATRICK_THE_PUSHER, CARL_THE_COUNTERFLOWER
     }
 
-    private static Texture                  shadowfeet;
-
     private static final int                FRAME_COLS     = 4;
     private static final int                FRAME_ROWS     = 4;
 
@@ -127,22 +125,10 @@ public class PersonView implements Poolable
 
         for (int i = 0; i < 15; i++)
         {
-            int         randomPick  = random.nextInt();
-            PersonEntry newView     = null;
+            PersonEntry newView     = setPersonView();
             
-            if      (randomPick % 2 == 0)
-            {
-                newView = new PersonEntry(Load("data/game/person1.png"));
-            }
-            else // if (randomPick % 3 == 0)
-            {
-                newView = new PersonEntry(Load("data/game/person2.png"));
-            }
-
             NormanTheNormal.add(newView);
         }
-
-        shadowfeet = new Texture(Gdx.files.internal("data/game/shadowfeet.png"));
     }
 
     public static PersonView getView(Character character)
@@ -162,19 +148,9 @@ public class PersonView implements Poolable
                 }
             }
 
-            int         randomPick  = random.nextInt();
-            PersonEntry newView     = null;
-            
-            if      (randomPick % 2 == 0)
-            {
-                newView = new PersonEntry(Load("data/game/person1.png"));
-            }
-            else // if (randomPick % 3 == 0)
-            {
-                newView = new PersonEntry(Load("data/game/person2.png"));
-            }
-            
-            newView.taken = true;
+            PersonEntry newView     = setPersonView();
+                        newView.taken = true;
+
             NormanTheNormal.add(newView);
 
             return newView.view;
@@ -209,6 +185,48 @@ public class PersonView implements Poolable
         }
     }
 
+    private static PersonEntry setPersonView()
+    {
+        int      randomPick  = Math.abs(random.nextInt());
+
+        System.out.println(randomPick);
+        
+        if      (randomPick % 100 == 0)
+        {
+            return new PersonEntry(Load("data/game/person4.png"));
+        }
+        else if (randomPick % 8 == 0)
+        {
+            return new PersonEntry(Load("data/game/person7.png"));
+        }
+        else if (randomPick % 7 == 0)
+        {
+            return new PersonEntry(Load("data/game/person6.png"));
+        }
+        else if (randomPick % 6 == 0)
+        {
+            return new PersonEntry(Load("data/game/person5.png"));
+        }
+        else if (randomPick % 4 == 0)
+        {
+            return new PersonEntry(Load("data/game/person3.png"));
+        }
+        else if (randomPick % 3 == 0)
+        {
+            return new PersonEntry(Load("data/game/person2.png"));
+        }
+        else if      (randomPick % 2 == 0)
+        {
+            return new PersonEntry(Load("data/game/person1.png"));
+        }
+        else
+        {
+            System.out.println("eh.");
+            
+            return new PersonEntry(Load("data/game/person1.png"));
+        }
+    }
+    
     protected static PersonView Load(String path)
     {
         return new PersonView(0.15f, path);
@@ -347,36 +365,29 @@ public class PersonView implements Poolable
         Vector2 emotionPosition = getEmotionPosition();
 
         spriteBatch.begin();
-	        /** Draw the shadow **/
-        
-            // Marit added shadows in the revised persons.... hrm...
-	        // Vector2 shadowPosition = getShadowPosition();
-	        // spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
-	        // spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y, GameDimension.Shadow.x, GameDimension.Shadow.y);
-	        
-	        /** Draw the person **/
-	        if (tint == null)
-	        	spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), opacity);
-	        else
-	        	spriteBatch.setColor(tint);
-	        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 0f);
-	        
-	        /** Draw the emotion **/
-	        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
-	        if (emotionRegion != null)
-                spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
-	        
-//	        TextBounds bounds = defaultFont.getBounds(person.toString());
-//	        Vector2 pos = new Vector2(emotionPosition);
-//	        pos.sub(new Vector2(bounds.width, bounds.height).div(2));
-//	        defaultFont.draw(spriteBatch, person.toString(), pos.x, pos.y);
-	    spriteBatch.end();
 
-        /** Draw hitbox for debugging */
-//	    shapeRenderer.setColor(Color.BLACK);
-//	    shapeRenderer.begin(ShapeType.FilledRectangle);
-//	    shapeRenderer.filledRect(HitBounds.x, HitBounds.y, HitBounds.width, HitBounds.height);
-//	    shapeRenderer.end();
+        /** Draw the shadow **/
+
+        // Marit added shadows in the revised persons.... hrm...
+        // Vector2 shadowPosition = getShadowPosition();
+        // spriteBatch.setColor(1f, 1f, 1f, ((currentState == State.PICKED_UP) ? 0.3f : 0.5f));
+        // spriteBatch.draw(shadowfeet, shadowPosition.x, shadowPosition.y,
+        // GameDimension.Shadow.x, GameDimension.Shadow.y);
+
+        /** Draw the person **/
+        if (tint == null)
+            spriteBatch.setColor(1f, 1f, ((currentState == State.PICKED_UP) ? 0.5f : 1.0f), opacity);
+        else
+            spriteBatch.setColor(tint);
+        spriteBatch.draw(region, computedPosition.x, computedPosition.y, 0, 0, GameDimension.Person.x, GameDimension.Person.y, 1.0f, 1.0f, 0f);
+
+        /** Draw the emotion **/
+        spriteBatch.setColor(1f, 1f, 1f, emotionOpacity);
+
+        if (emotionRegion != null)
+            spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
+
+        spriteBatch.end();
     }
 
     public void setEmotion(Person person, Emotions e)
@@ -395,11 +406,12 @@ public class PersonView implements Poolable
         return Position.cpy().add((GameDimension.Cell.x - GameDimension.Person.x) / 2.0f, 0).sub(0, GameDimension.Cell.y).add(pickupOffset);
     }
 
+    /*
     private Vector2 getShadowPosition()
     {
         return Position.cpy().add((GameDimension.Cell.x - GameDimension.Shadow.x) / 2.0f, 0).add(0, GameDimension.Cell.y * 0.95f);
     }
-
+    */
     private TextureRegion getCurrentEmotion(Emotions e)
     {
         switch (e)

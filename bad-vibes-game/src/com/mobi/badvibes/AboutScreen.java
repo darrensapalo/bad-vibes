@@ -1,17 +1,28 @@
 package com.mobi.badvibes;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
 import com.mobi.badvibes.util.ContentManager;
+import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.view.GameDimension;
+import com.mobi.badvibes.view.graphics.BVTexture;
+import com.mobi.badvibes.view.graphics.BVTextureRegion;
 
 public class AboutScreen extends BadVibesScreen
 {
@@ -44,6 +55,115 @@ public class AboutScreen extends BadVibesScreen
         
         platformPosition            = new Rectangle(0, GameDimension.PlatformOffset,
                                                     platformWidth, platformHeight);
+
+        BVTexture                   aboutSprite         = new BVTexture(Gdx.files.internal("data/about/about.png"));
+        
+        BVTextureRegion             aboutUs             = new BVTextureRegion(aboutSprite, new Rectangle(  0,   0,
+                                                                                                         221,  68));
+        
+        BVTextureRegion             nameBervyn          = new BVTextureRegion(aboutSprite, new Rectangle(  0,  68,
+                                                                                                          98, 41));
+        BVTextureRegion             nameIelle           = new BVTextureRegion(aboutSprite, new Rectangle(  0, 109,
+                                                                                                         199, 38));
+        BVTextureRegion             nameMarit           = new BVTextureRegion(aboutSprite, new Rectangle(  0, 147,
+                                                                                                         171, 38));
+        BVTextureRegion             nameMichael         = new BVTextureRegion(aboutSprite, new Rectangle(  0, 185,
+                                                                                                         122, 42));
+        BVTextureRegion             nameDarren          = new BVTextureRegion(aboutSprite, new Rectangle(  0, 227,
+                                                                                                         135, 42));
+        
+        BVTextureRegion             backUp              = new BVTextureRegion(aboutSprite, new Rectangle(  0, 309,
+                                                                                                          83,  45));
+        BVTextureRegion             backPress           = new BVTextureRegion(aboutSprite, new Rectangle( 83, 309,
+                                                                                                          83,  45));
+        
+        Image                       aboutUsImage        = new Image(aboutUs);
+        
+                                    aboutUsImage.setPosition(GameUtil.convertToScaledFactor(296),
+                                                             GameUtil.convertToScaledFactor(396));
+
+        aboutScreenStage.addActor(aboutUsImage);
+
+        Image                       nameBervynImage     = new Image(nameBervyn);
+
+                                    nameBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
+                                                                GameUtil.convertToScaledFactor(115));
+
+        aboutScreenStage.addActor(nameBervynImage);
+                                    
+        Image                       nameIelleImage      = new Image(nameIelle);
+
+                                    nameIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
+                                                               GameUtil.convertToScaledFactor(310));
+
+        aboutScreenStage.addActor(nameIelleImage);
+                                                                
+        Image                       nameMaritImage      = new Image(nameMarit);
+
+                                    nameMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
+                                                               GameUtil.convertToScaledFactor(115));
+
+        aboutScreenStage.addActor(nameMaritImage);
+
+        Image                       nameMichaelImage    = new Image(nameMichael);
+        
+                                    nameMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
+                                                                 GameUtil.convertToScaledFactor(260));
+        
+        aboutScreenStage.addActor(nameMichaelImage);
+
+        Image                       nameDarrenImage     = new Image(nameDarren);
+
+                                    nameDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
+                                                                GameUtil.convertToScaledFactor(260));
+
+        aboutScreenStage.addActor(nameDarrenImage);
+
+        ButtonStyle                 backStyle           = new ButtonStyle();
+        
+                                    backStyle.up        = new TextureRegionDrawable(backUp);
+                                    backStyle.down      = new TextureRegionDrawable(backPress);
+        
+        Button                      backButton          = new Button(backStyle);
+                                    
+                                    backButton.setPosition(GameUtil.convertToScaledFactor(20),
+                                                           GameUtil.convertToScaledFactor(20));
+        
+        aboutScreenStage.addActor(backButton);
+
+        final TweenCallback animationInfoComplete = new TweenCallback()
+        {
+            @Override
+            public void onEvent(int type, BaseTween<?> source)
+            {
+                if (type == TweenCallback.END)
+                {
+                    BadVibes.getInstance().setScreen(BadVibes.mainMenuScreen);
+                }
+            }
+        };
+
+        backButton.addListener(new InputListener()
+        {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+                Timeline.createSequence()
+                
+                .push(Tween.to      (AboutScreen.this, BadVibesScreenAccessor.OPACITY, 0.5f)
+                           .target  (0.0f)
+                           .ease    (TweenEquations.easeInCubic))
+        
+                .setCallbackTriggers(TweenCallback.END).setCallback(animationInfoComplete)
+                .start              (BadVibes.tweenManager);
+            }
+        });
 
         Tween.registerAccessor(AboutScreen.class, new BadVibesScreenAccessor());
         
@@ -94,13 +214,13 @@ public class AboutScreen extends BadVibesScreen
     @Override
     public void show()
     {
-
+        Gdx.input.setInputProcessor(aboutScreenStage);
     }
 
     @Override
     public void hide()
     {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
