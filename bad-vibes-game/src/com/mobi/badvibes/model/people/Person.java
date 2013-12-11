@@ -78,6 +78,7 @@ public abstract class Person
     public boolean            isTaught;
     public boolean            hasArrivedAtPlatform;
     public boolean            hasArrivedAtTheWorld;
+    public boolean            isPickedUp;
 
     /**
      * Constructor that requires the logic and the view of the person
@@ -115,7 +116,8 @@ public abstract class Person
     public void initialize(World theWorld, boolean inTrain)
     {
         parent = theWorld;
-
+        this.isPickedUp = false;
+        
         if (inTrain)
             return;
 

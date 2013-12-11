@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.controller.GameMaster;
+import com.mobi.badvibes.model.localstorage.LocalStorage;
 import com.mobi.badvibes.model.people.NormanTheNormal;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ExploreLogic;
@@ -208,7 +209,16 @@ public class TutorialWorld extends World
         case END_GAME:
             if (Timer >= BackToMenuDelay)
             {
-                GameMaster.submitScore(happiness, totalTimer);
+                
+
+                float boundedHappiness = MathHelper.ClampF(happiness, 0, 1f);
+                
+                GameMaster.data.happiness = boundedHappiness;
+                GameMaster.data.totalTime = totalTimer;
+                float timeFactor = (totalTimer > 45) ? totalTimer / 120f : 0;
+                GameMaster.data.score = MathHelper.ClampF(boundedHappiness - timeFactor, 0, 1f);
+                
+                LocalStorage.Write(GameMaster.data);
                 GameMaster.endGame();
             }
             break;

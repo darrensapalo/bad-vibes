@@ -2,9 +2,12 @@ package com.mobi.badvibes.controller;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.utils.Json;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.GameScreen;
 import com.mobi.badvibes.PreGameScreen;
+import com.mobi.badvibes.model.GameData;
+import com.mobi.badvibes.model.localstorage.LocalStorage;
 import com.mobi.badvibes.util.MathHelper;
 import com.mobi.badvibes.view.TrainSign;
 
@@ -18,7 +21,7 @@ import com.mobi.badvibes.view.TrainSign;
 public class GameMaster
 {
 	public static int rounds = 2;
-	public static float score;
+	public static GameData data;
 	
     /**
      * This method handles the calling of the level design depending on the
@@ -31,6 +34,7 @@ public class GameMaster
      */
     public static void prepareGame()
     {
+        data = new GameData();
     	ArrayList<String> captions = new ArrayList<String>();
     	captions.add("A horde of bus and jeep riders appeared!");
     	captions.add("Lunch break madness!");
@@ -67,10 +71,4 @@ public class GameMaster
 		BadVibes.statisticsScreen.setInformation(titles.get(rounds), captions.get(rounds));
 		--rounds;
 	}
-
-    public static void submitScore(float happiness, int totalTimer)
-    {
-        float val = MathHelper.ClampF(happiness, 0, 1f);
-        GameMaster.score = MathHelper.ClampF(val - totalTimer / 3f, 0, 1f);
-    }
 }

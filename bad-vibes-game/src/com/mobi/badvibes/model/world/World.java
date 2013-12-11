@@ -60,7 +60,7 @@ public abstract class World
     public ArrayList<Person>    peopleToBeRemoved;
     public int                  trainRidersCount  = 2;
     public int                  trainLeaversCount = 1;
-    protected int               totalTimer;
+    protected float               totalTimer;
 
     /**
      * This method begins creating the world by instantiating people. This

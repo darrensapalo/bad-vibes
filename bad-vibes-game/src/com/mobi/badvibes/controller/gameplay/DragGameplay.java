@@ -10,6 +10,7 @@ import aurelienribon.tweenengine.equations.Cubic;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.DangerLogic;
 import com.mobi.badvibes.model.people.logic.ObedientLogic;
@@ -102,6 +103,11 @@ public class DragGameplay extends Gameplay
 
 		/* Remove the person's logic */
 		person.setLogic(null);
+		
+		if (person.isPickedUp == false){
+		    person.isPickedUp = true;
+		    GameMaster.data.pickedUp += 1;
+		}
 		
 		/* You are now picked up */
 		view.setCurrentState(State.PICKED_UP);

@@ -41,26 +41,7 @@ public class GameScreen extends BadVibesScreen
         setScreenOpacity(1.0f);
         // Timeline.createSequence().push(Tween.to(this, BadVibesScreenAccessor.OPACITY, 0.5f).target(1).ease(TweenEquations.easeInCubic)).start(BadVibes.tweenManager);
 
-        // TODO: Finish local storage
-        boolean isBugTestingLocalStorage = false;
-        if (isBugTestingLocalStorage && LocalStorage.IsAvailable())
-        {
-            System.out.println("Local storage is available.");
-            System.out.println("Local path is: " + LocalStorage.getLocalPath());
-            FileHandle file = Gdx.files.local("data/gamedata.dat");
-            if (LocalStorage.exists("data/gamedata.dat"))
-            {
-                System.out.println("data/gamedata.dat exists!");
-                System.out.println("The file says: " + file.readString());
-                file.writeString("My god, it's full of stars", false);
 
-            }
-            else
-            {
-                System.out.println("data/dgamedata.dat does not exists!");
-                file.writeString("My god, it's full of stars", false);
-            }
-        }
 
     }
 

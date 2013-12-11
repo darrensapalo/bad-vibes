@@ -139,7 +139,7 @@ public class StatisticsScreen extends BadVibesScreen implements TweenCallback
         
         spriteBatch.begin();
             levelCleared.draw(spriteBatch, p_levelCleared);
-            float score = GameMaster.score;
+            float score = GameMaster.data.score;
             BVTextureRegion star1 = (score > 0.35f) ? starFilled : starNotFilled;
             BVTextureRegion star2 = (score > 0.70f) ? starFilled : starNotFilled;
             BVTextureRegion star3 = (score > 0.90f) ? starFilled : starNotFilled;

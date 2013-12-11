@@ -9,6 +9,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
@@ -110,6 +111,7 @@ public class RushLogic extends PersonLogic
                     else if (worldState == WorldState.BOARDING)
                     {
                         /* logic, go to the next step */
+                        GameMaster.data.trainRiders += 1;
                         p.setLogic(new HappyLogic(p));
                     }
                 }
