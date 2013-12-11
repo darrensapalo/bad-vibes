@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
+import com.mobi.badvibes.model.people.logic.DangerLogic;
 import com.mobi.badvibes.model.people.logic.ObedientLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.model.world.World;
@@ -123,7 +124,6 @@ public class DragGameplay extends Gameplay
 			if (person.touchID == pointer)
 			{
 				Point testPoint = ensureFallValidity(person, GameUtil.getPlatformPoint(new Vector2(screenX, screenY)));
-				
 				initFall(person, testPoint);
 				initFallTween(person);
 				return true;                
@@ -170,7 +170,9 @@ public class DragGameplay extends Gameplay
 				{
 					person.touchID = -1;
 
-					if (person.getLogic() instanceof RushLogic == false){
+					if (person.getDestinationCell().y < 2){
+					    person.setLogic(new DangerLogic(person));
+					}else if (person.getLogic() instanceof RushLogic == false){
 						person.setLogic(new ObedientLogic(person));
 					}else{
 						person.setLogic(new RushLogic(person));

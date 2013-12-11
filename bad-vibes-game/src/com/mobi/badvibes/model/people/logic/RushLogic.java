@@ -98,17 +98,19 @@ public class RushLogic extends PersonLogic
                 {
                     Person      p           = RushLogic.this.person;
                     WorldState  worldState  = World.Instance.getCurrentState();
+                    boolean notHere = !(p.getCurrentCell().equals(World.Instance.destination1) == true); 
+                    boolean notThere = !(p.getCurrentCell().equals(World.Instance.destination2) == true);
                     
-                    if (worldState == WorldState.BOARDING)
-                    {
-                        /* logic, go to the next step */
-                        p.setLogic(new HappyLogic(p));
-                    }
-                    else
+                    if (notHere && notThere)
                     {
                         /* Non boarding logic */
                         p.setLogic(new StillLogic(p));
                         p.walkingTween = null;
+                    }
+                    else if (worldState == WorldState.BOARDING)
+                    {
+                        /* logic, go to the next step */
+                        p.setLogic(new HappyLogic(p));
                     }
                 }
             }

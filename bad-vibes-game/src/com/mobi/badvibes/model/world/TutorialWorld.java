@@ -15,6 +15,7 @@ import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
+import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView.TrainState;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -152,10 +153,11 @@ public class TutorialWorld extends World
         case ENTERING:
             if (Timer >= ArrivalTime)
             {
+                MediaPlayer.sfx("");
                 Timer = 0;
                 train.trainView.arriveTrain();
                 currentState = WorldState.ARRIVAL;
-                setInfoText("The train is arriving!", 3);
+                setInfoText("!!!", 3);
                 setPeopleInTrainList(createPeopleInTrain());
             }
             break;
