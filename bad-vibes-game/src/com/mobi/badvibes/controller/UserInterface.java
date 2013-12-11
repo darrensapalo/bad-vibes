@@ -14,22 +14,30 @@ import com.mobi.badvibes.view.graphics.BVTextureRegion;
 public class UserInterface
 {
     private static final int HappinessBarHeight = GameUtil.convertToScaledFactor(318);
-    private static final int TrainTimerHeight = GameUtil.convertToScaledFactor(319);
-    private BVTextureRegion HappinessBarBackground;
-    private BVTextureRegion HappinessBar;
-    private BVTextureRegion moodMeter;
-    private BVTextureRegion trainTimer;
-    private BVTextureRegion timerBackground;
-    private BVTextureRegion timer;
-    private Vector2 p_moodMeter;
-    private Vector2 p_HappinessBarBackground;
-    private Vector2 p_HappinessBar;
-    private Vector2 p_trainTimer;
-    private Vector2 p_timerBackground;
-    private Vector2 p_timer;
-    private float counter;
-    private float startHappinessY;
-    private float happiness;
+    private static final int TrainTimerHeight   = GameUtil.convertToScaledFactor(319);
+    private static final int timerHeadOffset    = GameUtil.convertToScaledFactor(45 / 2);
+    private static final int happyHeadOffset    = GameUtil.convertToScaledFactor(17);
+    private BVTextureRegion  HappinessBarBackground;
+    private BVTextureRegion  HappinessBar;
+    private BVTextureRegion  moodMeter;
+    private BVTextureRegion  trainTimer;
+    private BVTextureRegion  timerBackground;
+    private BVTextureRegion  timer;
+    private BVTextureRegion  happyHead;
+    private BVTextureRegion  timerHead;
+
+    private Vector2          p_moodMeter;
+    private Vector2          p_HappinessBarBackground;
+    private Vector2          p_HappinessBar;
+    private Vector2          p_trainTimer;
+    private Vector2          p_timerBackground;
+    private Vector2          p_timer;
+    private Vector2          p_happyHead;
+    private Vector2          p_timerHead;
+
+    private float            counter;
+    private float            happiness;
+    
 
     public UserInterface(){
         FileHandle fileHandle = Gdx.files.internal("data/game/ui/timers.png");
@@ -47,7 +55,11 @@ public class UserInterface
         Rectangle HappinessBarRect = new Rectangle(10, 114, 6, 0);
         HappinessBar = new BVTextureRegion(timers, HappinessBarRect);
         p_HappinessBar = new Vector2(29, 94);
-        startHappinessY = p_HappinessBar.y;
+        
+        Rectangle happyHeadRect = new Rectangle(0, 80, 42, 34);
+        happyHead = new BVTextureRegion(timers, happyHeadRect);
+        p_happyHead = new Vector2(12, 88);
+        
         
         
         Rectangle trainTimerRect = new Rectangle(0, 40, 64, 40);
@@ -61,6 +73,11 @@ public class UserInterface
         Rectangle timerRect = new Rectangle(41, 125, 17, 319);
         timer = new BVTextureRegion(timers, timerRect);
         p_timer = new Vector2(754, 96);
+        
+        Rectangle timerHeadRect = new Rectangle(42, 80, 40, 45);
+        timerHead = new BVTextureRegion(timers, timerHeadRect);
+        p_timerHead = new Vector2(742, 88);
+        
         
     }
     
@@ -97,7 +114,9 @@ public class UserInterface
         int max = GameUtil.convertToScaledFactor(94) + HappinessBarHeight;
         int value = min + HappinessBarHeight - (int)rectangle.height;
         
-        p_HappinessBar.y = MathHelper.Clamp(value, min, max);
+        float newPosHappy;
+        p_HappinessBar.y = newPosHappy = MathHelper.Clamp(value, min, max);
+        p_happyHead.y = newPosHappy - happyHeadOffset;
         HappinessBar.setSourceRect(rectangle);
     }
     
@@ -116,6 +135,8 @@ public class UserInterface
 //        int value = min + TrainTimerHeight - (int)rectangle.height;
 //        
         // p_timer.y = MathHelper.Clamp(value, min, max);
+        p_timerHead.y = p_timer.y + rectangle.height - timerHeadOffset;
+        
         timer.setSourceRect(rectangle);
     }
 
@@ -125,12 +146,19 @@ public class UserInterface
         Color c = spriteBatch.getColor();
         float alpha = c.a;
         spriteBatch.setColor(c.r, c.g, c.b, 1);
+        // Labels
         moodMeter.draw(spriteBatch, p_moodMeter);
+        trainTimer.draw(spriteBatch, p_trainTimer);
+        
+        // Happy
         HappinessBarBackground.draw(spriteBatch, p_HappinessBarBackground);
         HappinessBar.draw(spriteBatch, p_HappinessBar);
-        trainTimer.draw(spriteBatch, p_trainTimer);
+        happyHead.draw(spriteBatch, p_happyHead);
+        
+        // Time
         timerBackground.draw(spriteBatch, p_timerBackground);
         timer.draw(spriteBatch, p_timer);
+        timerHead.draw(spriteBatch, p_timerHead);
         spriteBatch.setColor(c.r, c.g, c.b, alpha);
         spriteBatch.end();
 
