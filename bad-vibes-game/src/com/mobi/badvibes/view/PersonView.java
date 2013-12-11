@@ -360,17 +360,17 @@ public class PersonView
 	        if (emotionRegion != null)
                 spriteBatch.draw(emotionRegion, emotionPosition.x, emotionPosition.y, 0, 0, GameDimension.Emotions.x, GameDimension.Emotions.y, 1.0f, 1.0f, 0f);
 	        
-	        TextBounds bounds = defaultFont.getBounds(person.toString());
-	        Vector2 pos = new Vector2(emotionPosition);
-	        pos.sub(new Vector2(bounds.width, bounds.height).div(2));
-	        defaultFont.draw(spriteBatch, person.toString(), pos.x, pos.y);
+//	        TextBounds bounds = defaultFont.getBounds(person.toString());
+//	        Vector2 pos = new Vector2(emotionPosition);
+//	        pos.sub(new Vector2(bounds.width, bounds.height).div(2));
+//	        defaultFont.draw(spriteBatch, person.toString(), pos.x, pos.y);
 	    spriteBatch.end();
 
         /** Draw hitbox for debugging */
-	    shapeRenderer.setColor(Color.BLACK);
-	    shapeRenderer.begin(ShapeType.FilledRectangle);
-	    shapeRenderer.filledRect(HitBounds.x, HitBounds.y, HitBounds.width, HitBounds.height);
-	    shapeRenderer.end();
+//	    shapeRenderer.setColor(Color.BLACK);
+//	    shapeRenderer.begin(ShapeType.FilledRectangle);
+//	    shapeRenderer.filledRect(HitBounds.x, HitBounds.y, HitBounds.width, HitBounds.height);
+//	    shapeRenderer.end();
     }
 
     public void setEmotion(Person person, Emotions e)

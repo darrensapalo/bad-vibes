@@ -21,6 +21,7 @@ public class TutorialWorldController extends WorldController
     private Texture   sprites;
     private Rectangle railPosition;
     private Rectangle platformPosition;
+    private UserInterface userInterface;
     
 
     public TutorialWorldController()
@@ -35,7 +36,7 @@ public class TutorialWorldController extends WorldController
         // gameplay.push(new PrepareGameplay(world));
 
         world.initialize();
-
+        userInterface = new UserInterface();
         sprites = ContentManager.loadImage("data/game/sprites.png");
 
         float railWidth = width;
@@ -89,8 +90,8 @@ public class TutorialWorldController extends WorldController
                     true, true
                     );
         spriteBatch.end();
-        
         renderer.render(spriteBatch, shapeRenderer, delta);
+        userInterface.render(spriteBatch, delta);
     }
 
 
