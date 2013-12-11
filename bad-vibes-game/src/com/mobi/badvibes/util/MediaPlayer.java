@@ -49,7 +49,7 @@ public class MediaPlayer {
 			if (IsEnabled)
 				sound.play();
 		}else{
-			System.err.println("Sound effect not found.");
+			System.err.println("Sound effect not found. " + sfx);
 		}
 	}
 

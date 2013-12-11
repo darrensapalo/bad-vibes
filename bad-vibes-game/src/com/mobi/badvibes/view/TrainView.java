@@ -99,6 +99,8 @@ public class TrainView
 
 	public void arriveTrain()
 	{
+	    MediaPlayer.sfx("approaching");
+	    
 		currentState = TrainState.ARRIVAL;
 		Tween.to(this, TrainAccessor.TRAIN, 4)
 		.target(GameDimension.TrainArrivalX)
@@ -131,6 +133,8 @@ public class TrainView
 
 	public void departTrain()
 	{
+        MediaPlayer.sfx("opendoor");
+        
 		Tween
 		.to(this, TrainAccessor.TRAIN_DOORS, 2)
 		.target(0)
