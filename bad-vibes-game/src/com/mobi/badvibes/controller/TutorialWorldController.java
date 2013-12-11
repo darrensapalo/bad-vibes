@@ -53,6 +53,13 @@ public class TutorialWorldController extends WorldController
 
     public void update(float delta)
     {
+        for (Person person : world.peopleToBeRemoved)
+        {
+            world.getPeopleInTrainList().remove(person);
+            world.getPeopleList().remove(person);
+            renderer.removeFromList(person.getView());
+        }
+        
         for (Person p : world.getPeopleList())
             p.preupdate(delta);
         

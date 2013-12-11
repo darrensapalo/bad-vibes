@@ -1,5 +1,7 @@
 package com.mobi.badvibes.model.people.logic;
 
+import java.util.ArrayList;
+
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -46,9 +48,7 @@ public class HappyLogic extends PersonLogic {
 	                    {
 	                        if (arg0 == TweenCallback.COMPLETE)
 	                        {
-	                        	World.Instance.getPeopleInTrainList().remove(person);
-	                			World.Instance.getPeopleList().remove(person);
-	                			WorldRenderer.Instance.removeFromList(person.getView());
+	                            World.Instance.peopleToBeRemoved.add(person);
 	                        }
 	                    }
 	                }).start(BadVibes.tweenManager);

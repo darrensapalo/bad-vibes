@@ -56,6 +56,7 @@ public abstract class World
     public float happiness;
     public float trainProgress;
     protected float currentWait;
+    public ArrayList<Person> peopleToBeRemoved;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -67,6 +68,7 @@ public abstract class World
 
     public void initialize()
     {
+        peopleToBeRemoved = new ArrayList<Person>();
         happiness = 0.80f;
         trainProgress = 0f;
         currentWait = 0f;

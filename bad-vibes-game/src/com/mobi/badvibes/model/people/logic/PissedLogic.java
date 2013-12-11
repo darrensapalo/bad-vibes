@@ -27,7 +27,7 @@ public class PissedLogic extends PersonLogic
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.ANGRY);
         
-        World.Instance.happiness -= new Random().nextFloat() * 0.07f;
+        
         
         // set a random time to be idle
         idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat();

@@ -11,6 +11,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
+import com.mobi.badvibes.controller.gameplay.DragGameplay.DragState;
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
@@ -84,7 +85,11 @@ public class LeavingTrainLogic extends PersonLogic
 
 		for (Person p : World.Instance.getPeopleList()){
 			PersonView view = p.getView();
-			if ((touchedPeople.contains(p) == false) && (view.getHitBounds().overlaps(person.getView().getHitBounds())) && view.getCurrentBucketID() == person.getView().getCurrentBucketID())
+			if (touchedPeople.contains(p)) continue;
+			if (view.getCurrentBucketID() != person.getView().getCurrentBucketID()) continue;
+			if (p.state == DragState.Held) continue;
+			
+			if (person.intersects(p))
 			{
 				person.displease();
 				touchedPeople.add(p);

@@ -26,6 +26,11 @@ public class StillLogic extends PersonLogic
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.HAPPY);
         
+        if (person.hasArrivedAtPlatform)
+            
+        person.hasArrivedAtPlatform = true;
+        
+        
         // set a random time to be idle
         idleTime = Person.MIN_IDLE_TIME + new Random().nextFloat() * Person.MAX_IDLE_TIME;
         currTime = Person.MIN_IDLE_TIME;
