@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mobi.badvibes.controller.GameMaster;
 import com.mobi.badvibes.nimators.BadVibesScreenAccessor;
+import com.mobi.badvibes.nimators.Vector2Accessor;
 import com.mobi.badvibes.util.ContentManager;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MediaPlayer;
@@ -42,6 +44,9 @@ public class MainMenuScreen extends BadVibesScreen
     private ShapeRenderer shapeRenderer;
     private Rectangle railPosition;
     private Rectangle platformPosition;
+    private Vector2 logoPosition;
+    private Image logoImage;
+    private Vector2 logoPositionEnd;
 
     @Override
     protected void initialize()
@@ -153,12 +158,22 @@ public class MainMenuScreen extends BadVibesScreen
 
         mainMenuStage.addActor(tapToPlayImage);
 
-        final Image logoImage = new Image(mainMenuLogoTexture);
-
-        logoImage.setPosition(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(90));
+        logoImage = new Image(mainMenuLogoTexture);
+        logoPosition = new Vector2(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(90));
+        logoPositionEnd = new Vector2(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(100));
+        logoImage.setPosition(logoPosition.x, logoPosition.y);
 
         mainMenuStage.addActor(logoImage);
 
+        Tween.registerAccessor(Vector2.class, new Vector2Accessor());
+        
+        Tween
+        .to(logoPosition, Vector2Accessor.POSITION, 0.5f)
+        .target(logoPositionEnd.x, logoPositionEnd.y)
+        .ease(TweenEquations.easeInOutSine)
+        .repeatYoyo(999, 0f)
+        .start(BadVibes.tweenManager);
+        
         // event set-up
         
         final TweenCallback animationComplete = new TweenCallback()
@@ -254,6 +269,8 @@ public class MainMenuScreen extends BadVibesScreen
     @Override
     protected void renderScreen(float delta)
     {
+        logoImage.setPosition(logoPosition.x, logoPosition.y);
+        
         spriteBatch.setProjectionMatrix(camera.projection);
         spriteBatch.setTransformMatrix(camera.view);
 

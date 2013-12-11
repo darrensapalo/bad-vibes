@@ -149,7 +149,6 @@ public class TutorialWorld extends World
                 Timer = 0;
                 train.trainView.arriveTrain();
                 currentState = WorldState.ARRIVAL;
-
                 setInfoText("The train is arriving!", 3);
                 setPeopleInTrainList(createPeopleInTrain());
             }

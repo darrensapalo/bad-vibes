@@ -69,7 +69,7 @@ public abstract class World
     public void initialize()
     {
         peopleToBeRemoved = new ArrayList<Person>();
-        happiness = 0.80f;
+        happiness = 0.0f;
         trainProgress = 0f;
         currentWait = 0f;
         currentState = WorldState.ENTERING;

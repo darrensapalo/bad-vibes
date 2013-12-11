@@ -92,6 +92,7 @@ public abstract class Person
         this.touchID = -1;
         this.state = DragState.Free;
         this.isTaught = false;
+        this.hasArrivedAtPlatform = false;
         weight = 1 + new Random().nextFloat() * 5f;
     }
 

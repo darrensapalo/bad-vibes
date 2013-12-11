@@ -1,7 +1,5 @@
 package com.mobi.badvibes.model.people.logic;
 
-import java.util.ArrayList;
-
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -13,9 +11,8 @@ import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.nimators.PersonAccessor;
 import com.mobi.badvibes.util.MediaPlayer;
 import com.mobi.badvibes.view.PersonView;
-import com.mobi.badvibes.view.PersonView.State;
-import com.mobi.badvibes.view.WorldRenderer;
 import com.mobi.badvibes.view.PersonView.Emotions;
+import com.mobi.badvibes.view.PersonView.State;
 
 public class HappyLogic extends PersonLogic {
 

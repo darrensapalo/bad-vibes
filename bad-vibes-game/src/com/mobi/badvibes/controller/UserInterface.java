@@ -37,7 +37,6 @@ public class UserInterface
     private Vector2          p_timerHead;
 
     private float            counter;
-    private float            happiness;
     
 
     public UserInterface(){
@@ -79,7 +78,8 @@ public class UserInterface
         timerHead = new BVTextureRegion(timers, timerHeadRect);
         p_timerHead = new Vector2(742, 88);
         
-        
+        setTrainTimer(World.Instance.trainProgress);
+        setHappinessBar(World.Instance.happiness);
     }
     
     public void render(SpriteBatch spriteBatch, float delta)
@@ -90,15 +90,8 @@ public class UserInterface
 
     private void update(float delta)
     {
-        
-        counter += delta;
-        if (counter > 0.1f){
-            counter = 0;
-            happiness += 0.01f;
-            setTrainTimer(World.Instance.trainProgress);
-            setHappinessBar(World.Instance.happiness);
-        }
-        
+        setTrainTimer(World.Instance.trainProgress);
+        setHappinessBar(World.Instance.happiness);
     }
 
     private void setHappinessBar(float f)
@@ -148,20 +141,24 @@ public class UserInterface
         float alpha = c.a;
         spriteBatch.setColor(c.r, c.g, c.b, 1);
         // Labels
-        moodMeter.draw(spriteBatch, p_moodMeter);
-        trainTimer.draw(spriteBatch, p_trainTimer);
+        
         
         // Happy
         HappinessBarBackground.draw(spriteBatch, p_HappinessBarBackground);
         HappinessBar.draw(spriteBatch, p_HappinessBar);
         happyHead.draw(spriteBatch, p_happyHead);
         
+        
         // Time
         timerBackground.draw(spriteBatch, p_timerBackground);
         timer.draw(spriteBatch, p_timer);
         timerHead.draw(spriteBatch, p_timerHead);
+
+        moodMeter.draw(spriteBatch, p_moodMeter);
+        trainTimer.draw(spriteBatch, p_trainTimer);
         spriteBatch.setColor(c.r, c.g, c.b, alpha);
         spriteBatch.end();
+        
 
     }
 }
