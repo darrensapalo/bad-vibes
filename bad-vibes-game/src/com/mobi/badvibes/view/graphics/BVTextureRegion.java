@@ -17,17 +17,7 @@ public class BVTextureRegion extends TextureRegion
     public BVTextureRegion(Texture t, Rectangle source)
     {
         super(t);
-        
-        source = GameUtil.scaleRectangle(source);
-        
-        setRegion((int) source.x,
-                  (int) source.y,
-                  (int) source.width,
-                  (int) source.height);
-
-        this.source             = source;
-        this.scale              = GameDimension.Scale();
-        this.scaledDimensions   = new Vector2(source.width, source.height).mul(scale.x, scale.y);
+        setSourceRect(source);
     }
 
     public int getWidth()
@@ -40,6 +30,19 @@ public class BVTextureRegion extends TextureRegion
         return (int) scaledDimensions.y;
     }
 
+    public void setSourceRect(Rectangle source){
+        source = GameUtil.scaleRectangle(source);
+        
+        setRegion((int) source.x,
+                  (int) source.y,
+                  (int) source.width,
+                  (int) source.height);
+
+        this.source             = source;
+        this.scale              = GameDimension.Scale();
+        this.scaledDimensions   = new Vector2(source.width, source.height).mul(scale.x, scale.y);
+    }
+    
     public Rectangle getSourceRect()
     {
         return this.source;
