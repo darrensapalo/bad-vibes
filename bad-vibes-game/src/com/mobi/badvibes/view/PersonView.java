@@ -1,6 +1,7 @@
 package com.mobi.badvibes.view;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import aurelienribon.tweenengine.Timeline;
@@ -191,7 +192,13 @@ public class PersonView implements Poolable
 
         System.out.println(randomPick);
         
-        if      (randomPick % 100 == 0)
+        Calendar cal = Calendar.getInstance();
+        
+        if      (randomPick % 11 == 0 || (cal.get(Calendar.MONTH) == 8 && cal.get(Calendar.DATE) == 1 && randomPick % 18 == 0))
+        {
+            return new PersonEntry(Load("data/game/personcharlene.png"));
+        }
+        else if (randomPick % 100 == 0)
         {
             return new PersonEntry(Load("data/game/person4.png"));
         }
@@ -215,7 +222,7 @@ public class PersonView implements Poolable
         {
             return new PersonEntry(Load("data/game/person2.png"));
         }
-        else if      (randomPick % 2 == 0)
+        else if (randomPick % 2 == 0)
         {
             return new PersonEntry(Load("data/game/person1.png"));
         }
