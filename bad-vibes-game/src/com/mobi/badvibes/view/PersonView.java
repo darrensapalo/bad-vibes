@@ -198,9 +198,17 @@ public class PersonView implements Poolable
         {
             return new PersonEntry(Load("data/game/personcharlene.png"));
         }
-        else if (randomPick % 100 == 0)
+        else if (randomPick % 15 == 0)
         {
             return new PersonEntry(Load("data/game/person4.png"));
+        }
+        else if (randomPick % 10 == 0)
+        {
+            return new PersonEntry(Load("data/game/person9.png"));
+        }
+        else if (randomPick % 9 == 0)
+        {
+            return new PersonEntry(Load("data/game/person8.png"));
         }
         else if (randomPick % 8 == 0)
         {
