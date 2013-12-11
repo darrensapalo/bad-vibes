@@ -9,7 +9,9 @@ import aurelienribon.tweenengine.TweenEquations;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,6 +34,10 @@ public class HighScoreScreen extends BadVibesScreen
 
     private Rectangle railPosition;
     private Rectangle platformPosition;
+
+    private BitmapFont titleFont;
+
+    private BitmapFont defaultFont;
     
     @Override
     protected void initialize()
@@ -55,123 +61,107 @@ public class HighScoreScreen extends BadVibesScreen
         
         platformPosition            = new Rectangle(0, GameDimension.PlatformOffset,
                                                     platformWidth, platformHeight);
-
         BVTexture                   aboutSprite         = new BVTexture(Gdx.files.internal("data/about/about.png"));
-        
-        BVTexture                   avatarSprite        = new BVTexture(Gdx.files.internal("data/about/member.png"));
-        
-        BVTextureRegion             aboutUs             = new BVTextureRegion(aboutSprite, new Rectangle(  0,   0,
-                                                                                                         221,  68));
-        
-        BVTextureRegion             nameBervyn          = new BVTextureRegion(aboutSprite, new Rectangle(  0,  68,
-                                                                                                          98, 41));
-        BVTextureRegion             nameIelle           = new BVTextureRegion(aboutSprite, new Rectangle(  0, 109,
-                                                                                                         199, 38));
-        BVTextureRegion             nameMarit           = new BVTextureRegion(aboutSprite, new Rectangle(  0, 147,
-                                                                                                         171, 38));
-        BVTextureRegion             nameMichael         = new BVTextureRegion(aboutSprite, new Rectangle(  0, 185,
-                                                                                                         122, 42));
-        BVTextureRegion             nameDarren          = new BVTextureRegion(aboutSprite, new Rectangle(  0, 227,
-                                                                                                         135, 42));
-        
-        BVTextureRegion             backUp              = new BVTextureRegion(aboutSprite, new Rectangle(  0, 309,
-                                                                                                          83,  45));
-        BVTextureRegion             backPress           = new BVTextureRegion(aboutSprite, new Rectangle( 83, 309,
-                                                                                                          83,  45));
-        
-        BVTextureRegion             avatarBervyn        = new BVTextureRegion(avatarSprite, new Rectangle(  0,   0,
-                                                                                                           54,  90));
-
-        BVTextureRegion             avatarIelle         = new BVTextureRegion(avatarSprite, new Rectangle( 54,   0,
-                                                                                                           54,  90));
-
+        BVTexture                   avatarSprite        = new BVTexture(Gdx.files.internal("data/about/members.png"));
+      
         BVTextureRegion             avatarMarit         = new BVTextureRegion(avatarSprite, new Rectangle(108,   0,
-                                                                                                           54,  90));
-
+                        54,  90));
+        
         BVTextureRegion             avatarMichael       = new BVTextureRegion(avatarSprite, new Rectangle(162,   0,
-                                                                                                           54,  90));
-
+                        54,  90));
+        
         BVTextureRegion             avatarDarren        = new BVTextureRegion(avatarSprite, new Rectangle(216,   0,
-                                                                                                           54,  90));
+                        54,  90));
+        
+
+        BVTexture                   highScoreSprite     = new BVTexture(Gdx.files.internal("data/highscores/high score.png"));
+        
+        BVTextureRegion             highScore           = new BVTextureRegion(highScoreSprite, new Rectangle(  0,   0,
+                                                                                                          231,  65));
+
+        BVTextureRegion             noOfBlah            = new BVTextureRegion(highScoreSprite, new Rectangle(  0,  65,
+                328,  147));
+
+        BVTextureRegion             firstText           = new BVTextureRegion(highScoreSprite, new Rectangle(  0,  212,
+                85,  23));
+        
+        BVTextureRegion             secondText           = new BVTextureRegion(highScoreSprite, new Rectangle( 85, 212,
+                94,  23));
+        
+        BVTextureRegion             thirdText           = new BVTextureRegion(highScoreSprite, new Rectangle( 179, 212,
+                89,  23));
+
+                
+        BVTextureRegion backUp = new BVTextureRegion(aboutSprite, new Rectangle(0, 309, 83, 45));
+        BVTextureRegion backPress = new BVTextureRegion(aboutSprite, new Rectangle(83, 309, 83, 45));
         
         
-        Image                       aboutUsImage        = new Image(aboutUs);
+        Image                       aboutUsImage        = new Image(highScore);
         
-                                    aboutUsImage.setPosition(GameUtil.convertToScaledFactor(296),
-                                                             GameUtil.convertToScaledFactor(396));
+                                    aboutUsImage.setPosition(GameUtil.convertToScaledFactor(295),
+                                                             GameUtil.convertToScaledFactor(25));
 
         aboutScreenStage.addActor(aboutUsImage);
-
-        Image                       nameBervynImage     = new Image(nameBervyn);
-
-                                    nameBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
-                                                                GameUtil.convertToScaledFactor(115));
-
-        aboutScreenStage.addActor(nameBervynImage);
-                                    
-        Image                       nameIelleImage      = new Image(nameIelle);
-
-                                    nameIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
-                                                               GameUtil.convertToScaledFactor(310));
-
-        aboutScreenStage.addActor(nameIelleImage);
-                                                                
-        Image                       nameMaritImage      = new Image(nameMarit);
-
-                                    nameMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
-                                                               GameUtil.convertToScaledFactor(115));
-
-        aboutScreenStage.addActor(nameMaritImage);
-
-        Image                       nameMichaelImage    = new Image(nameMichael);
         
-                                    nameMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
-                                                                 GameUtil.convertToScaledFactor(260));
         
-        aboutScreenStage.addActor(nameMichaelImage);
+        Image                       noOfBlahImage        = new Image(noOfBlah);
+        
+        noOfBlahImage.setPosition(GameUtil.convertToScaledFactor(245), GameUtil.convertToScaledFactor(300));
 
-        Image                       nameDarrenImage     = new Image(nameDarren);
+        aboutScreenStage.addActor(noOfBlahImage);        
+        
+        
 
-                                    nameDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
-                                                                GameUtil.convertToScaledFactor(260));
+        Image                       avatMaritImage     = new Image(avatarMarit);
+                                    avatMaritImage.setPosition(GameUtil.convertToScaledFactor( 378),
+                                                                GameUtil.convertToScaledFactor(100));
 
-        aboutScreenStage.addActor(nameDarrenImage);
-
-
-        Image                       avatBervynImage     = new Image(nameBervyn);
-
-                                    avatBervynImage.setPosition(GameUtil.convertToScaledFactor( 88),
-                                                                GameUtil.convertToScaledFactor(115));
-
-        aboutScreenStage.addActor(avatBervynImage);
                                     
-        Image                       avatIelleImage      = new Image(nameIelle);
-
-                                    avatIelleImage.setPosition(GameUtil.convertToScaledFactor(306),
-                                                               GameUtil.convertToScaledFactor(310));
-
-        aboutScreenStage.addActor(avatIelleImage);
-                                                                
-        Image                       avatMaritImage      = new Image(nameMarit);
-
-                                    avatMaritImage.setPosition(GameUtil.convertToScaledFactor(564),
-                                                               GameUtil.convertToScaledFactor(115));
-
         aboutScreenStage.addActor(avatMaritImage);
 
-        Image                       avatMichaelImage    = new Image(nameMichael);
+        Image                       avatMichaelImage    = new Image(avatarMichael);
         
-                                    avatMichaelImage.setPosition(GameUtil.convertToScaledFactor(142),
-                                                                 GameUtil.convertToScaledFactor(260));
+                                    avatMichaelImage.setPosition(GameUtil.convertToScaledFactor(235),
+                                                                 GameUtil.convertToScaledFactor(150));
         
         aboutScreenStage.addActor(avatMichaelImage);
 
-        Image                       avatDarrenImage     = new Image(nameDarren);
+        Image                       avatDarrenImage     = new Image(avatarDarren);
 
-                                    avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(535),
-                                                                GameUtil.convertToScaledFactor(260));
+                                    avatDarrenImage.setPosition(GameUtil.convertToScaledFactor(515),
+                                                                GameUtil.convertToScaledFactor(150));
 
         aboutScreenStage.addActor(avatDarrenImage);
+        
+        
+        Image                       firstTextImage     = new Image(firstText);
+
+        firstTextImage.setPosition(GameUtil.convertToScaledFactor(360),
+                                    GameUtil.convertToScaledFactor(195));
+        
+        aboutScreenStage.addActor(firstTextImage);
+        
+        
+        
+        Image                       secondTextImage     = new Image(secondText);
+        
+        secondTextImage.setPosition(GameUtil.convertToScaledFactor(210),
+                                    GameUtil.convertToScaledFactor(235));
+        
+        aboutScreenStage.addActor(secondTextImage);
+        
+        
+        
+        Image                       thirdTextImage     = new Image(thirdText);
+        
+        thirdTextImage.setPosition(GameUtil.convertToScaledFactor(495),
+                                    GameUtil.convertToScaledFactor(235));
+        
+        aboutScreenStage.addActor(thirdTextImage);
+
+
+
+
 
         
         ButtonStyle                 backStyle           = new ButtonStyle();
@@ -229,6 +219,14 @@ public class HighScoreScreen extends BadVibesScreen
                               .ease    (TweenEquations.easeInCubic))
 
                 .start  (BadVibes.tweenManager);
+        
+        
+        // create fonts
+        titleFont = new BitmapFont(Gdx.files.internal("data/Arial65.fnt"), Gdx.files.internal("data/Arial65.png"), true);
+        titleFont.setColor(0f, 0f, 0f, 1f);
+
+        defaultFont = new BitmapFont(Gdx.files.internal("data/Arial20.fnt"), Gdx.files.internal("data/Arial20.png"), true);
+        defaultFont.setColor(0f, 0f, 0f, 1f);
     }
 
     @Override
@@ -260,7 +258,21 @@ public class HighScoreScreen extends BadVibesScreen
                     true, true
                     );
         
+            Vector2 position = GameUtil.getScaledVector(new Vector2(240, 195));
+            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+            
+            position = GameUtil.getScaledVector(new Vector2(380, 240));
+            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+            
+            position = GameUtil.getScaledVector(new Vector2(520, 195));
+            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+            
+            position = GameUtil.getScaledVector(new Vector2(520, 195));
+            defaultFont.draw(spriteBatch, "Test", position.x, position.y);
+            
         spriteBatch.end();
+        
+        
             
         aboutScreenStage.act(delta);
         aboutScreenStage.draw();

@@ -192,6 +192,18 @@ public class MainMenuScreen extends BadVibesScreen
                 }
             }
         };
+        
+        final TweenCallback highScoreComplete = new TweenCallback()
+        {
+            @Override
+            public void onEvent(int type, BaseTween<?> source)
+            {
+                if (type == TweenCallback.END)
+                {
+                    BadVibes.getInstance().setScreen(BadVibes.highScoreScreen);
+                }
+            }
+        };
 
         aboutButton.addListener     (new InputListener()
         {
@@ -211,6 +223,28 @@ public class MainMenuScreen extends BadVibesScreen
                            .ease    (TweenEquations.easeInCubic))
         
                 .setCallbackTriggers(TweenCallback.END).setCallback(animationInfoComplete)
+                .start              (BadVibes.tweenManager);
+            }
+        });
+        
+        highScoreButton.addListener     (new InputListener()
+        {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+                Timeline.createSequence()
+                
+                .push(Tween.to      (MainMenuScreen.this, BadVibesScreenAccessor.OPACITY, 0.5f)
+                           .target  (0.0f)
+                           .ease    (TweenEquations.easeInCubic))
+        
+                .setCallbackTriggers(TweenCallback.END).setCallback(highScoreComplete)
                 .start              (BadVibes.tweenManager);
             }
         });
