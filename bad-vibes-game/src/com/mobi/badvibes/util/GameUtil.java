@@ -15,8 +15,21 @@ public class GameUtil
     {
         return (int) (getScalingFactor(800) * origSize);
     }
+    
+    /**
+     * Receives a vector scaled for 800x480 screen 
+     * and resizes the vector accordingly to the viewport.
+     * @param v - a vector prepared for an 800x480 screen
+     * @return a scaled vector
+     */
+    public static Vector2 getScaledVector(Vector2 v){
+        Vector2 cpy = v.cpy();
+        cpy.x = convertToScaledFactor(cpy.x);
+        cpy.y = convertToScaledFactor(cpy.y);
+        return cpy;
+    }
    
-    public static float getScalingFactor(int targetWidth)
+    private static float getScalingFactor(int targetWidth)
     {
         return (float)Gdx.graphics.getWidth() / (float)targetWidth;
     }

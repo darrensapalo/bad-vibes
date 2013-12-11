@@ -37,13 +37,14 @@ public class TutorialWorldController extends WorldController
     {
         Tween.registerAccessor(Person.class, new PersonAccessor());
         
-        renderer = new WorldRenderer(world);
-        gameplay.push(new DragGameplay(world));
         world.initialize();
+        renderer = new WorldRenderer(world);
         renderer.initialize();
+        gameplay.push(new DragGameplay(world));
         
-        for (Gameplay g : gameplay)
-            g.initialize();
+        
+//        for (Gameplay g : gameplay)
+//            g.initialize();
         
         userInterface = new UserInterface();
         sprites = ContentManager.loadImage("data/game/sprites.png");

@@ -50,6 +50,7 @@ public class MainMenuScreen extends BadVibesScreen
     @Override
     protected void initialize()
     {
+        mainMenuStage.clear();
         // Texture set-up
         
         sprites         = ContentManager.loadImage("data/game/sprites.png");
@@ -162,7 +163,7 @@ public class MainMenuScreen extends BadVibesScreen
         Tween.to            (logoPosition, Vector2Accessor.POSITION, 0.5f)
              .target        (logoPositionEnd.x, logoPositionEnd.y)
              .ease          (TweenEquations.easeInOutSine)
-             .repeatYoyo    (Integer.MAX_VALUE, 0f)                         // wehehehehehe >:))
+             .repeatYoyo    (999, 0f)                         // wehehehehehe >:))
              .start         (BadVibes.tweenManager);
 
         // event set-up

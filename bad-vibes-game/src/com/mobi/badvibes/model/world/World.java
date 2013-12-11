@@ -60,6 +60,7 @@ public abstract class World
     public ArrayList<Person>    peopleToBeRemoved;
     public int                  trainRidersCount  = 2;
     public int                  trainLeaversCount = 1;
+    protected int               totalTimer;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -71,6 +72,7 @@ public abstract class World
 
     public void initialize()
     {
+        totalTimer = 0;
         peopleToBeRemoved = new ArrayList<Person>();
         happiness = 0.0f;
         trainProgress = 0f;
@@ -91,10 +93,10 @@ public abstract class World
 
     public World()
     {
-        Instance    = this;
-        train       = new Train();
+        Instance = this;
+        train = new Train();
 
-        destination1 = new Point( 9, 0);
+        destination1 = new Point(9, 0);
         destination2 = new Point(10, 0);
     }
 

@@ -14,6 +14,11 @@ public class BVTextureRegion extends TextureRegion
     private Vector2   scale;
     private Vector2   scaledDimensions;
 
+    public BVTextureRegion(TextureRegion r){
+        super(r);
+        setSourceRect(new Rectangle(getRegionX(), getRegionY(), getRegionWidth(), getRegionHeight()));
+    }
+    
     public BVTextureRegion(Texture t, Rectangle source)
     {
         super(t);

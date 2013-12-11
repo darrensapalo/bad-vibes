@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.GameScreen;
 import com.mobi.badvibes.PreGameScreen;
+import com.mobi.badvibes.util.MathHelper;
+import com.mobi.badvibes.view.TrainSign;
 
 /**
  * This facade class handles the loading of level design and preparation of the
@@ -16,6 +18,7 @@ import com.mobi.badvibes.PreGameScreen;
 public class GameMaster
 {
 	public static int rounds = 2;
+	public static float score;
 	
     /**
      * This method handles the calling of the level design depending on the
@@ -28,18 +31,14 @@ public class GameMaster
      */
     public static void prepareGame()
     {
-    	ArrayList<String> titles = new ArrayList<String>();
     	ArrayList<String> captions = new ArrayList<String>();
-    	titles.add("Buendia Station");
     	captions.add("A horde of bus and jeep riders appeared!");
-    	
-    	titles.add("Vito Cruz Station");
     	captions.add("Lunch break madness!");
-    	
-    	
-    	titles.add("EDSA Station");
     	captions.add("The morning rush on the way to school!");
-        BadVibes.preGameScreen.setInformation(titles.get(rounds), captions.get(rounds));
+    	
+    	String randomStation = TrainSign.Instance.getRandomStation();
+        String station = randomStation + " Station";
+        BadVibes.preGameScreen.setInformation(station, captions.get(rounds));
         BadVibes.getInstance().setScreen(BadVibes.preGameScreen);
     }
 
@@ -64,8 +63,14 @@ public class GameMaster
     	
     	titles.add("You got to school in time");
     	captions.add("... to take a departmental examination for a three hours.");
-		BadVibes.statisticsScreen.setInformation(titles.get(rounds), captions.get(rounds));
 		BadVibes.getInstance().setScreen(BadVibes.statisticsScreen);
+		BadVibes.statisticsScreen.setInformation(titles.get(rounds), captions.get(rounds));
 		--rounds;
 	}
+
+    public static void submitScore(float happiness, int totalTimer)
+    {
+        float val = MathHelper.ClampF(happiness, 0, 1f);
+        GameMaster.score = MathHelper.ClampF(val - totalTimer / 3f, 0, 1f);
+    }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
+import com.mobi.badvibes.view.TrainSign;
 import com.mobi.badvibes.view.graphics.BVTexture;
 import com.mobi.badvibes.view.graphics.BVTextureRegion;
 
@@ -35,7 +36,6 @@ public class UserInterface
     private Vector2          p_timer;
     private Vector2          p_happyHead;
     private Vector2          p_timerHead;
-
     private float            counter;
     
 
@@ -80,6 +80,7 @@ public class UserInterface
         
         setTrainTimer(World.Instance.trainProgress);
         setHappinessBar(World.Instance.happiness);
+        
     }
     
     public void render(SpriteBatch spriteBatch, float delta)
@@ -158,8 +159,12 @@ public class UserInterface
 
         moodMeter.draw(spriteBatch, p_moodMeter);
         trainTimer.draw(spriteBatch, p_trainTimer);
+        
+        
+        TrainSign.Instance.render(spriteBatch);
         spriteBatch.setColor(c.r, c.g, c.b, alpha);
         spriteBatch.end();
+        
         
 
     }

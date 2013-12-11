@@ -51,8 +51,6 @@ public class TutorialWorld extends World
 
     private int                BucketIndex         = 0;
 
-    
-
     private static final float totalWait           = 26f;
 
     @Override
@@ -138,6 +136,7 @@ public class TutorialWorld extends World
     {
         Timer += delta;
         currentWait += delta;
+        totalTimer += delta;
         trainProgress = MathHelper.ClampF(currentWait / totalWait, 0, 1f);
         if (peopleInTrainList.size() == 0)
         {
@@ -207,6 +206,7 @@ public class TutorialWorld extends World
         case END_GAME:
             if (Timer >= BackToMenuDelay)
             {
+                GameMaster.submitScore(happiness, totalTimer);
                 GameMaster.endGame();
             }
             break;
