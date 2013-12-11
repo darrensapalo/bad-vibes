@@ -7,9 +7,8 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -41,59 +40,54 @@ public class MainMenuScreen extends BadVibesScreen
 
     private final Stage     mainMenuStage      = new Stage(800, 480, true);
     private Texture         sprites;
-    private ShapeRenderer shapeRenderer;
-    private Rectangle railPosition;
-    private Rectangle platformPosition;
-    private Vector2 logoPosition;
-    private Image logoImage;
-    private Vector2 logoPositionEnd;
+
+    private Rectangle       railPosition;
+    private Rectangle       platformPosition;
+    private Vector2         logoPosition;
+    private Image           logoImage;
+    private Vector2         logoPositionEnd;
 
     @Override
     protected void initialize()
     {
+        // Texture set-up
         
-        sprites = ContentManager.loadImage("data/game/sprites.png");
-        shapeRenderer   = new ShapeRenderer();
-        // texture set-up
-
-        // BVTexture       mainMenuBackground      = new BVTexture(Gdx.files.internal("data/mainmenu/mainpage.png"));
+        sprites         = ContentManager.loadImage("data/game/sprites.png");
         
         BVTexture       mainMenuLogoTexture     = new BVTexture(Gdx.files.internal("data/mainmenu/logo.png"));
         BVTexture       mainMenuButtonsTexture  = new BVTexture(Gdx.files.internal("data/mainmenu/buttons.png"));
         
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
+        int             width                   = Gdx.graphics.getWidth();
         
-        float railWidth = width;
-        float heightOfRail = 120;
-        float railHeight = width / 800f * heightOfRail;
-        railPosition = new Rectangle(0, GameDimension.RailOffset, railWidth, railHeight);
-
-        float platformWidth = width;
-        float heightOfPlatform = 400;
-        float platformHeight = width / 800f * heightOfPlatform;
-        platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
-
+        float           railWidth               = width;
+        float           heightOfRail            = 120;
+        float           railHeight              = width / 800f * heightOfRail;
         
-        float           scaleFactor             = GameUtil.getScalingFactor(800);
+        railPosition                            = new Rectangle(0, GameDimension.RailOffset,
+                                                                railWidth, railHeight);
+
+        float           platformWidth           = width;
+        float           heightOfPlatform        = 400;
+        float           platformHeight          = width / 800f * heightOfPlatform;
         
-        
-        
-        BVTextureRegion musicOnUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 69, 45, 45));
+        platformPosition                        = new Rectangle(0, GameDimension.PlatformOffset,
+                                                                platformWidth, platformHeight);
 
-        BVTextureRegion musicOnPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 114, 45, 45));
+        BVTextureRegion musicOnUp               = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 69, 45, 45));
 
-        BVTextureRegion musicOffUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 69, 45, 45));
-        BVTextureRegion musicOffPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 114, 45, 45));
+        BVTextureRegion musicOnPressed          = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(90, 114, 45, 45));
 
-        BVTextureRegion highScoreUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 69, 45, 45));
-        BVTextureRegion highScorePressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 114, 45, 45));
+        BVTextureRegion musicOffUp              = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 69, 45, 45));
+        BVTextureRegion musicOffPressed         = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 114, 45, 45));
 
-        BVTextureRegion aboutUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 69, 45, 45));
-        BVTextureRegion aboutPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 114, 45, 45));
+        BVTextureRegion highScoreUp             = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 69, 45, 45));
+        BVTextureRegion highScorePressed        = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 114, 45, 45));
 
-        BVTextureRegion tapScreenToPlayUp = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 0, 135, 69));
-        BVTextureRegion tapScreenToPlayPressed = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 0, 135, 69));
+        BVTextureRegion aboutUp                 = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 69, 45, 45));
+        BVTextureRegion aboutPressed            = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(45, 114, 45, 45));
+
+        BVTextureRegion tapScreenToPlayUp       = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(0, 0, 135, 69));
+        BVTextureRegion tapScreenToPlayPressed  = new BVTextureRegion(mainMenuButtonsTexture, new Rectangle(135, 0, 135, 69));
         
         // Button styles
         
@@ -123,72 +117,103 @@ public class MainMenuScreen extends BadVibesScreen
                     tapScreenToPlayStyle.down   = new TextureRegionDrawable(tapScreenToPlayPressed);
 
         // Button set-up
-//        final Image backgroundImage = new Image(mainMenuBackground);
-//
-//        mainMenuStage.addActor(backgroundImage);
 
-        final Button musicOnButton = new Button(musicButtonStyleOn);
+        final Button    musicOnButton           = new Button(musicButtonStyleOn);
 
-        musicOnButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
+                        musicOnButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
 
         mainMenuStage.addActor(musicOnButton);
 
-        final Button musicOffButton = new Button(musicButtonStyleOff);
+        final Button    musicOffButton          = new Button(musicButtonStyleOff);
 
-        musicOffButton.setVisible(false);
-        musicOffButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
+                        musicOffButton.setVisible(false);
+                        musicOffButton.setPosition(GameUtil.convertToScaledFactor(20), GameUtil.convertToScaledFactor(20));
 
         mainMenuStage.addActor(musicOffButton);
 
-        final Button highScoreButton = new Button(highScoreStyle);
+        final Button    highScoreButton         = new Button(highScoreStyle);
 
-        highScoreButton.setPosition(GameUtil.convertToScaledFactor(680), GameUtil.convertToScaledFactor(20));
+                        highScoreButton.setPosition(GameUtil.convertToScaledFactor(680), GameUtil.convertToScaledFactor(20));
 
         mainMenuStage.addActor(highScoreButton);
 
-        final Button aboutButton = new Button(aboutStyle);
+        final Button    aboutButton             = new Button(aboutStyle);
 
-        aboutButton.setPosition(GameUtil.convertToScaledFactor(735), GameUtil.convertToScaledFactor(20));
+                        aboutButton.setPosition(GameUtil.convertToScaledFactor(735), GameUtil.convertToScaledFactor(20));
 
         mainMenuStage.addActor(aboutButton);
 
-        final Button tapToPlayImage = new Button(tapScreenToPlayStyle);
+        final Button    tapToPlayImage          = new Button(tapScreenToPlayStyle);
 
-        tapToPlayImage.setPosition(GameUtil.convertToScaledFactor(345), GameUtil.convertToScaledFactor(30));
+                        tapToPlayImage.setPosition(GameUtil.convertToScaledFactor(345), GameUtil.convertToScaledFactor(30));
 
         mainMenuStage.addActor(tapToPlayImage);
 
-        logoImage = new Image(mainMenuLogoTexture);
-        logoPosition = new Vector2(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(90));
+        logoImage       = new Image(mainMenuLogoTexture);
+        logoPosition    = new Vector2(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(90));
         logoPositionEnd = new Vector2(GameUtil.convertToScaledFactor(150), GameUtil.convertToScaledFactor(100));
+        
         logoImage.setPosition(logoPosition.x, logoPosition.y);
 
         mainMenuStage.addActor(logoImage);
 
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
-        
-        Tween
-        .to(logoPosition, Vector2Accessor.POSITION, 0.5f)
-        .target(logoPositionEnd.x, logoPositionEnd.y)
-        .ease(TweenEquations.easeInOutSine)
-        .repeatYoyo(999, 0f)
-        .start(BadVibes.tweenManager);
-        
+
+        Tween.to            (logoPosition, Vector2Accessor.POSITION, 0.5f)
+             .target        (logoPositionEnd.x, logoPositionEnd.y)
+             .ease          (TweenEquations.easeInOutSine)
+             .repeatYoyo    (Integer.MAX_VALUE, 0f)                         // wehehehehehe >:))
+             .start         (BadVibes.tweenManager);
+
         // event set-up
-        
-        final TweenCallback animationComplete = new TweenCallback()
+
+        final TweenCallback animationPlayComplete = new TweenCallback()
         {
             @Override
             public void onEvent(int type, BaseTween<?> source)
             {
                 if (type == TweenCallback.END)
                 {
-                        GameMaster.rounds = 2;
-                        GameMaster.prepareGame();
+                    GameMaster.rounds = 2;
+                    GameMaster.prepareGame();
+                }
+            }
+        };
+        
+        final TweenCallback animationInfoComplete = new TweenCallback()
+        {
+            @Override
+            public void onEvent(int type, BaseTween<?> source)
+            {
+                if (type == TweenCallback.END)
+                {
+                    BadVibes.getInstance().setScreen(BadVibes.aboutScreen);
                 }
             }
         };
 
+        aboutButton.addListener     (new InputListener()
+        {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+            {
+                return true;
+            }
+            
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+                Timeline.createSequence()
+                
+                .push(Tween.to      (MainMenuScreen.this, BadVibesScreenAccessor.OPACITY, 0.5f)
+                           .target  (0.0f)
+                           .ease    (TweenEquations.easeInCubic))
+        
+                .setCallbackTriggers(TweenCallback.END).setCallback(animationInfoComplete)
+                .start              (BadVibes.tweenManager);
+            }
+        });
+        
         tapToPlayImage.addListener  (new InputListener()
         {
             @Override
@@ -206,7 +231,7 @@ public class MainMenuScreen extends BadVibesScreen
                                    .target  (0.0f)
                                    .ease    (TweenEquations.easeInCubic))
                 
-                        .setCallbackTriggers(TweenCallback.END).setCallback(animationComplete)
+                        .setCallbackTriggers(TweenCallback.END).setCallback(animationPlayComplete)
                         .start              (BadVibes.tweenManager);
             }
         });
@@ -271,33 +296,31 @@ public class MainMenuScreen extends BadVibesScreen
     {
         logoImage.setPosition(logoPosition.x, logoPosition.y);
         
-        spriteBatch.setProjectionMatrix(camera.projection);
-        spriteBatch.setTransformMatrix(camera.view);
+        spriteBatch.setProjectionMatrix (camera.projection);
+        spriteBatch.setTransformMatrix  (camera.view);
 
-        shapeRenderer.begin(ShapeType.FilledRectangle);
-        shapeRenderer.setColor(54 / 255f, 52 / 255f, 50 / 255f, 1.0f);
-        shapeRenderer.filledRect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    shapeRenderer.end();    
-    
-    spriteBatch.begin();
-        spriteBatch.draw(
-                sprites,
-                railPosition.x, railPosition.y,
-                railPosition.width, railPosition.height,
-                0, 0,
-                800, 120,
-                true, true
-                );
-        spriteBatch.draw(
-                sprites,
-                platformPosition.x, platformPosition.y,
-                platformPosition.width, platformPosition.height,
-                0, 120,
-                800, 400,
-                true, true
-                );
-    spriteBatch.end();
-        
+        Gdx.gl.glClearColor (54 / 255f, 52 / 255f, 50 / 255f, 1.0f);
+        Gdx.gl.glClear      (GL20.GL_COLOR_BUFFER_BIT);
+
+        spriteBatch.begin();
+            spriteBatch.draw(
+                    sprites,
+                    railPosition.x, railPosition.y,
+                    railPosition.width, railPosition.height,
+                    0, 0,
+                    800, 120,
+                    true, true
+                    );
+            spriteBatch.draw(
+                    sprites,
+                    platformPosition.x, platformPosition.y,
+                    platformPosition.width, platformPosition.height,
+                    0, 120,
+                    800, 400,
+                    true, true
+                    );
+        spriteBatch.end();
+
         mainMenuStage.act(delta);
         mainMenuStage.draw();
     }
