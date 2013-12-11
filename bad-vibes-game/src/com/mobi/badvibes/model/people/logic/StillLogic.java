@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.world.World;
+import com.mobi.badvibes.model.world.World.WorldState;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.PersonView.Emotions;
 import com.mobi.badvibes.view.PersonView.State;
@@ -27,9 +28,13 @@ public class StillLogic extends PersonLogic
         view.setCurrentState(State.IDLE);
         view.setEmotion(person, Emotions.HAPPY);
         
-        if (person.hasArrivedAtPlatform == false)
-            World.Instance.happiness += 0.03f + new Random().nextFloat() * 0.03f;
-        person.hasArrivedAtPlatform = true;
+        if (person.hasArrivedAtTheWorld){
+            if (person.hasArrivedAtPlatform == false){
+                World.Instance.happiness += 0.03f + new Random().nextFloat() * 0.03f;
+                person.hasArrivedAtPlatform = true;
+            }
+        }
+        person.hasArrivedAtTheWorld = true;
         
         
         // set a random time to be idle

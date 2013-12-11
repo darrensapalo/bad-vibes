@@ -77,6 +77,7 @@ public abstract class Person
     public Vector2            startPoint, offset;
     public boolean            isTaught;
     public boolean            hasArrivedAtPlatform;
+    public boolean            hasArrivedAtTheWorld;
 
     /**
      * Constructor that requires the logic and the view of the person

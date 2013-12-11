@@ -137,6 +137,7 @@ public class TutorialWorld extends World
         {
             if (peopleList.size() == 0)
             {
+                // TODO This doesn't show.
                 setInfoText("Level success!", 2);
                 currentState = WorldState.END_GAME;
             }
