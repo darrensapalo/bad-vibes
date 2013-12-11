@@ -1,7 +1,6 @@
 package com.mobi.badvibes.model.world;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import aurelienribon.tweenengine.Timeline;
@@ -10,7 +9,6 @@ import aurelienribon.tweenengine.Tween;
 import com.mobi.badvibes.BadVibes;
 import com.mobi.badvibes.Point;
 import com.mobi.badvibes.model.people.Person;
-import com.mobi.badvibes.model.people.logic.Pathing;
 import com.mobi.badvibes.model.train.Train;
 import com.mobi.badvibes.nimators.WorldRendererAccessor;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -55,9 +53,9 @@ public abstract class World
     public static final int       GRID_WIDTH  = 20;
     public static final int       GRID_HEIGHT = 10;
     
-
-    
-    
+    public float happiness;
+    public float trainProgress;
+    protected float currentWait;
 
     /**
      * This method begins creating the world by instantiating people. This
@@ -69,6 +67,9 @@ public abstract class World
 
     public void initialize()
     {
+        happiness = 0.80f;
+        trainProgress = 0f;
+        currentWait = 0f;
         currentState = WorldState.ENTERING;
         
         for (Person p : peopleList)

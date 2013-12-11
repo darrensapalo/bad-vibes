@@ -23,10 +23,6 @@ public class TrainView
 		ARRIVAL, BOARDING, DEPARTURE
 	}
 
-
-
-
-
 	/*
 	 * Metrics
 	 */
@@ -85,11 +81,11 @@ public class TrainView
 	}
 
 
-	public Vector2               Position           = new Vector2();
+    public Vector2 Position        = new Vector2();
 
-	public float                 TrainDoorOffset    = 0;
+    public float   TrainDoorOffset = 0;
 
-	public float 				 Timer = 0;
+    public float   Timer           = 0;
 
 	public TrainView()
 	{

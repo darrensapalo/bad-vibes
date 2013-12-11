@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mobi.badvibes.model.world.World;
 import com.mobi.badvibes.util.GameUtil;
 import com.mobi.badvibes.util.MathHelper;
 import com.mobi.badvibes.view.graphics.BVTexture;
@@ -94,8 +95,8 @@ public class UserInterface
         if (counter > 0.1f){
             counter = 0;
             happiness += 0.01f;
-            setTrainTimer(happiness * 0.5f);
-            setHappinessBar(happiness);
+            setTrainTimer(World.Instance.trainProgress);
+            setHappinessBar(World.Instance.happiness);
         }
         
     }

@@ -10,11 +10,11 @@ import com.mobi.badvibes.model.people.Person;
 import com.mobi.badvibes.model.people.logic.ExploreLogic;
 import com.mobi.badvibes.model.people.logic.HappyLogic;
 import com.mobi.badvibes.model.people.logic.LeavingTrainLogic;
-import com.mobi.badvibes.model.people.logic.ObedientLogic;
 import com.mobi.badvibes.model.people.logic.PauseLogic;
 import com.mobi.badvibes.model.people.logic.PersonLogic;
 import com.mobi.badvibes.model.people.logic.RushLogic;
 import com.mobi.badvibes.util.GameUtil;
+import com.mobi.badvibes.util.MathHelper;
 import com.mobi.badvibes.view.PersonView;
 import com.mobi.badvibes.view.TrainView.TrainState;
 import com.mobi.badvibes.view.WorldRenderer;
@@ -50,16 +50,19 @@ public class TutorialWorld extends World
     private float              Timer               = 0;
 
     private int                BucketIndex         = 0;
+
     
+
+    private static final float totalWait           = 26f;
+
     public ArrayList<Person> createPeople()
     {
         ArrayList<Person> list = new ArrayList<Person>();
 
-        
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++)
+        {
             Person n = new NormanTheNormal();
             list.add(n);
-            System.out.println("Created " + n + " in the platform");
         }
 
         return list;
@@ -83,7 +86,7 @@ public class TutorialWorld extends World
         case RUSH:
 
             // TODO: change this to per-bucket rush
-            
+
             for (PersonView p : WorldRenderer.Instance.masterBucket.get(BucketIndex))
             {
                 Person px = p.getPerson();
@@ -97,16 +100,15 @@ public class TutorialWorld extends World
                     continue;
                 if (logic instanceof HappyLogic)
                     continue;
-                
+
                 if (peopleList.contains(px))
                 {
                     px.setLogic(new RushLogic(px));
-                    System.out.println("Rushed " + px);
                 }
             }
             break;
         case ALIGHT:
-            
+
             for (Person p : peopleInTrainList)
             {
                 Random r = new Random();
@@ -116,7 +118,7 @@ public class TutorialWorld extends World
             }
             break;
         case EXPLORE:
-            
+
             for (Person p : peopleList)
             {
                 p.setLogic(new ExploreLogic(p));
@@ -129,7 +131,8 @@ public class TutorialWorld extends World
     public void update(float delta)
     {
         Timer += delta;
-
+        currentWait += delta;
+        trainProgress = MathHelper.ClampF(currentWait / totalWait, 0, 1f);
         if (peopleInTrainList.size() == 0)
         {
             if (peopleList.size() == 0)
@@ -156,9 +159,9 @@ public class TutorialWorld extends World
             {
                 Timer = 0;
 
-                // TODO: manually let the player switch to this state, ie: showing the button, etc.
+                // TODO: manually let the player switch to this state, ie:
+                // showing the button, etc.
                 currentState = WorldState.BOARDING;
-                
 
                 // we immediately do the first rushing, para less wait :3
                 runEvent(EventType.RUSH);
@@ -167,21 +170,22 @@ public class TutorialWorld extends World
             break;
         case BOARDING:
 
-            // TODO: trigger per-bucket rush in runEvent, when all buckets are iterated
+            // TODO: trigger per-bucket rush in runEvent, when all buckets are
+            // iterated
             // then change state to DEPARTURE
             if (Timer >= BoardDelayPerBucket)
             {
                 Timer = 0;
-                
+
                 runEvent(EventType.RUSH);
                 BucketIndex++;
 
                 if (BucketIndex >= WorldRenderer.Instance.masterBucket.size())
                 {
                     BucketIndex = 0;
-                    
-                    currentState    = WorldState.DEPARTURE;
-                    
+
+                    currentState = WorldState.DEPARTURE;
+
                     train.trainView.departTrain();
                 }
             }
@@ -189,8 +193,9 @@ public class TutorialWorld extends World
         case DEPARTURE:
             if (Timer >= NextTrainTime)
             {
-                Timer = 0;
+                currentWait = Timer = 0;
                 currentState = WorldState.ENTERING;
+                
             }
             break;
         case END_GAME:

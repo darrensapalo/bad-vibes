@@ -27,4 +27,14 @@ public class MathHelper
 
         return value;
     }
+    
+    public static float ClampF(float value, float min, float max)
+    {
+        if (value > max)
+            return max;
+        else if (value < min)
+            return min;
+
+        return value;
+    }
 }

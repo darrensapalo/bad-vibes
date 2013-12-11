@@ -49,9 +49,6 @@ public class TutorialWorldController extends WorldController
         float platformHeight = width / 800f * heightOfPlatform;
         platformPosition = new Rectangle(0, GameDimension.PlatformOffset, platformWidth, platformHeight);
         
-        Random random = new Random();
-		
-        
     }
 
     public void update(float delta)
@@ -61,6 +58,8 @@ public class TutorialWorldController extends WorldController
         
         for (Person p : world.getPeopleInTrainList())
             p.preupdate(delta);
+        
+        
         
         world.update(delta);
     }

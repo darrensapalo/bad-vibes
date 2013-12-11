@@ -60,7 +60,6 @@ public abstract class Pathing {
 			// debugDisplay(PlatformGrid);
 		}while(currentCells.size() != 0);
 		debugDisplay(PlatformGrid);
-		System.out.println();
 	}
 	
 	private boolean stillTheSamePlaces(Person[][] people) {
