@@ -28,8 +28,12 @@ public class LocalStorage {
             System.out.println("Local storage is available.");
             System.out.println("Local path is: " + LocalStorage.getLocalPath());
             
-            FileHandle file = Gdx.files.local("data/gamedata.dat");
-            file.writeString(data.toString(), false);
+            if (data.isBetter(new GameData())){
+                FileHandle file = Gdx.files.local("data/gamedata.dat");
+                file.writeString(data.toString(), false);
+            }
+            
+            
         }
     }
 }
