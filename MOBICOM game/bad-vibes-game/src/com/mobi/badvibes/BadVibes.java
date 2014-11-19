@@ -39,7 +39,7 @@ public class BadVibes extends Game
     public void create()
     {
         GameDimension.Initialize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        MediaPlayer.Initialize();
+        // MediaPlayer.Initialize();
         
         Gdx.graphics.setDisplayMode(800, 480, false);
         

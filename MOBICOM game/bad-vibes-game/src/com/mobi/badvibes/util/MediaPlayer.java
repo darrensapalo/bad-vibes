@@ -44,32 +44,13 @@ public class MediaPlayer {
 	 * @param sfx
 	 */
 	public static void sfx(String sfx){
-		Sound sound = Instance.backgroundSFXLibrary.get(sfx);
-		if (sound != null){
-			if (IsEnabled)
-				sound.play();
-		}else{
-			System.err.println("Sound effect not found. " + sfx);
-		}
+	    
+	    return;
 	}
 
 	public static void bgm(String bgm){
-	    try {
-		if (IsEnabled == false) return;
-		Music music = Instance.backgroundMusicLibrary.get(bgm);
-		if (music != null){
-			if (currentMusic != null){
-				currentMusic.pause();
-			}
-			currentMusic = music;
-			if (IsEnabled)
-				music.play();
-		}else{
-			System.err.println("Background music not found.");
-		}
-	    }catch(Exception e){
-	        e.printStackTrace();
-	    }
+
+        return;
 	}
 	
 	public static void Initialize(){
@@ -93,10 +74,7 @@ public class MediaPlayer {
 	 * @param filename - the filename of the music file
 	 */
 	private void loadMusicToLibrary(String key, String filename){
-		Music m = loadMusic(filename);
-		m.setLooping(true);
-		m.setVolume(0.3F);
-		backgroundMusicLibrary.put(key, m);
+		
 	}
 	
 	private Music loadMusic(String path){
@@ -108,31 +86,21 @@ public class MediaPlayer {
 	}
 	
 	public static void pause(){
-	    try {
-		IsEnabled = false;
-		currentMusic.pause();
-	    }catch(Exception e){}
+	    
 	}
 	
 	public static void resume(){
-	    try {
-		IsEnabled = true;
-		currentMusic.play();
-	    }catch(Exception e){}
+	    
 	}
 	
 	public static boolean toggle(){
-	    if (isPlaying()){
-	        pause();
-	        return false;
-	    }else{
-	        resume();
-	        return true;
-	    }
+
+	    return false;
 	}
 	
 	public static boolean isPlaying(){
-		return IsEnabled && currentMusic != null && currentMusic.isPlaying();
+	    
+        return false;
 	}
 	
 	
