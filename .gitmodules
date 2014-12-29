@@ -1,0 +1,3 @@
+[submodule "TrainRush/SnowOwl"]
+	path = TrainRush/SnowOwl
+	url = https://github.com/fooblah18/snowowl

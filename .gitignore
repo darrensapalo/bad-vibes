@@ -215,3 +215,6 @@ pip-log.txt
 .mr.developer.cfg
 bin
 gen
+/TrainRush/Supplementary
+/TrainRush/Resources/Engine
+/TrainRush/Resources/Common

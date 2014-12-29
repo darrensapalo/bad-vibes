@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Train Rush", "TrainRush\TrainRush.vcxproj", "{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Snow Owl (Desktop)", "SnowOwl\Trunk\Engine\Build\Desktop\SnowOwl (Desktop).vcxproj", "{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Debug|Win32.Build.0 = Debug|Win32
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Debug|x64.ActiveCfg = Debug|Win32
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Release|Win32.ActiveCfg = Release|Win32
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Release|Win32.Build.0 = Release|Win32
+		{F3ACE146-2D83-4E9D-8DB1-5A8BC7F52987}.Release|x64.ActiveCfg = Release|Win32
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Debug|Win32.ActiveCfg = Debug|Win32
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Debug|Win32.Build.0 = Debug|Win32
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Debug|x64.ActiveCfg = Debug|x64
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Debug|x64.Build.0 = Debug|x64
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Release|Win32.ActiveCfg = Release|Win32
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Release|Win32.Build.0 = Release|Win32
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Release|x64.ActiveCfg = Release|x64
+		{07FEF300-878C-4D1E-9B47-A99A7DAFDC18}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
